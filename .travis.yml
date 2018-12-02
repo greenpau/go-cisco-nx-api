@@ -1,0 +1,15 @@
+language: go
+
+go: 
+  - 1.10.x
+  - tip
+
+install:
+  - go get -u github.com/golang/dep/cmd/dep
+  - go get -u golang.org/x/lint/golint
+  - dep ensure
+  - make
+  - make travis
+
+script:
+  - make test

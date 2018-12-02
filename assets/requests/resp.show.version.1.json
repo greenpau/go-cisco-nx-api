@@ -1,0 +1,35 @@
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "body": {
+      "header_str": "Cisco Nexus Operating System (NX-OS) Software\nTAC support: http://www.cisco.com/tac\nDocuments: http://www.cisco.com/en/US/products/ps9372/tsd_products_support_series_home.html\nCopyright (c) 2002-2018, Cisco Systems, Inc. All rights reserved.\nThe copyrights to certain works contained herein are owned by\nother third parties and are used and distributed under license.\nSome parts of this software are covered under the GNU Public\nLicense. A copy of the license is available at\nhttp://www.gnu.org/licenses/gpl.html.\n\nNexus 9000v is a demo version of the Nexus Operating System\n",
+      "bios_ver_str": "",
+      "kickstart_ver_str": "9.2(2)",
+      "bios_cmpl_time": "",
+      "kick_file_name": "bootflash:///nxos.9.2.2.bin",
+      "kick_cmpl_time": "11/4/2018 21:00:00",
+      "kick_tmstmp": "11/05/2018 06:11:06",
+      "chassis_id": "Nexus9000 9000v Chassis",
+      "cpu_name": "Intel(R) Core(TM) i7-4870HQ CPU @ 2.50GHz",
+      "memory": 8133804,
+      "mem_type": "kB",
+      "proc_board_id": "92OB28E1IZ8",
+      "host_name": "switch",
+      "bootflash_size": 3509454,
+      "kern_uptm_days": 0,
+      "kern_uptm_hrs": 0,
+      "kern_uptm_mins": 14,
+      "kern_uptm_secs": 51,
+      "rr_reason": "Unknown",
+      "rr_sys_ver": "",
+      "rr_service": "",
+      "manufacturer": "Cisco Systems, Inc.",
+      "TABLE_package_list": {
+        "ROW_package_list": {
+          "package_id": {}
+        }
+      }
+    }
+  },
+  "id": 1
+}

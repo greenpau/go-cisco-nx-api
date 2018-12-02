@@ -1,0 +1,32 @@
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "body": {
+      "header_str": "Cisco Nexus Operating System (NX-OS) Software\nTAC support: http://www.cisco.com/tac\nCopyright (C) 2002-2016, Cisco and/or its affiliates.\nAll rights reserved.\nThe copyrights to certain works contained in this software are\nowned by other third parties and used and distributed under their own\nlicenses, such as open source.  This software is provided \"as is,\" and unless\notherwise stated, there is no warranty, express or implied, including but not\nlimited to warranties of merchantability and fitness for a particular purpose.\nCertain components of this software are licensed under\nthe GNU General Public License (GPL) version 2.0 or \nGNU General Public License (GPL) version 3.0  or the GNU\nLesser General Public License (LGPL) Version 2.1 or \nLesser General Public License (LGPL) Version 2.0. \nA copy of each such license is available at\nhttp://www.opensource.org/licenses/gpl-2.0.php and\nhttp://opensource.org/licenses/gpl-3.0.html and\nhttp://www.opensource.org/licenses/lgpl-2.1.php and\nhttp://www.gnu.org/licenses/old-licenses/library.txt.\n",
+      "bios_ver_str": "07.56",
+      "kickstart_ver_str": "7.0(3)I4(1)",
+      "bios_cmpl_time": "06/08/2016",
+      "kick_file_name": "bootflash:///nxos.7.0.3.I4.1.bin",
+      "kick_cmpl_time": " 5/15/2016 20:00:00",
+      "kick_tmstmp": "05/16/2016 03:24:30",
+      "chassis_id": "Nexus9000 C9236C chassis",
+      "cpu_name": "Intel(R) Xeon(R) CPU  @ 1.80GHz",
+      "memory": 16401420,
+      "mem_type": "kB",
+      "proc_board_id": "FDO49854L2L",
+      "host_name": "switch",
+      "bootflash_size": 53298520,
+      "kern_uptm_days": 516,
+      "kern_uptm_hrs": 12,
+      "kern_uptm_mins": 29,
+      "kern_uptm_secs": 10,
+      "rr_usecs": 593374,
+      "rr_ctime": " Wed Jul 05 03:51:03 2017\n",
+      "rr_reason": "Reset due to upgrade",
+      "rr_sys_ver": "7.0(3)I4(5)",
+      "rr_service": "",
+      "manufacturer": "Cisco Systems, Inc."
+    }
+  },
+  "id": 1
+}

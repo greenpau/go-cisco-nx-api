@@ -1,0 +1,1 @@
+[{ "jsonrpc": "2.0", "method": "cli", "params": { "cmd": "show version", "version": 1 }, "id": 1 }]

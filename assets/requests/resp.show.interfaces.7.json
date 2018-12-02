@@ -1,0 +1,50 @@
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": {
+        "body": {
+            "TABLE_interface": {
+                "ROW_interface": [
+                    {
+                        "admin_state": "up",
+                        "encapsulation": "ARPA",
+                        "eth_autoneg": "on",
+                        "eth_bia_addr": "0800.2734.26d6",
+                        "eth_bw": 1000000,
+                        "eth_dly": 10,
+                        "eth_duplex": "full",
+                        "eth_ethertype": "0x0000",
+                        "eth_hw_addr": "0800.2734.26d6",
+                        "eth_hw_desc": "Ethernet",
+                        "eth_ip_addr": "10.0.2.15",
+                        "eth_ip_mask": 24,
+                        "eth_ip_prefix": "10.0.2.0",
+                        "eth_mdix": "off",
+                        "eth_mtu": "1500",
+                        "eth_reliability": "255",
+                        "eth_rxload": "1",
+                        "eth_speed": "1000 Mb/s",
+                        "eth_txload": "1",
+                        "interface": "mgmt0",
+                        "medium": "broadcast",
+                        "state": "up",
+                        "vdc_lvl_in_avg_bits": 1104,
+                        "vdc_lvl_in_avg_pkts": "1",
+                        "vdc_lvl_in_bcast": "0",
+                        "vdc_lvl_in_bytes": "54817",
+                        "vdc_lvl_in_mcast": "0",
+                        "vdc_lvl_in_pkts": 583,
+                        "vdc_lvl_in_ucast": "583",
+                        "vdc_lvl_out_avg_bits": "14336",
+                        "vdc_lvl_out_avg_pkts": "1",
+                        "vdc_lvl_out_bcast": "3",
+                        "vdc_lvl_out_bytes": "558100",
+                        "vdc_lvl_out_mcast": "10",
+                        "vdc_lvl_out_pkts": "506",
+                        "vdc_lvl_out_ucast": "493"
+                    }
+                ]
+            }
+        }
+    }
+}

@@ -1,0 +1,41 @@
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "body": {
+      "TABLE_vlanbrief": {
+        "ROW_vlanbrief": [
+          {
+            "vlanshowbr-vlanid": "1",
+            "vlanshowbr-vlanid-utf": "1",
+            "vlanshowbr-vlanname": "default",
+            "vlanshowbr-vlanstate": "active",
+            "vlanshowbr-shutstate": "noshutdown",
+            "vlanshowplist-ifidx": "Ethernet1/5,Ethernet1/6,Ethernet1/7,Ethernet1/8,Ethernet1/9,Ethernet1/10,Ethernet1/11,Ethernet1/12,Ethernet1/13,Ethernet1/14,Ethernet1/15,Ethernet1/16,Ethernet1/17,Ethernet1/18,Ethernet1/19,Ethernet1/20,Ethernet1/21,Ethernet1/22,Ethernet1/23,Ethernet1/24,Ethernet1/25,Ethernet1/26,Ethernet1/27,Ethernet1/28,Ethernet1/29,Ethernet1/30,Ethernet1/31,Ethernet1/32"
+          },
+          {
+            "vlanshowbr-vlanid": "2345",
+            "vlanshowbr-vlanid-utf": "2345",
+            "vlanshowbr-vlanname": "VLAN2345",
+            "vlanshowbr-vlanstate": "active",
+            "vlanshowbr-shutstate": "noshutdown"
+          }
+        ]
+      },
+      "TABLE_mtuinfo": {
+        "ROW_mtuinfo": [
+          {
+            "vlanshowinfo-vlanid": "1",
+            "vlanshowinfo-media-type": "enet",
+            "vlanshowinfo-vlanmode": "ce-vlan"
+          },
+          {
+            "vlanshowinfo-vlanid": "2345",
+            "vlanshowinfo-media-type": "enet",
+            "vlanshowinfo-vlanmode": "ce-vlan"
+          }
+        ]
+      }
+    }
+  },
+  "id": 1
+}

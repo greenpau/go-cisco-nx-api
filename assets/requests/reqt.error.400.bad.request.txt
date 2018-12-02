@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<ins_api>
+  <outputs>
+    <output>
+      <msg>Server internal error.</msg>
+      <code>400</code>
+    </output>
+  </outputs>
+</ins_api>

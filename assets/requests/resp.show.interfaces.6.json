@@ -1,0 +1,28 @@
+{
+    "jsonrpc": "2.0",
+    "result": {
+        "body": {
+            "TABLE_interface": {
+                "ROW_interface": [{
+                        "svi_line_proto": "up",
+                        "svi_ip_mask": "24",
+                        "svi_time_last_cleared": "05:18:15",
+                        "svi_ip_addr": "10.4.3.4",
+                        "svi_ucast_pkts_in": "0",
+                        "svi_mtu": "9216",
+                        "svi_delay": "10",
+                        "svi_arp_type": "ARPA",
+                        "svi_mac": " cd89.334a.74b3",
+                        "svi_ucast_bytes_in": "0",
+                        "interface": "Vlan2500",
+                        "svi_tx_load": 1,
+                        "svi_rx_load": "1",
+                        "svi_bw": "1000000",
+                        "svi_admin_state": "up"
+                    }
+                ]
+            }
+        }
+    },
+    "id": 1
+}

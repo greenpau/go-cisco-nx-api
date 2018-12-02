@@ -1,0 +1,9 @@
+{
+  "jsonrpc": "2.0",
+  "xresult": {
+    "error": {
+      "message": "failed request"
+    }
+  },
+  "id": 1
+}
