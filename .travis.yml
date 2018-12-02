@@ -9,7 +9,6 @@ install:
   - go get -u golang.org/x/lint/golint
   - dep ensure
   - make
-  - make travis
 
 script:
   - make test

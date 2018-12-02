@@ -19,7 +19,7 @@ import (
 	"crypto/tls"
 	"encoding/json"
 	"fmt"
-	"github.com/davecgh/go-spew/spew"
+	//"github.com/davecgh/go-spew/spew"
 	"io/ioutil"
 	"net/http"
 	"strings"
@@ -156,7 +156,6 @@ func callAPI(url string, payload []byte, username, password string, secure bool)
 	defer res.Body.Close()
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
-		spew.Dump(err)
 		if err.Error() != "EOF" {
 			return nil, err
 		}
@@ -172,8 +171,6 @@ func (cli *Client) GetSystemInfo() (*SysInfo, error) {
 	if err != nil {
 		return nil, err
 	}
-	//spew.Dump(string(jreq[:]))
-	//payload := []byte(`[{ "jsonrpc": "2.0", "method": "cli", "params": { "cmd": "show version", "version": 1 }, "id": 1 }]`)
 	resp, err := callAPI(url, payload, cli.username, cli.password, cli.secure)
 	if err != nil {
 		return nil, err
@@ -189,7 +186,6 @@ func (cli *Client) GetVlans() ([]*Vlan, error) {
 	if err != nil {
 		return nil, err
 	}
-	//payload := []byte(`[{ "jsonrpc": "2.0", "method": "cli", "params": { "cmd": "show vlan", "version": 1 }, "id": 1 }]`)
 	resp, err := callAPI(url, payload, cli.username, cli.password, cli.secure)
 	if err != nil {
 		return nil, err
@@ -205,7 +201,6 @@ func (cli *Client) GetInterfaces() ([]*Interface, error) {
 	if err != nil {
 		return nil, err
 	}
-	//payload := []byte(`[{ "jsonrpc": "2.0", "method": "cli", "params": { "cmd": "show interface", "version": 1 }, "id": 1 }]`)
 	resp, err := callAPI(url, payload, cli.username, cli.password, cli.secure)
 	if err != nil {
 		return nil, err
