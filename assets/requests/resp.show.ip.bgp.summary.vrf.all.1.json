@@ -1,0 +1,15 @@
+{
+  "ins_api": {
+    "sid": "eoc",
+    "type": "cli_show_ascii",
+    "version": "1.0",
+    "outputs": {
+      "output": {
+        "body": "BGP summary information for VRF global, address family IPv4 Unicast\nBGP router identifier 10.1.1.1, local AS number 65001\n",
+        "code": "200",
+        "msg": "Success",
+        "input": "show ip bgp summary vrf all"
+      }
+    }
+  }
+}

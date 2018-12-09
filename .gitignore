@@ -1,6 +1,6 @@
 vendor/**
 bin/**
-hidden*
+*hidden*
 
 # Binaries for programs and plugins
 *.exe

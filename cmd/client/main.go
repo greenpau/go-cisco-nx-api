@@ -145,6 +145,32 @@ func main() {
 			fmt.Fprintf(os.Stdout, "%s\n", out.String())
 		}
 		log.Debugf("took %s", time.Since(start))
+	case "show running-config":
+		config, err := cli.GetRunningConfiguration()
+		if err != nil {
+			log.Fatalf("%s", err)
+		}
+		fmt.Fprintf(os.Stdout, "%s\n", config.Text)
+	case "show startup-config":
+		config, err := cli.GetStartupConfiguration()
+		if err != nil {
+			log.Fatalf("%s", err)
+		}
+		fmt.Fprintf(os.Stdout, "%s\n", config.Text)
+	case "show ip bgp summary":
+		bgpSummary, err := cli.GetBgpSummary()
+		if err != nil {
+			log.Fatalf("%s", err)
+		}
+		fmt.Fprintf(os.Stdout, "%s\n", bgpSummary.Text)
+	case "show interface transceiver details":
+		transceivers, err := cli.GetTransceivers()
+		if err != nil {
+			log.Fatalf("%s", err)
+		}
+		for _, t := range transceivers {
+			fmt.Fprintf(os.Stdout, "%s\n", t.String())
+		}
 	default:
 		start := time.Now()
 		output, err := cli.GetGeneric(cliCommand)

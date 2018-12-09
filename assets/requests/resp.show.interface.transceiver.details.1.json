@@ -178,7 +178,7 @@
                     }, {
                         "interface":    "Ethernet1/36",
                         "sfp":    "present",
-                        "type":    "QSFP-40G-SR-BD",
+                        "type":    "QSFP-40G-SR-BD-TP",
                         "name":    "CISCO-AVAGO",
                         "partnum":    "AFBR-79EBPZ-CS2",
                         "rev":    "05",
@@ -187,8 +187,9 @@
                         "len_50_OM3":    70,
                         "ciscoid":    "17",
                         "ciscoid_1":    220,
+                        "cisco_vendor_id": "Cisco",
                         "cisco_part_number":    "12-3456-78",
-                        "cisco_product_id":    "QSFP-40G-SR-BD",
+                        "cisco_product_id":    "QSFP-40G-SR-BD-ID",
                         "TABLE_lane":    {
                             "ROW_lane":    [{
                                     "lane_number":    1,

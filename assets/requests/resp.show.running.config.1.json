@@ -1,0 +1,15 @@
+{
+  "ins_api": {
+    "sid": "eoc",
+    "type": "cli_show_ascii",
+    "version": "1.0",
+    "outputs": {
+      "output": {
+        "body": "\n!Command: show running-config\n!Time: Tue Dec 18 21:20:43 2018\n\nversion 7.0(3)I6(1)\nhostname ny-sw01\n\n\n",
+        "code": "200",
+        "msg": "Success",
+        "input": "show run"
+      }
+    }
+  }
+}

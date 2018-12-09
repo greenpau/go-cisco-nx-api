@@ -1,0 +1,146 @@
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": {
+        "body": {
+            "TABLE_tempinfo": {
+                "ROW_tempinfo": [
+                    {
+                        "alarmstatus": "Ok",
+                        "curtemp": "37",
+                        "majthres": "80  ",
+                        "minthres": "70  ",
+                        "sensor": "FRONT",
+                        "tempmod": "1        "
+                    },
+                    {
+                        "alarmstatus": "Ok",
+                        "curtemp": "32",
+                        "majthres": "70  ",
+                        "minthres": "42  ",
+                        "sensor": "BACK",
+                        "tempmod": "1        "
+                    },
+                    {
+                        "alarmstatus": "Ok",
+                        "curtemp": "48",
+                        "majthres": "90  ",
+                        "minthres": "80  ",
+                        "sensor": "CPU",
+                        "tempmod": "1        "
+                    },
+                    {
+                        "alarmstatus": "Ok",
+                        "curtemp": "52",
+                        "majthres": "105 ",
+                        "minthres": "90  ",
+                        "sensor": "TD2",
+                        "tempmod": "1        "
+                    },
+                    {
+                        "alarmstatus": "Ok",
+                        "curtemp": "42",
+                        "majthres": "105 ",
+                        "minthres": "90  ",
+                        "sensor": "DONNER",
+                        "tempmod": "1        "
+                    }
+                ]
+            },
+            "fandetails": {
+                "TABLE_fan_zone_speed": {
+                    "ROW_fan_zone_speed": {
+                        "speed": "0xe1",
+                        "zone": "1"
+                    }
+                },
+                "TABLE_faninfo": {
+                    "ROW_faninfo": [
+                        {
+                            "failfanlet": {},
+                            "fandir": "back-to-front",
+                            "fanhwver": "--",
+                            "fanmodel": "NXA-FAN-30CFM-F",
+                            "fanname": "Fan1(sys_fan1)",
+                            "fanstatus": "Ok"
+                        },
+                        {
+                            "failfanlet": {},
+                            "fandir": "back-to-front",
+                            "fanhwver": "--",
+                            "fanmodel": "NXA-FAN-30CFM-F",
+                            "fanname": "Fan2(sys_fan2)",
+                            "fanstatus": "Ok"
+                        },
+                        {
+                            "failfanlet": {},
+                            "fandir": "back-to-front",
+                            "fanhwver": "--",
+                            "fanmodel": "NXA-FAN-30CFM-F",
+                            "fanname": "Fan3(sys_fan3)",
+                            "fanstatus": "Ok"
+                        },
+                        {
+                            "failfanlet": {},
+                            "fandir": "back-to-front",
+                            "fanhwver": "--",
+                            "fanmodel": "NXA-FAN-30CFM-F",
+                            "fanname": "Fan4(sys_fan4)",
+                            "fanstatus": "Ok"
+                        },
+                        {
+                            "fandir": "back-to-front",
+                            "fanhwver": "--",
+                            "fanmodel": "--",
+                            "fanname": "Fan_in_PS1",
+                            "fanstatus": "Ok"
+                        },
+                        {
+                            "fandir": "back-to-front",
+                            "fanhwver": "--",
+                            "fanmodel": "--",
+                            "fanname": "Fan_in_PS2",
+                            "fanstatus": "Ok"
+                        }
+                    ]
+                },
+                "fan_filter_status": "NotSupported"
+            },
+            "powersup": {
+                "TABLE_psinfo": {
+                    "ROW_psinfo": [
+                        {
+                            "actual_input": "  119 W",
+                            "actual_out": "  102 W",
+                            "ps_status": "Ok",
+                            "psmodel": "N9K-PAC-650W-B",
+                            "psnum": 1,
+                            "tot_capa": "  650 W"
+                        },
+                        {
+                            "actual_input": "  105 W",
+                            "actual_out": "   97 W",
+                            "ps_status": "Ok",
+                            "psmodel": "N9K-PAC-650W-B",
+                            "psnum": 2,
+                            "tot_capa": "  650 W"
+                        }
+                    ]
+                },
+                "power_summary": {
+                    "available_pow": "   N/A   ",
+                    "cumulative_power": "1300.00 W",
+                    "ps_oper_mode": "PS-Redundant",
+                    "ps_redun_mode": "PS-Redundant",
+                    "tot_gridA_capacity": " 650.00 W",
+                    "tot_gridB_capacity": " 650.00 W",
+                    "tot_pow_alloc_budgeted": "   N/A   ",
+                    "tot_pow_capacity": " 650.00 W",
+                    "tot_pow_input_actual_draw": " 224.00 W",
+                    "tot_pow_out_actual_draw": " 199.00 W"
+                },
+                "voltage_level": 12
+            }
+        }
+    }
+}

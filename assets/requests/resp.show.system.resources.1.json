@@ -1,0 +1,48 @@
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": {
+        "body": {
+            "TABLE_cpu_usage": {
+                "ROW_cpu_usage": [
+                    {
+                        "cpuid": 0,
+                        "idle": "86.73",
+                        "kernel": "2.04",
+                        "user": "11.22"
+                    },
+                    {
+                        "cpuid": 1,
+                        "idle": "85.00",
+                        "kernel": "4.00",
+                        "user": "11.00"
+                    },
+                    {
+                        "cpuid": 2,
+                        "idle": "95.00",
+                        "kernel": "2.00",
+                        "user": "3.00"
+                    },
+                    {
+                        "cpuid": 3,
+                        "idle": "96.96",
+                        "kernel": "1.01",
+                        "user": "2.02"
+                    }
+                ]
+            },
+            "cpu_state_idle": "91.37",
+            "cpu_state_kernel": "1.77",
+            "cpu_state_user": "6.85",
+            "current_memory_status": "OK",
+            "load_avg_15min": "0.47",
+            "load_avg_1min": "0.15",
+            "load_avg_5min": "0.34",
+            "memory_usage_free": 10629968,
+            "memory_usage_total": 16401224,
+            "memory_usage_used": 5771256,
+            "processes_running": 1,
+            "processes_total": 678
+        }
+    }
+}

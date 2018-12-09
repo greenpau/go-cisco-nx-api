@@ -62,4 +62,9 @@ qtest:
 	@#go test -v -run TestParseShowInterfaceEthernet ./pkg/client/*.go
 	@#go test -v -run TestParseShowInterfaceSvi ./pkg/client/*.go
 	@#go test -v -run TestParseShowInterfaceMgmt ./pkg/client/*.go
-	@go test -v -run TestGetSystemInfo ./pkg/client/*.go
+	@#go test -v -run TestParseShowSystemResourcesJsonOutput ./pkg/client/*.go
+	@#go test -v -run TestParseShowSystemEnvironmentJsonOutput ./pkg/client/*.go
+	@#go test -v -run TestClient ./pkg/client/*.go
+	@#go test -v -run TestParseShowRunningConfigurationOutput ./pkg/client/*.go
+	@#go test -v -run TestParseShowBgpSummaryOutput ./pkg/client/*.go
+	@go test -v -run TestParseShowTransceiverJsonOutput ./pkg/client/*.go

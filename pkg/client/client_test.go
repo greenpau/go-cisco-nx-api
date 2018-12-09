@@ -15,6 +15,7 @@
 package client
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -26,7 +27,7 @@ import (
 	"time"
 )
 
-func TestGetSystemInfo(t *testing.T) {
+func TestClient(t *testing.T) {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/ins", func(w http.ResponseWriter, req *http.Request) {
 		var err error
@@ -42,16 +43,33 @@ func TestGetSystemInfo(t *testing.T) {
 			http.Error(w, fmt.Sprintf("Bad Request, ioutil.ReadAll: %s", err), http.StatusBadRequest)
 			return
 		}
-		var j []*JSONRPCRequest
-		err = json.Unmarshal(body, &j)
-		if err != nil {
-			http.Error(w, fmt.Sprintf("Bad Request, json.Unmarshal: %s", err), http.StatusBadRequest)
+
+		var cmd string
+
+		if bytes.Contains(body, []byte("jsonrpc")) {
+			var j []*JSONRPCRequest
+			err = json.Unmarshal(body, &j)
+			if err != nil {
+				http.Error(w, fmt.Sprintf("Bad Request, json.Unmarshal: %s", err), http.StatusBadRequest)
+				return
+			}
+			if len(j) != 1 {
+				http.Error(w, fmt.Sprintf("Bad Request, expecting a single query, got %d", len(j)), http.StatusBadRequest)
+			}
+			cmd = j[0].Params.Command
+		} else if bytes.Contains(body, []byte(`"ins_api":`)) {
+			var j *InsAPIRequest
+			err = json.Unmarshal(body, &j)
+			if err != nil {
+				http.Error(w, fmt.Sprintf("Bad Request, json.Unmarshal: %s, Body: %s", err, body), http.StatusBadRequest)
+				return
+			}
+			cmd = j.Params.Input
+		} else {
+			http.Error(w, fmt.Sprintf("Bad Request, unsupported payload %s", string(body[:])), http.StatusBadRequest)
 			return
 		}
-		if len(j) != 1 {
-			http.Error(w, fmt.Sprintf("Bad Request, expecting a single query, got %d", len(j)), http.StatusBadRequest)
-		}
-		cmd := j[0].Params.Command
+
 		t.Logf("server: received command: %s", cmd)
 		switch cmd {
 		case "show version":
@@ -60,6 +78,16 @@ func TestGetSystemInfo(t *testing.T) {
 			fp = fmt.Sprintf("%s/%s", dataDir, "resp.show.vlans.2.json")
 		case "show interface":
 			fp = fmt.Sprintf("%s/%s", dataDir, "resp.show.interfaces.4.json")
+		case "show system resources":
+			fp = fmt.Sprintf("%s/%s", dataDir, "resp.show.system.resources.1.json")
+		case "show environment":
+			fp = fmt.Sprintf("%s/%s", dataDir, "resp.show.environment.1.json")
+		case "show running-config":
+			fp = fmt.Sprintf("%s/%s", dataDir, "resp.show.running.config.1.json")
+		case "show ip bgp summary vrf all":
+			fp = fmt.Sprintf("%s/%s", dataDir, "resp.show.ip.bgp.summary.vrf.all.1.json")
+		case "show interface transceiver details":
+			fp = fmt.Sprintf("%s/%s", dataDir, "resp.show.interface.transceiver.details.1.json")
 		default:
 			http.Error(w, fmt.Sprintf("Bad Request, unsupported command: %s", cmd), http.StatusBadRequest)
 		}
@@ -109,5 +137,48 @@ func TestGetSystemInfo(t *testing.T) {
 		t.Fatalf("client: %s", err)
 	}
 	t.Logf("client: VLANs: %d", len(vlans))
+	t.Logf("client: took %s", time.Since(start))
+
+	start = time.Now()
+	resources, err := cli.GetSystemResources()
+	if err != nil {
+		t.Fatalf("client: %s", err)
+	}
+	t.Logf("client: CPUs: %d", len(resources.CPUs))
+	t.Logf("client: Processes: %d", resources.Processes.Total)
+	t.Logf("client: took %s", time.Since(start))
+
+	start = time.Now()
+	environment, err := cli.GetSystemEnvironment()
+	if err != nil {
+		t.Fatalf("client: %s", err)
+	}
+	t.Logf("client: Fans: %d", len(environment.Fans))
+	t.Logf("client: Power Supplies: %d", len(environment.PowerSupplies))
+	t.Logf("client: Sensors: %d", len(environment.Sensors))
+	t.Logf("client: took %s", time.Since(start))
+
+	start = time.Now()
+	conf, err := cli.GetRunningConfiguration()
+	if err != nil {
+		t.Fatalf("client: %s", err)
+	}
+	t.Logf("client: Config output size (bytes): %d", len(conf.Text))
+	t.Logf("client: took %s", time.Since(start))
+
+	start = time.Now()
+	bgp, err := cli.GetBgpSummary()
+	if err != nil {
+		t.Fatalf("client: %s", err)
+	}
+	t.Logf("client: BGP summary output size (bytes): %d", len(bgp.Text))
+	t.Logf("client: took %s", time.Since(start))
+
+	start = time.Now()
+	transceivers, err := cli.GetTransceivers()
+	if err != nil {
+		t.Fatalf("client: %s", err)
+	}
+	t.Logf("client: Transceivers: %d", len(transceivers))
 	t.Logf("client: took %s", time.Since(start))
 }

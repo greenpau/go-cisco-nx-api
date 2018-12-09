@@ -1,0 +1,11 @@
+{
+    "jsonrpc":    "2.0",
+    "error":    {
+        "code":    -32600,
+        "message":    "Invalid request",
+        "data":    {
+            "msg":    "JSON-RPC version structure was not found in request"
+        }
+    },
+    "id":    null
+}

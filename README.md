@@ -20,6 +20,12 @@ information, vlans, and interfaces, etc.
 * `GetSystemInfo()`: **show version**
 * `GetVlans()`: **show vlan**
 * `GetInterfaces()` **show interface**
+* `GetSystemResources()` **show system resources** (CPU, Memory)
+* `GetSystemEnvironment()` **show environment** (Fans, Power Supplies, Sensors)
+* `GetRunningConfiguration()` **show running-config** (running configuration)
+* `GetStartupConfiguration()` **show startup-config** (startup configuration)
+* `GetBgpSummary()` **show ip bgp summary** (BGP routing summary)
+* `GetTransceivers()` **show interface transceiver details** (fiber transceivers)
 * `GetGeneric()`: runs any arbitrary command and produces JSON output
 
 For example, the following snippet queries system information:
@@ -104,6 +110,10 @@ bin/go-cisco-nx-api-client -cli "show version" -host 10.1.1.1 -user admin -port 
 bin/go-cisco-nx-api-client -cli "show version" -host 10.1.1.1 -user admin -pass cisco
 bin/go-cisco-nx-api-client -cli "show interface" -host 10.1.1.1 -user admin -pass cisco
 bin/go-cisco-nx-api-client -cli "show vlan" -host 10.1.1.1 -user admin -pass cisco
+bin/go-cisco-nx-api-client -cli "show running-config" -host 10.1.1.1 -user admin -pass cisco
+bin/go-cisco-nx-api-client -cli "show startup-config" -host 10.1.1.1 -user admin -pass cisco
+bin/go-cisco-nx-api-client -cli "show ip bgp summary" -host 10.1.1.1 -user admin -pass cisco
+bin/go-cisco-nx-api-client -cli "show interface transceiver details" -host 10.1.1.1 -user admin -pass cisco
 ```
 
 However, the same client can be used to run any command, e.g. **show ip arp**.

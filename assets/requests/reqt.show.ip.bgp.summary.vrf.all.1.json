@@ -1,0 +1,1 @@
+{ "ins_api": { "version": "1.0", "type": "cli_show_ascii", "chunk": "0", "sid": "1", "input": "show ip bgp summary vrf all", "output_format": "json" } }

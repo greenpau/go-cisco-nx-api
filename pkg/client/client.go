@@ -19,7 +19,6 @@ import (
 	"crypto/tls"
 	"encoding/json"
 	"fmt"
-	//"github.com/davecgh/go-spew/spew"
 	"io/ioutil"
 	"net/http"
 	"strings"
@@ -53,6 +52,40 @@ func NewJSONRPCRequest(s string) []*JSONRPCRequest {
 	}
 	arr = append(arr, r)
 	return arr
+}
+
+// InsAPIRequest is the payload of NX-OS API request to the API.
+type InsAPIRequest struct {
+	Params InsAPIRequestParameters `json:"ins_api" xml:"ins_api"`
+}
+
+// InsAPIRequestParameters are the parameters for InsAPIRequest
+type InsAPIRequestParameters struct {
+	Version string `json:"version" xml:"version"`
+	Type    string `json:"type" xml:"type"`
+	Chunk   string `json:"chunk" xml:"chunk"`
+	ID      string `json:"sid" xml:"sid"`
+	Input   string `json:"input" xml:"input"`
+	Format  string `json:"output_format" xml:"output_format"`
+}
+
+// NewInsAPIRequest returns an instance of InsAPIRequest based on the provided
+// input and request type.
+func NewInsAPIRequest(s, t string) *InsAPIRequest {
+	r := &InsAPIRequest{}
+	r.Params.Version = "1.0"
+	r.Params.Type = t
+	r.Params.Chunk = "0"
+	r.Params.ID = "1"
+	r.Params.Input = s
+	r.Params.Format = "json"
+	return r
+}
+
+// NewInsAPICliShowASCIIRequest returns an instance of InsAPIRequest for
+// cli_show_ascii type of NX-OS API request.
+func NewInsAPICliShowASCIIRequest(s string) *InsAPIRequest {
+	return NewInsAPIRequest(s, "cli_show_ascii")
 }
 
 // Client is an instance of Cisco NX-OS API client.
@@ -129,7 +162,7 @@ func (cli *Client) SetSecure() error {
 	return nil
 }
 
-func callAPI(url string, payload []byte, username, password string, secure bool) ([]byte, error) {
+func callAPI(contentType string, url string, payload []byte, username, password string, secure bool) ([]byte, error) {
 	tr := &http.Transport{}
 	if !secure {
 		tr.TLSClientConfig = &tls.Config{
@@ -139,8 +172,17 @@ func callAPI(url string, payload []byte, username, password string, secure bool)
 	cli := &http.Client{
 		Transport: tr,
 	}
+	var reqContentType string
+	switch contentType {
+	case "jsonrpc":
+		reqContentType = "application/json-rpc"
+	case "json":
+		reqContentType = "application/json"
+	default:
+		return nil, fmt.Errorf("unsupported content type: %s", contentType)
+	}
 	req, _ := http.NewRequest("POST", url, bytes.NewBuffer(payload))
-	req.Header.Add("Content-Type", "application/json-rpc")
+	req.Header.Add("Content-Type", reqContentType)
 	req.Header.Add("Cache-Control", "no-cache")
 	req.SetBasicAuth(username, password)
 
@@ -182,7 +224,7 @@ func (cli *Client) GetSystemInfo() (*SysInfo, error) {
 	if err != nil {
 		return nil, err
 	}
-	resp, err := callAPI(url, payload, cli.username, cli.password, cli.secure)
+	resp, err := callAPI("jsonrpc", url, payload, cli.username, cli.password, cli.secure)
 	if err != nil {
 		return nil, err
 	}
@@ -197,7 +239,7 @@ func (cli *Client) GetVlans() ([]*Vlan, error) {
 	if err != nil {
 		return nil, err
 	}
-	resp, err := callAPI(url, payload, cli.username, cli.password, cli.secure)
+	resp, err := callAPI("jsonrpc", url, payload, cli.username, cli.password, cli.secure)
 	if err != nil {
 		return nil, err
 	}
@@ -212,11 +254,41 @@ func (cli *Client) GetInterfaces() ([]*Interface, error) {
 	if err != nil {
 		return nil, err
 	}
-	resp, err := callAPI(url, payload, cli.username, cli.password, cli.secure)
+	resp, err := callAPI("jsonrpc", url, payload, cli.username, cli.password, cli.secure)
 	if err != nil {
 		return nil, err
 	}
 	return NewInterfacesFromBytes(resp)
+}
+
+// GetSystemResources returns SystemResources instance ("show system resources").
+func (cli *Client) GetSystemResources() (*SystemResources, error) {
+	url := fmt.Sprintf("%s://%s:%d/ins", cli.protocol, cli.host, cli.port)
+	req := NewJSONRPCRequest("show system resources")
+	payload, err := json.Marshal(req)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := callAPI("jsonrpc", url, payload, cli.username, cli.password, cli.secure)
+	if err != nil {
+		return nil, err
+	}
+	return NewSystemResourcesFromBytes(resp)
+}
+
+// GetSystemEnvironment returns SystemEnvironment instance ("show environment").
+func (cli *Client) GetSystemEnvironment() (*SystemEnvironment, error) {
+	url := fmt.Sprintf("%s://%s:%d/ins", cli.protocol, cli.host, cli.port)
+	req := NewJSONRPCRequest("show environment")
+	payload, err := json.Marshal(req)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := callAPI("jsonrpc", url, payload, cli.username, cli.password, cli.secure)
+	if err != nil {
+		return nil, err
+	}
+	return NewSystemEnvironmentFromBytes(resp)
 }
 
 // GetGeneric returns the output of a particular command.
@@ -227,9 +299,66 @@ func (cli *Client) GetGeneric(s string) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	resp, err := callAPI(url, payload, cli.username, cli.password, cli.secure)
+	resp, err := callAPI("jsonrpc", url, payload, cli.username, cli.password, cli.secure)
 	if err != nil {
 		return nil, err
 	}
 	return resp, nil
+}
+
+// GetBgpSummary returns BgpSummary instance ("show ip bgp summary vrf all").
+func (cli *Client) GetBgpSummary() (*BgpSummary, error) {
+	url := fmt.Sprintf("%s://%s:%d/ins", cli.protocol, cli.host, cli.port)
+	req := NewInsAPICliShowASCIIRequest("show ip bgp summary vrf all")
+	payload, err := json.Marshal(req)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := callAPI("json", url, payload, cli.username, cli.password, cli.secure)
+	if err != nil {
+		return nil, err
+	}
+	return NewBgpSummaryFromBytes(resp)
+}
+
+// GetRunningConfiguration returns Configuration instance for running
+// configuration ("show running-config").
+func (cli *Client) GetRunningConfiguration() (*Configuration, error) {
+	return cli.getConfiguration("running")
+}
+
+// GetStartupConfiguration returns Configuration instance for startup
+// configuration ("show startup-config").
+func (cli *Client) GetStartupConfiguration() (*Configuration, error) {
+	return cli.getConfiguration("startup")
+}
+
+func (cli *Client) getConfiguration(s string) (*Configuration, error) {
+	url := fmt.Sprintf("%s://%s:%d/ins", cli.protocol, cli.host, cli.port)
+	req := NewInsAPICliShowASCIIRequest("show " + s + "-config")
+	payload, err := json.Marshal(req)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := callAPI("json", url, payload, cli.username, cli.password, cli.secure)
+	if err != nil {
+		return nil, err
+	}
+	return NewConfigurationFromBytes(resp)
+}
+
+// GetTransceivers returns data about transceivers attached to Interface
+// ("show interface transceiver details").
+func (cli *Client) GetTransceivers() ([]*Transceiver, error) {
+	url := fmt.Sprintf("%s://%s:%d/ins", cli.protocol, cli.host, cli.port)
+	req := NewJSONRPCRequest("show interface transceiver details")
+	payload, err := json.Marshal(req)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := callAPI("jsonrpc", url, payload, cli.username, cli.password, cli.secure)
+	if err != nil {
+		return nil, err
+	}
+	return NewTransceiversFromBytes(resp)
 }
