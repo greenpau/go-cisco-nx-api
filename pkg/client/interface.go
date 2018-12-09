@@ -322,7 +322,7 @@ type Interface struct {
 				OutputRateSummaryBits    string `json:"output_rate_summary_bits" xml:"output_rate_summary_bits"`
 				OutputRateSummaryPackets string `json:"output_rate_summary_packets" xml:"output_rate_summary_packets"`
 				RxLoad                   uint64 `json:"rx_load" xml:"rx_load"`
-				TxLoad                   uint64 `json:"rx_load" xml:"rx_load"`
+				TxLoad                   uint64 `json:"tx_load" xml:"tx_load"`
 			}
 			Interval2 struct {
 				InputRateBits            uint64 `json:"input_rate_bits" xml:"input_rate_bits"`
@@ -334,7 +334,7 @@ type Interface struct {
 				OutputRateSummaryBits    string `json:"output_rate_summary_bits" xml:"output_rate_summary_bits"`
 				OutputRateSummaryPackets string `json:"output_rate_summary_packets" xml:"output_rate_summary_packets"`
 				RxLoad                   uint64 `json:"rx_load" xml:"rx_load"`
-				TxLoad                   uint64 `json:"rx_load" xml:"rx_load"`
+				TxLoad                   uint64 `json:"tx_load" xml:"tx_load"`
 			}
 			Interval3 struct {
 				InputRateBits            uint64 `json:"input_rate_bits" xml:"input_rate_bits"`
@@ -346,7 +346,7 @@ type Interface struct {
 				OutputRateSummaryBits    string `json:"output_rate_summary_bits" xml:"output_rate_summary_bits"`
 				OutputRateSummaryPackets string `json:"output_rate_summary_packets" xml:"output_rate_summary_packets"`
 				RxLoad                   uint64 `json:"rx_load" xml:"rx_load"`
-				TxLoad                   uint64 `json:"rx_load" xml:"rx_load"`
+				TxLoad                   uint64 `json:"tx_load" xml:"tx_load"`
 			}
 		}
 	}
