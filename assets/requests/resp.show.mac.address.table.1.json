@@ -1,0 +1,32 @@
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": {
+        "body": {
+            "TABLE_mac_address": {
+                "ROW_mac_address": [
+                    {
+                        "disp_age": "203308810",
+                        "disp_is_ntfy": "disabled",
+                        "disp_is_secure": "disabled",
+                        "disp_is_static": "enabled",
+                        "disp_mac_addr": "c0f7.ed1f.7640",
+                        "disp_port": "nve1(10.5.5.5)",
+                        "disp_type": "* ",
+                        "disp_vlan": "500"
+                    },
+                    {
+                        "disp_age": "0",
+                        "disp_is_ntfy": "disabled",
+                        "disp_is_secure": "disabled",
+                        "disp_is_static": "enabled",
+                        "disp_mac_addr": "33ae.d05a.ea6e",
+                        "disp_port": "Vlan500(R)",
+                        "disp_type": "G ",
+                        "disp_vlan": "500"
+                    }
+                ]
+            }
+        }
+    }
+}

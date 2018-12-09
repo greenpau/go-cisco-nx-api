@@ -27,16 +27,16 @@ import (
 
 // JSONRPCRequest is the payload of JSON RPC request to the API.
 type JSONRPCRequest struct {
-	ID      uint64                   `json:"id",xml:"id"`
-	Version string                   `json:"jsonrpc",xml:"jsonrpc"`
-	Method  string                   `json:"method",xml:"method"`
-	Params  JSONRPCRequestParameters `json:"params",xml:"params"`
+	ID      uint64                   `json:"id" xml:"id"`
+	Version string                   `json:"jsonrpc" xml:"jsonrpc"`
+	Method  string                   `json:"method" xml:"method"`
+	Params  JSONRPCRequestParameters `json:"params" xml:"params"`
 }
 
 // JSONRPCRequestParameters are the parameters for JSONRPCRequest.
 type JSONRPCRequestParameters struct {
-	Command string `json:"cmd",xml:"cmd"`
-	Version uint64 `json:"version",xml:"version"`
+	Command string `json:"cmd" xml:"cmd"`
+	Version uint64 `json:"version" xml:"version"`
 }
 
 // NewJSONRPCRequest returns an instance of JSONRPCRequest.
@@ -158,6 +158,17 @@ func callAPI(url string, payload []byte, username, password string, secure bool)
 	if err != nil {
 		if err.Error() != "EOF" {
 			return nil, err
+		}
+	}
+	if len(body) < 500 {
+		if bytes.Contains(body, []byte("401 Authorization Required")) {
+			return nil, fmt.Errorf("401 Authorization Required")
+		}
+		if bytes.Contains(body, []byte("405 Not Allowed")) {
+			return nil, fmt.Errorf("405 Not Allowed")
+		}
+		if bytes.Contains(body, []byte("Server internal error")) {
+			return nil, fmt.Errorf("500 Server Internal Error")
 		}
 	}
 	return body, nil

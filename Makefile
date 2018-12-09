@@ -27,6 +27,7 @@ all:
 	@echo "Done!"
 
 linter:
+	@golint cmd/client/*.go
 	@golint pkg/client/*.go
 	@echo "PASS: golint"
 
@@ -45,7 +46,7 @@ coverage:
 
 docs:
 	@mkdir -p .doc
-	@godoc -html github.com/greenpau/gonxapiclient > .doc/index.html
+	@godoc -html github.com/greenpau/go-cisco-nx-api/pkg/client > .doc/index.html
 	@echo "Run to serve docs:"
 	@echo "    godoc -goroot .doc/ -html -http \":5000\""
 

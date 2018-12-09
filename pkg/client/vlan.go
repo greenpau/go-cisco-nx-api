@@ -23,22 +23,22 @@ import (
 )
 
 type vlanResponse struct {
-	ID      uint64             `json:"id",xml:"id"`
-	Version string             `json:"jsonrpc",xml:"jsonrpc"`
-	Result  vlanResponseResult `json:"result",xml:"result"`
+	ID      uint64             `json:"id" xml:"id"`
+	Version string             `json:"jsonrpc" xml:"jsonrpc"`
+	Result  vlanResponseResult `json:"result" xml:"result"`
 }
 
 type vlanResponseResult struct {
-	Body vlanResponseResultBody `json:"body",xml:"body"`
+	Body vlanResponseResultBody `json:"body" xml:"body"`
 }
 
 type vlanResponseResultBody struct {
-	VlanBriefTable vlanResponseResultBodyVlanBriefTable `json:"TABLE_vlanbrief",xml:"TABLE_vlanbrief"`
-	MtuInfoTable   vlanResponseResultBodyMtuInfoTable   `json:"TABLE_mtuinfo",xml:"TABLE_mtuinfo"`
+	VlanBriefTable vlanResponseResultBodyVlanBriefTable `json:"TABLE_vlanbrief" xml:"TABLE_vlanbrief"`
+	MtuInfoTable   vlanResponseResultBodyMtuInfoTable   `json:"TABLE_mtuinfo" xml:"TABLE_mtuinfo"`
 }
 
 type vlanResponseResultBodyVlanBriefTable struct {
-	VlanBriefRow []vlanResponseResultBodyVlanBriefRow `json:"ROW_vlanbrief",xml:"ROW_vlanbrief"`
+	VlanBriefRow []vlanResponseResultBodyVlanBriefRow `json:"ROW_vlanbrief" xml:"ROW_vlanbrief"`
 }
 
 func (t *vlanResponseResultBodyVlanBriefTable) UnmarshalJSON(b []byte) error {
@@ -70,7 +70,7 @@ func (t *vlanResponseResultBodyVlanBriefTable) UnmarshalJSON(b []byte) error {
 }
 
 type vlanResponseResultBodyMtuInfoTable struct {
-	MtuInfoRow []vlanResponseResultBodyMtuInfoRow `json:"ROW_mtuinfo",xml:"ROW_mtuinfo"`
+	MtuInfoRow []vlanResponseResultBodyMtuInfoRow `json:"ROW_mtuinfo" xml:"ROW_mtuinfo"`
 }
 
 func (t *vlanResponseResultBodyMtuInfoTable) UnmarshalJSON(b []byte) error {
@@ -102,12 +102,12 @@ func (t *vlanResponseResultBodyMtuInfoTable) UnmarshalJSON(b []byte) error {
 }
 
 type vlanResponseResultBodyVlanBriefRow struct {
-	ID            string                                  `json:"vlanshowbr-vlanid",xml:"vlanshowbr-vlanid"`
-	UtfID         string                                  `json:"vlanshowbr-vlanid-utf",xml:"vlanshowbr-vlanid-utf"`
-	Name          string                                  `json:"vlanshowbr-vlanname",xml:"vlanshowbr-vlanname"`
-	State         string                                  `json:"vlanshowbr-vlanstate",xml:"vlanshowbr-vlanstate"`
-	ShutdownState string                                  `json:"vlanshowbr-shutstate",xml:"vlanshowbr-shutstate"`
-	Ports         vlanResponseResultBodyVlanBriefRowPorts `json:"vlanshowplist-ifidx",xml:"vlanshowplist-ifidx"`
+	ID            string                                  `json:"vlanshowbr-vlanid" xml:"vlanshowbr-vlanid"`
+	UtfID         string                                  `json:"vlanshowbr-vlanid-utf" xml:"vlanshowbr-vlanid-utf"`
+	Name          string                                  `json:"vlanshowbr-vlanname" xml:"vlanshowbr-vlanname"`
+	State         string                                  `json:"vlanshowbr-vlanstate" xml:"vlanshowbr-vlanstate"`
+	ShutdownState string                                  `json:"vlanshowbr-shutstate" xml:"vlanshowbr-shutstate"`
+	Ports         vlanResponseResultBodyVlanBriefRowPorts `json:"vlanshowplist-ifidx" xml:"vlanshowplist-ifidx"`
 }
 
 type vlanResponseResultBodyVlanBriefRowPorts struct {
@@ -146,21 +146,21 @@ func (t *vlanResponseResultBodyVlanBriefRowPorts) UnmarshalJSON(b []byte) error 
 }
 
 type vlanResponseResultBodyMtuInfoRow struct {
-	ID        string `json:"vlanshowinfo-vlanid",xml:"vlanshowinfo-vlanid"`
-	MediaType string `json:"vlanshowinfo-media-type",xml:"vlanshowinfo-media-type"`
-	Mode      string `json:"vlanshowinfo-vlanmode",xml:"vlanshowinfo-vlanmode"`
+	ID        string `json:"vlanshowinfo-vlanid" xml:"vlanshowinfo-vlanid"`
+	MediaType string `json:"vlanshowinfo-media-type" xml:"vlanshowinfo-media-type"`
+	Mode      string `json:"vlanshowinfo-vlanmode" xml:"vlanshowinfo-vlanmode"`
 }
 
 // Vlan contains system information. The information in the structure
 // is from the output of "show vlan" command.
 type Vlan struct {
-	ID            string   `json:"id",xml:"id"`
-	Name          string   `json:"name",xml:"name"`
-	State         string   `json:"state",xml:"state"`
-	ShutdownState string   `json:"shutdown_state",xml:"shutdown_state"`
-	Ports         []string `json:"ports",xml:"ports"`
-	MediaType     string   `json:"media_type",xml:"media_type"`
-	Mode          string   `json:"mode",xml:"mode"`
+	ID            string   `json:"id" xml:"id"`
+	Name          string   `json:"name" xml:"name"`
+	State         string   `json:"state" xml:"state"`
+	ShutdownState string   `json:"shutdown_state" xml:"shutdown_state"`
+	Ports         []string `json:"ports" xml:"ports"`
+	MediaType     string   `json:"media_type" xml:"media_type"`
+	Mode          string   `json:"mode" xml:"mode"`
 }
 
 // NewVlansFromString returns Vlan instance from an input string.

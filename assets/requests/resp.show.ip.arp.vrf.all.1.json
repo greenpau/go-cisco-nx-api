@@ -1,0 +1,23 @@
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": {
+        "body": {
+            "TABLE_vrf": {
+                "ROW_vrf": {
+                    "TABLE_adj": {
+                        "ROW_adj": {
+                            "flags": "",
+                            "intf-out": "mgmt0",
+                            "ip-addr-out": "10.0.2.2",
+                            "mac": "5254.0012.3502",
+                            "time-stamp": "PT2M35S"
+                        },
+                    },
+                    "cnt-total": 1,
+                    "vrf-name-out": "all"
+                }
+            }
+        }
+    }
+}
