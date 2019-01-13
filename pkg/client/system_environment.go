@@ -132,7 +132,7 @@ func NewSystemEnvironmentFromBytes(s []byte) (*SystemEnvironment, error) {
 	if err != nil {
 		return nil, fmt.Errorf("parsing error: %s, server response: %s", err, string(s[:]))
 	}
-	if len(vResponse.Result.Body.TempInfoTable.TempInfoRow) < 1 {
+	if len(vResponse.Result.Body.TempInfoTable.TempInfoRow) < 1 && len(vResponse.Result.Body.FanDetails.FanInfoTable.FanInfoRow) < 1 {
 		return nil, fmt.Errorf("Error parsing the received response: %s", s)
 	}
 

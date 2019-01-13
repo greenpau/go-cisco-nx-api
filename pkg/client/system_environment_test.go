@@ -41,6 +41,15 @@ func TestParseShowSystemEnvironmentJsonOutput(t *testing.T) {
 			shouldFail:  false,
 			shouldErr:   false,
 		},
+		{
+			input:       "show.environment.2",
+			exp:         &SystemEnvironment{},
+			fanCount:    5,
+			psCount:     2,
+			sensorCount: 0,
+			shouldFail:  false,
+			shouldErr:   false,
+		},
 	} {
 		fp := fmt.Sprintf("%s/resp.%s.json", outputDir, test.input)
 		content, err := ioutil.ReadFile(fp)

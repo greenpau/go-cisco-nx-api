@@ -1,4 +1,4 @@
-.PHONY: test ctest covdir coverage docs linter qtest clean
+.PHONY: test ctest covdir coverage docs linter qtest clean dep
 APP_VERSION:=$(shell cat VERSION | head -1)
 GIT_COMMIT:=$(shell git describe --dirty --always)
 GIT_BRANCH:=$(shell git rev-parse --abbrev-ref HEAD -- | head -1)
@@ -56,6 +56,7 @@ clean:
 	@rm -rf bin/
 
 qtest:
+	@echo "Perform quick tests ..."
 	@#go test -v -run TestParseShowVersionJsonOutput ./pkg/client/*.go
 	@#go test -v -run TestParseShowVlanJsonOutput ./pkg/client/*.go
 	@#go test -v -run TestParseShowInterfaceJsonOutput ./pkg/client/*.go
@@ -63,8 +64,15 @@ qtest:
 	@#go test -v -run TestParseShowInterfaceSvi ./pkg/client/*.go
 	@#go test -v -run TestParseShowInterfaceMgmt ./pkg/client/*.go
 	@#go test -v -run TestParseShowSystemResourcesJsonOutput ./pkg/client/*.go
-	@#go test -v -run TestParseShowSystemEnvironmentJsonOutput ./pkg/client/*.go
+	@go test -v -run TestParseShowSystemEnvironmentJsonOutput ./pkg/client/*.go
 	@#go test -v -run TestClient ./pkg/client/*.go
 	@#go test -v -run TestParseShowRunningConfigurationOutput ./pkg/client/*.go
 	@#go test -v -run TestParseShowBgpSummaryOutput ./pkg/client/*.go
-	@go test -v -run TestParseShowTransceiverJsonOutput ./pkg/client/*.go
+	@#go test -v -run TestParseShowTransceiverJsonOutput ./pkg/client/*.go
+
+dep:
+	@echo "Making dependencies check ..."
+	@#echo "Clean GOPATH/pkg/dep/sources/ if necessary"
+	@#rm -rf $GOPATH/pkg/dep/sources/https---github.com-greenpau*
+	@dep version || go get -u github.com/golang/dep/cmd/dep
+	@dep ensure
