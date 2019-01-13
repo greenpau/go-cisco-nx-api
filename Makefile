@@ -72,6 +72,7 @@ qtest:
 
 dep:
 	@echo "Making dependencies check ..."
+	@golint || go get -u golang.org/x/lint/golint
 	@#echo "Clean GOPATH/pkg/dep/sources/ if necessary"
 	@#rm -rf $GOPATH/pkg/dep/sources/https---github.com-greenpau*
 	@dep version || go get -u github.com/golang/dep/cmd/dep

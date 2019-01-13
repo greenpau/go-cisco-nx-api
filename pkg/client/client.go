@@ -20,8 +20,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"net"
 	"net/http"
 	"strings"
+	"time"
 )
 
 // JSONRPCRequest is the payload of JSON RPC request to the API.
@@ -163,7 +165,12 @@ func (cli *Client) SetSecure() error {
 }
 
 func callAPI(contentType string, url string, payload []byte, username, password string, secure bool) ([]byte, error) {
-	tr := &http.Transport{}
+	tr := &http.Transport{
+		Dial: (&net.Dialer{
+			Timeout: 10 * time.Second,
+		}).Dial,
+		TLSHandshakeTimeout: 10 * time.Second,
+	}
 	if !secure {
 		tr.TLSClientConfig = &tls.Config{
 			InsecureSkipVerify: true,
@@ -171,6 +178,7 @@ func callAPI(contentType string, url string, payload []byte, username, password 
 	}
 	cli := &http.Client{
 		Transport: tr,
+		Timeout:   time.Second * 30,
 	}
 	var reqContentType string
 	switch contentType {
