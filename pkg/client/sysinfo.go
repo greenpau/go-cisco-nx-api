@@ -59,7 +59,7 @@ type sysInfoResponseResultBody struct {
 type SysInfo struct {
 	Bios struct {
 		CompileTime string `json:"compile_time" xml:"compile_time"`
-		Verion      string `json:"version" xml:"version"`
+		Version      string `json:"version" xml:"version"`
 	}
 	Bootflash struct {
 		Size int64 `json:"size" xml:"size"`
