@@ -101,7 +101,7 @@ func NewSysInfoFromBytes(s []byte) (*SysInfo, error) {
 		return nil, fmt.Errorf("parsing error: %s, server response: %s", err, string(s[:]))
 	}
 	si.Bios.CompileTime = siResponse.Result.Body.BiosCmplTime
-	si.Bios.Verion = siResponse.Result.Body.BiosVerStr
+	si.Bios.Version = siResponse.Result.Body.BiosVerStr
 	si.Bootflash.Size = siResponse.Result.Body.BootflashSize
 	si.ChassisID = siResponse.Result.Body.ChassisID
 	si.CPUName = siResponse.Result.Body.CPUName
