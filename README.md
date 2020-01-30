@@ -15,7 +15,7 @@ Cisco NX-OS API client library written in Go.
 
 This library is well documented and comes with a command-line utility for code
 implementation and usage purposes. The library helps its users querying system
-information, vlans, and interfaces, etc.
+information, vlans and interfaces, etc.
 
 * `GetSystemInfo()`: **show version**
 * `GetVlans()`: **show vlan**
@@ -27,6 +27,11 @@ information, vlans, and interfaces, etc.
 * `GetBgpSummary()` **show ip bgp summary** (BGP routing summary)
 * `GetTransceivers()` **show interface transceiver details** (fiber transceivers)
 * `GetGeneric()`: runs any arbitrary command and produces JSON output
+
+Additionally, the library allows "batch" execution of configuration commands,
+e.g, change interface or vlan configurations.
+
+* `Configure()`: execute a batch of configuration commands
 
 For example, the following snippet queries system information:
 
@@ -46,6 +51,22 @@ if data, err := cli.GetSystemInfo(); err != nil {
 } else {
     // do something with  the data
 }
+```
+
+The following snippet shuts down interface e1/1:
+
+```golang
+// shutdown interface e1/1
+resp, err := cli.Configure([]string{"interface e1/1", "shutdown"})
+if err != nil {
+    log.Fatalf("client: %s", err)
+}
+for _, r := range resp {
+    if r.Error != nil {
+        log.Fatalf("failed to execute command %v:\n%v\n", r.ID, r.Error)
+    }
+}
+
 ```
 
 ## Cisco NX-API Configuration

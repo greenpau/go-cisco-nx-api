@@ -64,11 +64,38 @@ func TestClient(t *testing.T) {
 				http.Error(w, fmt.Sprintf("Bad Request, json.Unmarshal: %s", err), http.StatusBadRequest)
 				return
 			}
-			if len(j) != 1 {
-				http.Error(w, fmt.Sprintf("Bad Request, expecting a single query, got %d", len(j)), http.StatusBadRequest)
-				return
-			}
 			cmd = j[0].Params.Command
+			if strings.HasPrefix(cmd, "show") {
+				if len(j) != 1 {
+					http.Error(w, fmt.Sprintf("Bad Request, expecting a single query, got %d", len(j)), http.StatusBadRequest)
+					return
+				}
+				t.Logf("server: received command: %s", cmd)
+				respFileName, isCmdSupported := showCmdFileMap[cmd]
+				if !isCmdSupported {
+					http.Error(w, fmt.Sprintf("Bad Request, unsupported command: %s", cmd), http.StatusBadRequest)
+					return
+				}
+
+				fp = fmt.Sprintf("%s/%s", dataDir, respFileName)
+			} else {
+				// interface config commands
+				var cmds []string
+				if len(j) < 2 {
+					http.Error(w, fmt.Sprintf("Bad Request, expecting multiple commands, got %d", len(j)), http.StatusBadRequest)
+					return
+				}
+				for i := range j {
+					cmds = append(cmds, j[i].Params.Command)
+				}
+
+				t.Logf("server: received commands: %s", cmds)
+				if !strings.HasPrefix(cmds[0], "interface") {
+					http.Error(w, fmt.Sprintf("Wrong config command %s", cmds[0]), http.StatusBadRequest)
+					return
+				}
+				fp = fmt.Sprintf("%s/%s", dataDir, "resp.shutdown.interface.json")
+			}
 		} else if bytes.Contains(body, []byte(`"ins_api":`)) {
 			var j *InsAPIRequest
 			err = json.Unmarshal(body, &j)
@@ -77,19 +104,19 @@ func TestClient(t *testing.T) {
 				return
 			}
 			cmd = j.Params.Input
+			t.Logf("server: received command: %s", cmd)
+			respFileName, isCmdSupported := showCmdFileMap[cmd]
+			if !isCmdSupported {
+				http.Error(w, fmt.Sprintf("Bad Request, unsupported command: %s", cmd), http.StatusBadRequest)
+				return
+			}
+
+			fp = fmt.Sprintf("%s/%s", dataDir, respFileName)
 		} else {
 			http.Error(w, fmt.Sprintf("Bad Request, unsupported payload %s", string(body[:])), http.StatusBadRequest)
 			return
 		}
 
-		t.Logf("server: received command: %s", cmd)
-		respFileName, isCmdSupported := showCmdFileMap[cmd]
-		if !isCmdSupported {
-			http.Error(w, fmt.Sprintf("Bad Request, unsupported command: %s", cmd), http.StatusBadRequest)
-			return
-		}
-
-		fp = fmt.Sprintf("%s/%s", dataDir, respFileName)
 		fc, err = ioutil.ReadFile(fp)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -203,6 +230,17 @@ func TestClient(t *testing.T) {
 
 	if !strings.Contains(string(body.Body), "simple_time") {
 		t.Fatalf("client: returned unknown response from show clock")
+	}
+
+	resp, err := cli.Configure([]string{"interface e1/1", "shutdown"})
+	if err != nil {
+		t.Fatalf("client: %s", err)
+	}
+
+	for _, r := range resp {
+		if r.Error != nil {
+			t.Fatalf("failed to execute command %v:\n%v\n", r.ID, r.Error)
+		}
 	}
 
 	t.Logf("client: took %s", time.Since(start))
