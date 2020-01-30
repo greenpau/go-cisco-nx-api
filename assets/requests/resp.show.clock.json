@@ -1,0 +1,11 @@
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "body": {
+      "simple_time": "18:34:58.849 UTC Thu Jan 30 2020\n",
+      "time_source": "NTP"
+    }
+  },
+  "id": 1
+}
+

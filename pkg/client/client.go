@@ -40,6 +40,31 @@ type JSONRPCRequestParameters struct {
 	Version uint64 `json:"version" xml:"version"`
 }
 
+// JSONRPCResponseErrorData defines error message in error response
+type JSONRPCResponseErrorData struct {
+	Msg string `json:msg`
+}
+
+// JSONRPCResponseError defines JSON RPC error response
+type JSONRPCResponseError struct {
+	Code    int64                    `json:code`
+	Message string                   `json:message`
+	Data    JSONRPCResponseErrorData `json:data`
+}
+
+// JSONRPCResponseBody defines JSON RPC normal response body
+type JSONRPCResponseBody struct {
+	Body json.RawMessage `json:"body"`
+}
+
+// JSONRPCResponse is the payload of JSON RPC response to the API.
+type JSONRPCResponse struct {
+	Version string                `json:"jsonrpc" xml:"jsonrpc"`
+	Result  json.RawMessage       `json:"result, omitempty" xml:"result"`
+	Error   *JSONRPCResponseError `json:"error, omitempty" xml:"error"`
+	ID      uint64                `json:"id" xml:"id"`
+}
+
 // NewJSONRPCRequest returns an instance of JSONRPCRequest.
 func NewJSONRPCRequest(cmds []string) []*JSONRPCRequest {
 	var arr []*JSONRPCRequest
