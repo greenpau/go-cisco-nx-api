@@ -34,6 +34,16 @@ func TestClient(t *testing.T) {
 		var fp string
 		var fc []byte
 		dataDir := "../../assets/requests"
+		showCmdFileMap := map[string]string{
+			"show version":                       "resp.show.version.1.json",
+			"show vlan":                          "resp.show.vlans.2.json",
+			"show interface":                     "resp.show.interfaces.4.json",
+			"show system resources":              "resp.show.system.resources.1.json",
+			"show environment":                   "resp.show.environment.1.json",
+			"show running-config":                "resp.show.running.config.1.json",
+			"show ip bgp summary vrf all":        "resp.show.ip.bgp.summary.vrf.all.1.json",
+			"show interface transceiver details": "resp.show.interface.transceiver.details.1.json",
+		}
 		if req.Method != "POST" {
 			http.Error(w, "Bad Request, expecting POST", http.StatusBadRequest)
 			return
@@ -55,6 +65,7 @@ func TestClient(t *testing.T) {
 			}
 			if len(j) != 1 {
 				http.Error(w, fmt.Sprintf("Bad Request, expecting a single query, got %d", len(j)), http.StatusBadRequest)
+				return
 			}
 			cmd = j[0].Params.Command
 		} else if bytes.Contains(body, []byte(`"ins_api":`)) {
@@ -71,26 +82,13 @@ func TestClient(t *testing.T) {
 		}
 
 		t.Logf("server: received command: %s", cmd)
-		switch cmd {
-		case "show version":
-			fp = fmt.Sprintf("%s/%s", dataDir, "resp.show.version.1.json")
-		case "show vlan":
-			fp = fmt.Sprintf("%s/%s", dataDir, "resp.show.vlans.2.json")
-		case "show interface":
-			fp = fmt.Sprintf("%s/%s", dataDir, "resp.show.interfaces.4.json")
-		case "show system resources":
-			fp = fmt.Sprintf("%s/%s", dataDir, "resp.show.system.resources.1.json")
-		case "show environment":
-			fp = fmt.Sprintf("%s/%s", dataDir, "resp.show.environment.1.json")
-		case "show running-config":
-			fp = fmt.Sprintf("%s/%s", dataDir, "resp.show.running.config.1.json")
-		case "show ip bgp summary vrf all":
-			fp = fmt.Sprintf("%s/%s", dataDir, "resp.show.ip.bgp.summary.vrf.all.1.json")
-		case "show interface transceiver details":
-			fp = fmt.Sprintf("%s/%s", dataDir, "resp.show.interface.transceiver.details.1.json")
-		default:
+		respFileName, isCmdSupported := showCmdFileMap[cmd]
+		if !isCmdSupported {
 			http.Error(w, fmt.Sprintf("Bad Request, unsupported command: %s", cmd), http.StatusBadRequest)
+			return
 		}
+
+		fp = fmt.Sprintf("%s/%s", dataDir, respFileName)
 		fc, err = ioutil.ReadFile(fp)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)

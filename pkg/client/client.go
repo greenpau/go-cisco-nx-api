@@ -41,18 +41,20 @@ type JSONRPCRequestParameters struct {
 }
 
 // NewJSONRPCRequest returns an instance of JSONRPCRequest.
-func NewJSONRPCRequest(s string) []*JSONRPCRequest {
+func NewJSONRPCRequest(cmds []string) []*JSONRPCRequest {
 	var arr []*JSONRPCRequest
-	r := &JSONRPCRequest{
-		ID:      1,
-		Version: "2.0",
-		Method:  "cli",
-		Params: JSONRPCRequestParameters{
-			Command: s,
-			Version: 1,
-		},
+	for id, cmd := range cmds {
+		r := &JSONRPCRequest{
+			ID:      uint64(id + 1),
+			Version: "2.0",
+			Method:  "cli",
+			Params: JSONRPCRequestParameters{
+				Command: cmd,
+				Version: 1,
+			},
+		}
+		arr = append(arr, r)
 	}
-	arr = append(arr, r)
 	return arr
 }
 
@@ -227,7 +229,7 @@ func callAPI(contentType string, url string, payload []byte, username, password 
 // GetSystemInfo returns information about the system ("show version").
 func (cli *Client) GetSystemInfo() (*SysInfo, error) {
 	url := fmt.Sprintf("%s://%s:%d/ins", cli.protocol, cli.host, cli.port)
-	req := NewJSONRPCRequest("show version")
+	req := NewJSONRPCRequest([]string{"show version"})
 	payload, err := json.Marshal(req)
 	if err != nil {
 		return nil, err
@@ -242,7 +244,7 @@ func (cli *Client) GetSystemInfo() (*SysInfo, error) {
 // GetVlans returns vlan information ("show vlan").
 func (cli *Client) GetVlans() ([]*Vlan, error) {
 	url := fmt.Sprintf("%s://%s:%d/ins", cli.protocol, cli.host, cli.port)
-	req := NewJSONRPCRequest("show vlan")
+	req := NewJSONRPCRequest([]string{"show vlan"})
 	payload, err := json.Marshal(req)
 	if err != nil {
 		return nil, err
@@ -257,7 +259,7 @@ func (cli *Client) GetVlans() ([]*Vlan, error) {
 // GetInterfaces returns interface information ("show interface").
 func (cli *Client) GetInterfaces() ([]*Interface, error) {
 	url := fmt.Sprintf("%s://%s:%d/ins", cli.protocol, cli.host, cli.port)
-	req := NewJSONRPCRequest("show interface")
+	req := NewJSONRPCRequest([]string{"show interface"})
 	payload, err := json.Marshal(req)
 	if err != nil {
 		return nil, err
@@ -272,7 +274,7 @@ func (cli *Client) GetInterfaces() ([]*Interface, error) {
 // GetSystemResources returns SystemResources instance ("show system resources").
 func (cli *Client) GetSystemResources() (*SystemResources, error) {
 	url := fmt.Sprintf("%s://%s:%d/ins", cli.protocol, cli.host, cli.port)
-	req := NewJSONRPCRequest("show system resources")
+	req := NewJSONRPCRequest([]string{"show system resources"})
 	payload, err := json.Marshal(req)
 	if err != nil {
 		return nil, err
@@ -287,7 +289,7 @@ func (cli *Client) GetSystemResources() (*SystemResources, error) {
 // GetSystemEnvironment returns SystemEnvironment instance ("show environment").
 func (cli *Client) GetSystemEnvironment() (*SystemEnvironment, error) {
 	url := fmt.Sprintf("%s://%s:%d/ins", cli.protocol, cli.host, cli.port)
-	req := NewJSONRPCRequest("show environment")
+	req := NewJSONRPCRequest([]string{"show environment"})
 	payload, err := json.Marshal(req)
 	if err != nil {
 		return nil, err
@@ -302,7 +304,7 @@ func (cli *Client) GetSystemEnvironment() (*SystemEnvironment, error) {
 // GetGeneric returns the output of a particular command.
 func (cli *Client) GetGeneric(s string) ([]byte, error) {
 	url := fmt.Sprintf("%s://%s:%d/ins", cli.protocol, cli.host, cli.port)
-	req := NewJSONRPCRequest(s)
+	req := NewJSONRPCRequest([]string{s})
 	payload, err := json.Marshal(req)
 	if err != nil {
 		return nil, err
@@ -359,7 +361,7 @@ func (cli *Client) getConfiguration(s string) (*Configuration, error) {
 // ("show interface transceiver details").
 func (cli *Client) GetTransceivers() ([]*Transceiver, error) {
 	url := fmt.Sprintf("%s://%s:%d/ins", cli.protocol, cli.host, cli.port)
-	req := NewJSONRPCRequest("show interface transceiver details")
+	req := NewJSONRPCRequest([]string{"show interface transceiver details"})
 	payload, err := json.Marshal(req)
 	if err != nil {
 		return nil, err
