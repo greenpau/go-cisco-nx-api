@@ -397,3 +397,24 @@ func (cli *Client) GetTransceivers() ([]*Transceiver, error) {
 	}
 	return NewTransceiversFromBytes(resp)
 }
+
+// Configure execute a batch of configuration commands
+func (cli *Client) Configure(cmds []string) ([]JSONRPCResponse, error) {
+	url := fmt.Sprintf("%s://%s:%d/ins", cli.protocol, cli.host, cli.port)
+
+	req := NewJSONRPCRequest(cmds)
+	payload, err := json.Marshal(req)
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := callAPI("jsonrpc", url, payload, cli.username, cli.password, cli.secure)
+	if err != nil {
+		return nil, err
+	}
+
+	var respJSON []JSONRPCResponse
+	err = json.Unmarshal(resp, &respJSON)
+
+	return respJSON, err
+}
