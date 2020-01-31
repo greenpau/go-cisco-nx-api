@@ -296,6 +296,24 @@ func (cli *Client) GetInterfaces() ([]*Interface, error) {
 	return NewInterfacesFromBytes(resp)
 }
 
+// GetInterface returns interface information ("show interface <name>").
+func (cli *Client) GetInterface(name string) (*Interface, error) {
+	url := fmt.Sprintf("%s://%s:%d/ins", cli.protocol, cli.host, cli.port)
+	req := NewJSONRPCRequest([]string{"show interface " + name})
+	payload, err := json.Marshal(req)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := callAPI("jsonrpc", url, payload, cli.username, cli.password, cli.secure)
+	if err != nil {
+		return nil, err
+	}
+
+	intf, err := NewInterfaceFromBytes(resp)
+
+	return intf, err
+}
+
 // GetSystemResources returns SystemResources instance ("show system resources").
 func (cli *Client) GetSystemResources() (*SystemResources, error) {
 	url := fmt.Sprintf("%s://%s:%d/ins", cli.protocol, cli.host, cli.port)

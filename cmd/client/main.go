@@ -174,6 +174,25 @@ func main() {
 		}
 	default:
 		start := time.Now()
+
+		if strings.HasPrefix(cliCommand, "show interface") {
+			intfName := cliCommand[len("show interface "):]
+			intfInfo, err := cli.GetInterface(intfName)
+			if err != nil {
+				log.Fatalf("%s", err)
+			}
+			var out strings.Builder
+			out.WriteString(fmt.Sprintf("State: %s/%s", intfInfo.Props.State, intfInfo.Props.AdminState))
+			if intfInfo.Props.BiaHwAddr != "" {
+				out.WriteString(fmt.Sprintf(", MAC: %s", intfInfo.Props.BiaHwAddr))
+			}
+			if intfInfo.Props.IPAddress != "" {
+				out.WriteString(fmt.Sprintf(", IP: %s/%d", intfInfo.Props.IPAddress, intfInfo.Props.IPMask))
+			}
+			fmt.Fprintf(os.Stdout, "%s\n", out.String())
+			return
+		}
+
 		output, err := cli.GetGeneric(cliCommand)
 		if err != nil {
 			log.Fatalf("%s", err)

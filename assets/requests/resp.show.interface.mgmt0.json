@@ -1,0 +1,46 @@
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "body": {
+      "TABLE_interface": {
+        "ROW_interface": {
+          "interface": "mgmt0",
+          "state": "up",
+          "eth_hw_desc": "GigabitEthernet",
+          "eth_hw_addr": "b026.809b.4540",
+          "eth_bia_addr": "b026.809b.4540",
+          "eth_ip_addr": "10.8.6.35",
+          "eth_ip_mask": 16,
+          "eth_ip_prefix": "10.8.0.0",
+          "eth_mtu": "1500",
+          "eth_bw": 1000000,
+          "eth_dly": 10,
+          "eth_reliability": "255",
+          "eth_txload": "1",
+          "eth_rxload": "1",
+          "encapsulation": "ARPA",
+          "eth_duplex": "full",
+          "eth_speed": "1000 Mb/s",
+          "eth_autoneg": "on",
+          "eth_mdix": "off",
+          "eth_ethertype": "0x0000",
+          "vdc_lvl_in_avg_bits": 6824,
+          "vdc_lvl_in_avg_pkts": "8",
+          "vdc_lvl_out_avg_bits": "320",
+          "vdc_lvl_out_avg_pkts": "0",
+          "vdc_lvl_in_pkts": 160834516,
+          "vdc_lvl_in_ucast": "737253",
+          "vdc_lvl_in_mcast": "22050167",
+          "vdc_lvl_in_bcast": "138047096",
+          "vdc_lvl_in_bytes": "11278664305",
+          "vdc_lvl_out_pkts": "464706",
+          "vdc_lvl_out_ucast": "406913",
+          "vdc_lvl_out_mcast": "57775",
+          "vdc_lvl_out_bcast": "18",
+          "vdc_lvl_out_bytes": "63101650"
+        }
+      }
+    }
+  },
+  "id": 1
+}

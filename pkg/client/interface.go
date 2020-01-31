@@ -23,22 +23,20 @@ import (
 	"strings"
 )
 
-type interfaceResponse struct {
-	ID      uint64                  `json:"id" xml:"id"`
-	Version string                  `json:"jsonrpc" xml:"jsonrpc"`
-	Result  interfaceResponseResult `json:"result" xml:"result"`
+type interfacesResponseResultBody struct {
+	InterfaceTable interfacesResponseResultBodyInterfaceTable `json:"TABLE_interface" xml:"TABLE_interface"`
 }
 
-type interfaceResponseResult struct {
-	Body interfaceResponseResultBody `json:"body" xml:"body"`
-}
-
-type interfaceResponseResultBody struct {
-	InterfaceTable interfaceResponseResultBodyInterfaceTable `json:"TABLE_interface" xml:"TABLE_interface"`
-}
-
-type interfaceResponseResultBodyInterfaceTable struct {
+type interfacesResponseResultBodyInterfaceTable struct {
 	InterfaceRow []interfaceResponseResultBodyInterfaceRow `json:"ROW_interface" xml:"ROW_interface"`
+}
+
+type interfaceOneResponseResultBody struct {
+	InterfaceTable interfaceOneResponseResultBodyInterfaceTable `json:"TABLE_interface" xml:"TABLE_interface"`
+}
+
+type interfaceOneResponseResultBodyInterfaceTable struct {
+	InterfaceRow interfaceResponseResultBodyInterfaceRow `json:"ROW_interface" xml:"ROW_interface"`
 }
 
 type interfaceResponseResultBodyInterfaceRow struct {
@@ -395,450 +393,495 @@ func NewInterfacesFromString(s string) ([]*Interface, error) {
 	return NewInterfacesFromBytes([]byte(s))
 }
 
-// NewInterfacesFromBytes returns Interface instance from an input byte array.
+func parseInterfaceInfo(i int, j *interfaceResponseResultBodyInterfaceRow) *Interface {
+	//spew.Dump(j)
+	intf := &Interface{}
+	intf.Name = j.Interface
+	intf.Description = j.Desc
+	intf.LocalIndex = i
+	intf.Props.State = j.State
+	intf.Props.AdminState = j.AdminState
+	intf.Props.Encapsulation = j.Encapsulation
+
+	// INFO: output packets and bytes
+	intf.Counters.InputBytes = j.EthInbytes
+	intf.Counters.InputPackets = j.EthInpkts
+	intf.Counters.InputUnicastPackets = j.EthInucast
+	intf.Counters.InputBroadcastPackets = j.EthInbcast
+	intf.Counters.InputMulticastPackets = j.EthInmcast
+
+	// INFO: input packets and bytes
+	intf.Counters.OutputBytes = j.EthOutbytes
+	intf.Counters.OutputPackets = j.EthOutpkts
+	intf.Counters.OutputUnicastPackets = j.EthOutucast
+	intf.Counters.OutputBroadcastPackets = j.EthOutbcast
+	intf.Counters.OutputMulticastPackets = j.EthOutmcast
+
+	// INFO: other ethernet counters
+	intf.Counters.Runts = j.EthRunts
+	intf.Counters.NoBufferReceivedErrors = j.EthNobuf
+	intf.Counters.Resets = j.EthResetCntr
+
+	// INFO: other ethernet props
+	intf.LastLinkFlappedEvent = j.EthLinkFlapped
+	intf.LastClearCountersEvent = j.EthClearCounters
+	intf.Props.Medium = j.Medium
+	intf.Props.ParentInterface = j.ParentInterface
+	intf.Props.ShareState = j.ShareState
+	intf.Props.StateReasonDetailed = j.StateRsnDesc
+	intf.Props.HwDescription = j.EthHwDesc
+	intf.Props.EtherType = j.EthEthertype
+	intf.Props.EncapsulatedVlan = j.EthEncapVlan
+	intf.Props.Media = j.EthMedia
+	intf.Counters.InputFlowControl = j.EthInFlowctrl
+	intf.Counters.OutputFlowControl = j.EthOutFlowctrl
+	intf.Props.ParentBundle = j.EthBundle
+	intf.Props.Duplex = j.EthDuplex
+	intf.Props.BundleMembers = j.EthMembers
+	intf.Props.EEEState = j.EthEeeState
+	intf.Props.IPAddress = strings.TrimSpace(j.EthIPAddr)
+	intf.Props.IPMask = j.EthIPMask
+	intf.Props.RateMode = j.EthMode
+	intf.Props.Mode = j.EthMode
+	intf.Props.Speed = j.EthSpeed
+	intf.Props.SwitchportMonitor = j.EthSwtMonitor
+
+	// INFO: counters for intervals
+	if i, err := strconv.ParseUint(j.EthInrate1Bits, 10, 64); err == nil {
+		intf.Counters.Intervals.Interval1.InputRateBits = i
+	}
+	if i, err := strconv.ParseUint(j.EthInrate1Pkts, 10, 64); err == nil {
+		intf.Counters.Intervals.Interval1.InputRatePackets = i
+	}
+	if i, err := strconv.ParseUint(j.EthInrate2Bits, 10, 64); err == nil {
+		intf.Counters.Intervals.Interval2.InputRateBits = i
+	}
+	if i, err := strconv.ParseUint(j.EthInrate2Pkts, 10, 64); err == nil {
+		intf.Counters.Intervals.Interval2.InputRatePackets = i
+	}
+	if i, err := strconv.ParseUint(j.EthInrate3Bits, 10, 64); err == nil {
+		intf.Counters.Intervals.Interval3.InputRateBits = i
+	}
+	if i, err := strconv.ParseUint(j.EthInrate3Pkts, 10, 64); err == nil {
+		intf.Counters.Intervals.Interval3.InputRatePackets = i
+	}
+
+	if i, err := strconv.ParseUint(j.EthOutrate1Bits, 10, 64); err == nil {
+		intf.Counters.Intervals.Interval1.OutputRateBits = i
+	}
+	if i, err := strconv.ParseUint(j.EthOutrate1Pkts, 10, 64); err == nil {
+		intf.Counters.Intervals.Interval1.OutputRatePackets = i
+	}
+	if i, err := strconv.ParseUint(j.EthOutrate2Bits, 10, 64); err == nil {
+		intf.Counters.Intervals.Interval2.OutputRateBits = i
+	}
+	if i, err := strconv.ParseUint(j.EthOutrate2Pkts, 10, 64); err == nil {
+		intf.Counters.Intervals.Interval2.OutputRatePackets = i
+	}
+	if i, err := strconv.ParseUint(j.EthOutrate3Bits, 10, 64); err == nil {
+		intf.Counters.Intervals.Interval3.OutputRateBits = i
+	}
+	if i, err := strconv.ParseUint(j.EthOutrate3Pkts, 10, 64); err == nil {
+		intf.Counters.Intervals.Interval3.OutputRatePackets = i
+	}
+
+	intf.Counters.Intervals.Interval1.InputRateSummaryBits = j.EthInrate1SummaryBits
+	intf.Counters.Intervals.Interval1.InputRateSummaryPackets = j.EthInrate1SummaryPkts
+	intf.Counters.Intervals.Interval2.InputRateSummaryBits = j.EthInrate2SummaryBits
+	intf.Counters.Intervals.Interval2.InputRateSummaryPackets = j.EthInrate2SummaryPkts
+	intf.Counters.Intervals.Interval3.InputRateSummaryBits = j.EthInrate3SummaryBits
+	intf.Counters.Intervals.Interval3.InputRateSummaryPackets = j.EthInrate3SummaryPkts
+	intf.Counters.Intervals.Interval1.OutputRateSummaryBits = j.EthOutrate1SummaryBits
+	intf.Counters.Intervals.Interval1.OutputRateSummaryPackets = j.EthOutrate1SummaryPkts
+	intf.Counters.Intervals.Interval2.OutputRateSummaryBits = j.EthOutrate2SummaryBits
+	intf.Counters.Intervals.Interval2.OutputRateSummaryPackets = j.EthOutrate2SummaryPkts
+	intf.Counters.Intervals.Interval3.OutputRateSummaryBits = j.EthOutrate3SummaryBits
+	intf.Counters.Intervals.Interval3.OutputRateSummaryPackets = j.EthOutrate3SummaryPkts
+
+	intf.Counters.Intervals.Interval1.RxLoad = j.EthLoadInterval1Rx
+	if i, err := strconv.ParseUint(j.EthLoadInterval1Tx, 10, 64); err == nil {
+		intf.Counters.Intervals.Interval1.TxLoad = i
+	}
+	if i, err := strconv.ParseUint(j.EthLoadInterval2Rx, 10, 64); err == nil {
+		intf.Counters.Intervals.Interval2.RxLoad = i
+	}
+	if i, err := strconv.ParseUint(j.EthLoadInterval2Tx, 10, 64); err == nil {
+		intf.Counters.Intervals.Interval2.TxLoad = i
+	}
+	if i, err := strconv.ParseUint(j.EthLoadInterval3Rx, 10, 64); err == nil {
+		intf.Counters.Intervals.Interval3.RxLoad = i
+	}
+	if i, err := strconv.ParseUint(j.EthLoadInterval3Tx, 10, 64); err == nil {
+		intf.Counters.Intervals.Interval3.TxLoad = i
+	}
+
+	// INFO: routing metrics
+	intf.Metrics.Bandwidth = j.EthBw
+	intf.Metrics.Delay = j.EthDly
+	if i, err := strconv.ParseUint(j.EthReliability, 10, 64); err == nil {
+		intf.Metrics.Reliability = i
+	}
+	if i, err := strconv.ParseUint(j.EthRxload, 10, 64); err == nil {
+		intf.Metrics.Rxload = i
+	}
+	if i, err := strconv.ParseUint(j.EthTxload, 10, 64); err == nil {
+		intf.Metrics.Txload = i
+	}
+
+	// INTO: MTU
+	if i, err := strconv.ParseUint(j.EthMtu, 10, 64); err == nil {
+		intf.Props.MTU = i
+	}
+
+	// INFO: eth_babbles is a string with numeric value
+	if i, err := strconv.ParseUint(j.EthBabbles, 10, 64); err == nil {
+		intf.Counters.Babbles = i
+	}
+	// INFO: eth_bad_eth (bad ether type drop) is a string with numeric value
+	if i, err := strconv.ParseUint(j.EthBadEth, 10, 64); err == nil {
+		intf.Counters.BadEtherTypeDrops = i
+	}
+	// INFO: eth_bad_proto is a string with numeric value
+	if i, err := strconv.ParseUint(j.EthBadProto, 10, 64); err == nil {
+		intf.Counters.BadProtocolDrops = i
+	}
+	// INFO: eth_nocarrier is a string with numeric value
+	if i, err := strconv.ParseUint(j.EthNocarrier, 10, 64); err == nil {
+		intf.Counters.NoCarrier = i
+	}
+	// INFO: eth_dribble is a string with numeric value
+	if i, err := strconv.ParseUint(j.EthDribble, 10, 64); err == nil {
+		intf.Counters.Dribble = i
+	}
+	// INFO: eth_frame is a string with numeric value
+	if i, err := strconv.ParseUint(j.EthFrame, 10, 64); err == nil {
+		intf.Counters.InputFrameErrors = i
+	}
+	// INFO: eth_in_ifdown_drops is a string with numeric value
+	if i, err := strconv.ParseUint(j.EthInIfdownDrops, 10, 64); err == nil {
+		intf.Counters.InputIfaceDownDrops = i
+	}
+	// INFO: eth_ignored is a string with numeric value
+	if i, err := strconv.ParseUint(j.EthIgnored, 10, 64); err == nil {
+		intf.Counters.Ignored = i
+	}
+	// INFO: eth_indiscard is a string with numeric value
+	if i, err := strconv.ParseUint(j.EthIndiscard, 10, 64); err == nil {
+		intf.Counters.InputDiscards = i
+	}
+	// INFO: eth_inerr is a string with numeric value
+	if i, err := strconv.ParseUint(j.EthInerr, 10, 64); err == nil {
+		intf.Counters.InputErrors = i
+	}
+	// INFO: eth_inpause is a string with numeric value
+	if i, err := strconv.ParseUint(j.EthInpause, 10, 64); err == nil {
+		intf.Counters.InputPause = i
+	}
+	// INFO: eth_latecoll is a string with numeric value
+	if i, err := strconv.ParseUint(j.EthLatecoll, 10, 64); err == nil {
+		intf.Counters.LateCollisions = i
+	}
+	// INFO: eth_lostcarrier is a string with numeric value
+	if i, err := strconv.ParseUint(j.EthLostcarrier, 10, 64); err == nil {
+		intf.Counters.LostCarrier = i
+	}
+	// INFO: eth_outdiscard is a string with numeric value
+	if i, err := strconv.ParseUint(j.EthOutdiscard, 10, 64); err == nil {
+		intf.Counters.OutputDiscards = i
+	}
+	// INFO: eth_outerr is a string with numeric value
+	if i, err := strconv.ParseUint(j.EthOuterr, 10, 64); err == nil {
+		intf.Counters.OutputErrors = i
+	}
+	// INFO: eth_outpause is a string with numeric value
+	if i, err := strconv.ParseUint(j.EthOutpause, 10, 64); err == nil {
+		intf.Counters.OutputPause = i
+	}
+	// INFO: eth_overrun is a string with numeric value
+	if i, err := strconv.ParseUint(j.EthOverrun, 10, 64); err == nil {
+		intf.Counters.InputOverruns = i
+	}
+	// INFO: eth_storm_supp is a string with numeric value
+	if i, err := strconv.ParseUint(j.EthStormSupp, 10, 64); err == nil {
+		intf.Counters.StormSuppression = i
+	}
+	// INFO: eth_underrun is a string with numeric value
+	if i, err := strconv.ParseUint(j.EthUnderrun, 10, 64); err == nil {
+		intf.Counters.OutputUnderruns = i
+	}
+	// INFO: eth_watchdog is a string with numeric value
+	if i, err := strconv.ParseUint(j.EthWatchdog, 10, 64); err == nil {
+		intf.Counters.Watchdog = i
+	}
+	// WARN: eth_jumbo_inpkts is a string with numeric value
+	if i, err := strconv.ParseUint(j.EthJumboInpkts, 10, 64); err == nil {
+		intf.Counters.InputJumboPackets = i
+	}
+	// WARN: eth_jumbo_outpkts is a string with numeric value
+	if i, err := strconv.ParseUint(j.EthJumboOutpkts, 10, 64); err == nil {
+		intf.Counters.OutputJumboPackets = i
+	}
+	// INFO: eth_coll is a string with numeric value
+	if i, err := strconv.ParseUint(j.EthColl, 10, 64); err == nil {
+		intf.Counters.Collisions = i
+	}
+	// INFO: eth_crc is a string with numeric value
+	if i, err := strconv.ParseUint(j.EthCrc, 10, 64); err == nil {
+		intf.Counters.CrcErrors = i
+	}
+	// INFO: eth_crc is a string with numeric value
+	if i, err := strconv.ParseUint(j.EthCrc, 10, 64); err == nil {
+		intf.Counters.CrcErrors = i
+	}
+	// INFO: eth_deferred is a string with numeric value
+	if i, err := strconv.ParseUint(j.EthDeferred, 10, 64); err == nil {
+		intf.Counters.Deferred = i
+	}
+
+	// Loopback-specific
+
+	// INFO: loop_in_compressed is a string with numeric value
+	if i, err := strconv.ParseUint(j.LoopInCompressed, 10, 64); err == nil {
+		if i > 0 {
+			intf.Counters.InputCompressed = i
+		}
+	}
+	// INFO: loop_in_errors is a string with numeric value
+	if i, err := strconv.ParseUint(j.LoopInErrors, 10, 64); err == nil {
+		if i > 0 {
+			intf.Counters.InputErrors = i
+		}
+	}
+	// INFO: loop_in_fifo is a string with numeric value
+	if i, err := strconv.ParseUint(j.LoopInFifo, 10, 64); err == nil {
+		if i > 0 {
+			intf.Counters.InputFifo = i
+		}
+	}
+	// INFO: loop_in_frame is a string with numeric value
+	if i, err := strconv.ParseUint(j.LoopInFrame, 10, 64); err == nil {
+		if i > 0 {
+			intf.Counters.InputFrameErrors = i
+		}
+	}
+	// INFO: loop_in_mcast is a string with numeric value
+	if i, err := strconv.ParseUint(j.LoopInMcast, 10, 64); err == nil {
+		if i > 0 {
+			intf.Counters.InputMulticastPackets = i
+		}
+	}
+	// INFO: loop_in_overrun is a string with numeric value
+	if i, err := strconv.ParseUint(j.LoopInOverrun, 10, 64); err == nil {
+		if i > 0 {
+			intf.Counters.InputOverruns = i
+		}
+	}
+	// INFO: loop_out_carriers is a string with numeric value
+	if i, err := strconv.ParseUint(j.LoopOutCarriers, 10, 64); err == nil {
+		if i > 0 {
+			intf.Counters.OutputCarrierErrors = i
+		}
+	}
+	// INFO: loop_out_collisions is a string with numeric value
+	if i, err := strconv.ParseUint(j.LoopOutCollisions, 10, 64); err == nil {
+		if i > 0 {
+			intf.Counters.Collisions = i
+		}
+	}
+	// INFO: loop_out_errors is a string with numeric value
+	if i, err := strconv.ParseUint(j.LoopOutErrors, 10, 64); err == nil {
+		if i > 0 {
+			intf.Counters.OutputErrors = i
+		}
+	}
+	// INFO: loop_out_fifo is a string with numeric value
+	if i, err := strconv.ParseUint(j.LoopOutFifo, 10, 64); err == nil {
+		if i > 0 {
+			intf.Counters.OutputFifo = i
+		}
+	}
+	// WARN: loop_out_underruns is a string with numeric value
+	if i, err := strconv.ParseUint(j.LoopOutUnderruns, 10, 64); err == nil {
+		if i > 0 {
+			intf.Counters.OutputUnderruns = i
+		}
+	}
+	// WARN: loop_in_bytes is a string with numeric value
+	if i, err := strconv.ParseUint(j.LoopInBytes, 10, 64); err == nil {
+		if i > 0 {
+			intf.Counters.InputBytes = i
+		}
+	}
+	// WARN: loop_out_bytes is a string with numeric value
+	if i, err := strconv.ParseUint(j.LoopOutBytes, 10, 64); err == nil {
+		if i > 0 {
+			intf.Counters.OutputBytes = i
+		}
+	}
+	// WARN: loop_out_pkts is a string with numeric value
+	if i, err := strconv.ParseUint(j.LoopOutPkts, 10, 64); err == nil {
+		if i > 0 {
+			intf.Counters.OutputPackets = i
+		}
+	}
+	// WARN: inconsistency between loop_out_pkts and loop_in_pkts
+	if j.LoopInPkts > 0 {
+		intf.Counters.InputPackets = j.LoopInPkts
+	}
+
+	switch j.EthBeacon {
+	case "on":
+		intf.Props.BeaconEnabled = true
+	default:
+		intf.Props.BeaconEnabled = false
+	}
+
+	switch j.EthAutoneg {
+	case "on":
+		intf.Props.AutoNegotiationEnabled = true
+	default:
+		intf.Props.AutoNegotiationEnabled = false
+	}
+
+	switch j.EthMdix {
+	case "on":
+		intf.Props.MdixEnabled = true
+	default:
+		intf.Props.MdixEnabled = false
+	}
+
+	intf.Props.BiaHwAddr = strings.TrimSpace(j.EthBiaAddr)
+	intf.Props.HwAddr = strings.TrimSpace(j.EthHwAddr)
+
+	// INFO: svi/vlan interface
+	if j.SviAdminState != "" {
+		intf.Props.BiaHwAddr = strings.TrimSpace(j.SviMac)
+		intf.Props.HwAddr = strings.TrimSpace(j.SviMac)
+		intf.Props.AdminState = strings.TrimSpace(j.SviAdminState)
+		if i, err := strconv.ParseUint(j.SviBw, 10, 64); err == nil {
+			intf.Metrics.Bandwidth = i
+		}
+		if i, err := strconv.ParseUint(j.SviDelay, 10, 64); err == nil {
+			intf.Metrics.Delay = i
+		}
+		if i, err := strconv.ParseUint(j.SviReliability, 10, 64); err == nil {
+			intf.Metrics.Reliability = i
+		}
+		if i, err := strconv.ParseUint(j.SviRxLoad, 10, 64); err == nil {
+			intf.Metrics.Rxload = i
+		}
+		intf.Metrics.Txload = j.SviTxLoad
+		if i, err := strconv.ParseUint(j.SviMtu, 10, 64); err == nil {
+			intf.Props.MTU = i
+		}
+		intf.LastClearCountersEvent = j.SviTimeLastCleared
+		intf.Props.StateReasonDetailed = j.StateRsnDesc
+		intf.Props.State = j.SviLineProto
+		intf.Props.IPAddress = strings.TrimSpace(j.SviIPAddr)
+		if i, err := strconv.ParseUint(j.SviIPMask, 10, 64); err == nil {
+			intf.Props.IPMask = i
+		}
+		if i, err := strconv.ParseUint(j.SviUcastBytesIn, 10, 64); err == nil {
+			intf.Counters.InputUnicastBytes = i
+		}
+		if i, err := strconv.ParseUint(j.SviUcastPktsIn, 10, 64); err == nil {
+			intf.Counters.InputUnicastPackets = i
+		}
+	}
+
+	// INFO: mgmt interface
+	if j.VdcLvlInAvgBits > 0 {
+		// WONT-DO: j.VdcLvlInAvgBits
+		// WONT-DO: j.VdcLvlInAvgPkts
+		// WONT-DO: j.VdcLvlOutAvgBits
+		// WONT-DO: j.VdcLvlOutAvgPkts
+		intf.Counters.InputPackets = j.VdcLvlInPkts
+		if i, err := strconv.ParseUint(j.VdcLvlInBytes, 10, 64); err == nil {
+			intf.Counters.InputBytes = i
+		}
+		if i, err := strconv.ParseUint(j.VdcLvlInUcast, 10, 64); err == nil {
+			intf.Counters.InputUnicastPackets = i
+		}
+		if i, err := strconv.ParseUint(j.VdcLvlInBcast, 10, 64); err == nil {
+			intf.Counters.InputBroadcastPackets = i
+		}
+		if i, err := strconv.ParseUint(j.VdcLvlInMcast, 10, 64); err == nil {
+			intf.Counters.InputMulticastPackets = i
+		}
+		if i, err := strconv.ParseUint(j.VdcLvlOutBytes, 10, 64); err == nil {
+			intf.Counters.OutputBytes = i
+		}
+		if i, err := strconv.ParseUint(j.VdcLvlOutPkts, 10, 64); err == nil {
+			intf.Counters.OutputPackets = i
+		}
+		if i, err := strconv.ParseUint(j.VdcLvlOutUcast, 10, 64); err == nil {
+			intf.Counters.OutputUnicastPackets = i
+		}
+		if i, err := strconv.ParseUint(j.VdcLvlOutBcast, 10, 64); err == nil {
+			intf.Counters.OutputBroadcastPackets = i
+		}
+		if i, err := strconv.ParseUint(j.VdcLvlOutMcast, 10, 64); err == nil {
+			intf.Counters.OutputMulticastPackets = i
+		}
+	}
+	return intf
+}
+
+// NewInterfacesFromBytes returns a list of Interface instance from an input byte array.
 func NewInterfacesFromBytes(s []byte) ([]*Interface, error) {
 	var interfaces []*Interface
-	resp := &interfaceResponse{}
+	resp := &JSONRPCResponse{}
 	err := json.Unmarshal(s, resp)
 	if err != nil {
 		return nil, fmt.Errorf("parsing error: %s, server response: %s", err, string(s[:]))
 	}
-	if len(resp.Result.Body.InterfaceTable.InterfaceRow) == 0 {
+	if resp.Error != nil {
+		return nil, fmt.Errorf("command returned failure: %v", resp.Error)
+	}
+	var body JSONRPCResponseBody
+	err = json.Unmarshal(resp.Result, &body)
+	if err != nil {
+		return nil, fmt.Errorf("parsing body error: %v", err)
+	}
+	var intfResult interfacesResponseResultBody
+	err = json.Unmarshal(body.Body, &intfResult)
+	if err != nil {
+		return nil, fmt.Errorf("parsing interface result error: %v", err)
+	}
+
+	if len(intfResult.InterfaceTable.InterfaceRow) == 0 {
 		return nil, fmt.Errorf("no interfaces found")
 	}
-	for i, j := range resp.Result.Body.InterfaceTable.InterfaceRow {
-		//spew.Dump(j)
-		intf := &Interface{}
-		intf.Name = j.Interface
-		intf.Description = j.Desc
-		intf.LocalIndex = i
-		intf.Props.State = j.State
-		intf.Props.AdminState = j.AdminState
-		intf.Props.Encapsulation = j.Encapsulation
-
-		// INFO: output packets and bytes
-		intf.Counters.InputBytes = j.EthInbytes
-		intf.Counters.InputPackets = j.EthInpkts
-		intf.Counters.InputUnicastPackets = j.EthInucast
-		intf.Counters.InputBroadcastPackets = j.EthInbcast
-		intf.Counters.InputMulticastPackets = j.EthInmcast
-
-		// INFO: input packets and bytes
-		intf.Counters.OutputBytes = j.EthOutbytes
-		intf.Counters.OutputPackets = j.EthOutpkts
-		intf.Counters.OutputUnicastPackets = j.EthOutucast
-		intf.Counters.OutputBroadcastPackets = j.EthOutbcast
-		intf.Counters.OutputMulticastPackets = j.EthOutmcast
-
-		// INFO: other ethernet counters
-		intf.Counters.Runts = j.EthRunts
-		intf.Counters.NoBufferReceivedErrors = j.EthNobuf
-		intf.Counters.Resets = j.EthResetCntr
-
-		// INFO: other ethernet props
-		intf.LastLinkFlappedEvent = j.EthLinkFlapped
-		intf.LastClearCountersEvent = j.EthClearCounters
-		intf.Props.Medium = j.Medium
-		intf.Props.ParentInterface = j.ParentInterface
-		intf.Props.ShareState = j.ShareState
-		intf.Props.StateReasonDetailed = j.StateRsnDesc
-		intf.Props.HwDescription = j.EthHwDesc
-		intf.Props.EtherType = j.EthEthertype
-		intf.Props.EncapsulatedVlan = j.EthEncapVlan
-		intf.Props.Media = j.EthMedia
-		intf.Counters.InputFlowControl = j.EthInFlowctrl
-		intf.Counters.OutputFlowControl = j.EthOutFlowctrl
-		intf.Props.ParentBundle = j.EthBundle
-		intf.Props.Duplex = j.EthDuplex
-		intf.Props.BundleMembers = j.EthMembers
-		intf.Props.EEEState = j.EthEeeState
-		intf.Props.IPAddress = strings.TrimSpace(j.EthIPAddr)
-		intf.Props.IPMask = j.EthIPMask
-		intf.Props.RateMode = j.EthMode
-		intf.Props.Mode = j.EthMode
-		intf.Props.Speed = j.EthSpeed
-		intf.Props.SwitchportMonitor = j.EthSwtMonitor
-
-		// INFO: counters for intervals
-		if i, err := strconv.ParseUint(j.EthInrate1Bits, 10, 64); err == nil {
-			intf.Counters.Intervals.Interval1.InputRateBits = i
-		}
-		if i, err := strconv.ParseUint(j.EthInrate1Pkts, 10, 64); err == nil {
-			intf.Counters.Intervals.Interval1.InputRatePackets = i
-		}
-		if i, err := strconv.ParseUint(j.EthInrate2Bits, 10, 64); err == nil {
-			intf.Counters.Intervals.Interval2.InputRateBits = i
-		}
-		if i, err := strconv.ParseUint(j.EthInrate2Pkts, 10, 64); err == nil {
-			intf.Counters.Intervals.Interval2.InputRatePackets = i
-		}
-		if i, err := strconv.ParseUint(j.EthInrate3Bits, 10, 64); err == nil {
-			intf.Counters.Intervals.Interval3.InputRateBits = i
-		}
-		if i, err := strconv.ParseUint(j.EthInrate3Pkts, 10, 64); err == nil {
-			intf.Counters.Intervals.Interval3.InputRatePackets = i
-		}
-
-		if i, err := strconv.ParseUint(j.EthOutrate1Bits, 10, 64); err == nil {
-			intf.Counters.Intervals.Interval1.OutputRateBits = i
-		}
-		if i, err := strconv.ParseUint(j.EthOutrate1Pkts, 10, 64); err == nil {
-			intf.Counters.Intervals.Interval1.OutputRatePackets = i
-		}
-		if i, err := strconv.ParseUint(j.EthOutrate2Bits, 10, 64); err == nil {
-			intf.Counters.Intervals.Interval2.OutputRateBits = i
-		}
-		if i, err := strconv.ParseUint(j.EthOutrate2Pkts, 10, 64); err == nil {
-			intf.Counters.Intervals.Interval2.OutputRatePackets = i
-		}
-		if i, err := strconv.ParseUint(j.EthOutrate3Bits, 10, 64); err == nil {
-			intf.Counters.Intervals.Interval3.OutputRateBits = i
-		}
-		if i, err := strconv.ParseUint(j.EthOutrate3Pkts, 10, 64); err == nil {
-			intf.Counters.Intervals.Interval3.OutputRatePackets = i
-		}
-
-		intf.Counters.Intervals.Interval1.InputRateSummaryBits = j.EthInrate1SummaryBits
-		intf.Counters.Intervals.Interval1.InputRateSummaryPackets = j.EthInrate1SummaryPkts
-		intf.Counters.Intervals.Interval2.InputRateSummaryBits = j.EthInrate2SummaryBits
-		intf.Counters.Intervals.Interval2.InputRateSummaryPackets = j.EthInrate2SummaryPkts
-		intf.Counters.Intervals.Interval3.InputRateSummaryBits = j.EthInrate3SummaryBits
-		intf.Counters.Intervals.Interval3.InputRateSummaryPackets = j.EthInrate3SummaryPkts
-		intf.Counters.Intervals.Interval1.OutputRateSummaryBits = j.EthOutrate1SummaryBits
-		intf.Counters.Intervals.Interval1.OutputRateSummaryPackets = j.EthOutrate1SummaryPkts
-		intf.Counters.Intervals.Interval2.OutputRateSummaryBits = j.EthOutrate2SummaryBits
-		intf.Counters.Intervals.Interval2.OutputRateSummaryPackets = j.EthOutrate2SummaryPkts
-		intf.Counters.Intervals.Interval3.OutputRateSummaryBits = j.EthOutrate3SummaryBits
-		intf.Counters.Intervals.Interval3.OutputRateSummaryPackets = j.EthOutrate3SummaryPkts
-
-		intf.Counters.Intervals.Interval1.RxLoad = j.EthLoadInterval1Rx
-		if i, err := strconv.ParseUint(j.EthLoadInterval1Tx, 10, 64); err == nil {
-			intf.Counters.Intervals.Interval1.TxLoad = i
-		}
-		if i, err := strconv.ParseUint(j.EthLoadInterval2Rx, 10, 64); err == nil {
-			intf.Counters.Intervals.Interval2.RxLoad = i
-		}
-		if i, err := strconv.ParseUint(j.EthLoadInterval2Tx, 10, 64); err == nil {
-			intf.Counters.Intervals.Interval2.TxLoad = i
-		}
-		if i, err := strconv.ParseUint(j.EthLoadInterval3Rx, 10, 64); err == nil {
-			intf.Counters.Intervals.Interval3.RxLoad = i
-		}
-		if i, err := strconv.ParseUint(j.EthLoadInterval3Tx, 10, 64); err == nil {
-			intf.Counters.Intervals.Interval3.TxLoad = i
-		}
-
-		// INFO: routing metrics
-		intf.Metrics.Bandwidth = j.EthBw
-		intf.Metrics.Delay = j.EthDly
-		if i, err := strconv.ParseUint(j.EthReliability, 10, 64); err == nil {
-			intf.Metrics.Reliability = i
-		}
-		if i, err := strconv.ParseUint(j.EthRxload, 10, 64); err == nil {
-			intf.Metrics.Rxload = i
-		}
-		if i, err := strconv.ParseUint(j.EthTxload, 10, 64); err == nil {
-			intf.Metrics.Txload = i
-		}
-
-		// INTO: MTU
-		if i, err := strconv.ParseUint(j.EthMtu, 10, 64); err == nil {
-			intf.Props.MTU = i
-		}
-
-		// INFO: eth_babbles is a string with numeric value
-		if i, err := strconv.ParseUint(j.EthBabbles, 10, 64); err == nil {
-			intf.Counters.Babbles = i
-		}
-		// INFO: eth_bad_eth (bad ether type drop) is a string with numeric value
-		if i, err := strconv.ParseUint(j.EthBadEth, 10, 64); err == nil {
-			intf.Counters.BadEtherTypeDrops = i
-		}
-		// INFO: eth_bad_proto is a string with numeric value
-		if i, err := strconv.ParseUint(j.EthBadProto, 10, 64); err == nil {
-			intf.Counters.BadProtocolDrops = i
-		}
-		// INFO: eth_nocarrier is a string with numeric value
-		if i, err := strconv.ParseUint(j.EthNocarrier, 10, 64); err == nil {
-			intf.Counters.NoCarrier = i
-		}
-		// INFO: eth_dribble is a string with numeric value
-		if i, err := strconv.ParseUint(j.EthDribble, 10, 64); err == nil {
-			intf.Counters.Dribble = i
-		}
-		// INFO: eth_frame is a string with numeric value
-		if i, err := strconv.ParseUint(j.EthFrame, 10, 64); err == nil {
-			intf.Counters.InputFrameErrors = i
-		}
-		// INFO: eth_in_ifdown_drops is a string with numeric value
-		if i, err := strconv.ParseUint(j.EthInIfdownDrops, 10, 64); err == nil {
-			intf.Counters.InputIfaceDownDrops = i
-		}
-		// INFO: eth_ignored is a string with numeric value
-		if i, err := strconv.ParseUint(j.EthIgnored, 10, 64); err == nil {
-			intf.Counters.Ignored = i
-		}
-		// INFO: eth_indiscard is a string with numeric value
-		if i, err := strconv.ParseUint(j.EthIndiscard, 10, 64); err == nil {
-			intf.Counters.InputDiscards = i
-		}
-		// INFO: eth_inerr is a string with numeric value
-		if i, err := strconv.ParseUint(j.EthInerr, 10, 64); err == nil {
-			intf.Counters.InputErrors = i
-		}
-		// INFO: eth_inpause is a string with numeric value
-		if i, err := strconv.ParseUint(j.EthInpause, 10, 64); err == nil {
-			intf.Counters.InputPause = i
-		}
-		// INFO: eth_latecoll is a string with numeric value
-		if i, err := strconv.ParseUint(j.EthLatecoll, 10, 64); err == nil {
-			intf.Counters.LateCollisions = i
-		}
-		// INFO: eth_lostcarrier is a string with numeric value
-		if i, err := strconv.ParseUint(j.EthLostcarrier, 10, 64); err == nil {
-			intf.Counters.LostCarrier = i
-		}
-		// INFO: eth_outdiscard is a string with numeric value
-		if i, err := strconv.ParseUint(j.EthOutdiscard, 10, 64); err == nil {
-			intf.Counters.OutputDiscards = i
-		}
-		// INFO: eth_outerr is a string with numeric value
-		if i, err := strconv.ParseUint(j.EthOuterr, 10, 64); err == nil {
-			intf.Counters.OutputErrors = i
-		}
-		// INFO: eth_outpause is a string with numeric value
-		if i, err := strconv.ParseUint(j.EthOutpause, 10, 64); err == nil {
-			intf.Counters.OutputPause = i
-		}
-		// INFO: eth_overrun is a string with numeric value
-		if i, err := strconv.ParseUint(j.EthOverrun, 10, 64); err == nil {
-			intf.Counters.InputOverruns = i
-		}
-		// INFO: eth_storm_supp is a string with numeric value
-		if i, err := strconv.ParseUint(j.EthStormSupp, 10, 64); err == nil {
-			intf.Counters.StormSuppression = i
-		}
-		// INFO: eth_underrun is a string with numeric value
-		if i, err := strconv.ParseUint(j.EthUnderrun, 10, 64); err == nil {
-			intf.Counters.OutputUnderruns = i
-		}
-		// INFO: eth_watchdog is a string with numeric value
-		if i, err := strconv.ParseUint(j.EthWatchdog, 10, 64); err == nil {
-			intf.Counters.Watchdog = i
-		}
-		// WARN: eth_jumbo_inpkts is a string with numeric value
-		if i, err := strconv.ParseUint(j.EthJumboInpkts, 10, 64); err == nil {
-			intf.Counters.InputJumboPackets = i
-		}
-		// WARN: eth_jumbo_outpkts is a string with numeric value
-		if i, err := strconv.ParseUint(j.EthJumboOutpkts, 10, 64); err == nil {
-			intf.Counters.OutputJumboPackets = i
-		}
-		// INFO: eth_coll is a string with numeric value
-		if i, err := strconv.ParseUint(j.EthColl, 10, 64); err == nil {
-			intf.Counters.Collisions = i
-		}
-		// INFO: eth_crc is a string with numeric value
-		if i, err := strconv.ParseUint(j.EthCrc, 10, 64); err == nil {
-			intf.Counters.CrcErrors = i
-		}
-		// INFO: eth_crc is a string with numeric value
-		if i, err := strconv.ParseUint(j.EthCrc, 10, 64); err == nil {
-			intf.Counters.CrcErrors = i
-		}
-		// INFO: eth_deferred is a string with numeric value
-		if i, err := strconv.ParseUint(j.EthDeferred, 10, 64); err == nil {
-			intf.Counters.Deferred = i
-		}
-
-		// Loopback-specific
-
-		// INFO: loop_in_compressed is a string with numeric value
-		if i, err := strconv.ParseUint(j.LoopInCompressed, 10, 64); err == nil {
-			if i > 0 {
-				intf.Counters.InputCompressed = i
-			}
-		}
-		// INFO: loop_in_errors is a string with numeric value
-		if i, err := strconv.ParseUint(j.LoopInErrors, 10, 64); err == nil {
-			if i > 0 {
-				intf.Counters.InputErrors = i
-			}
-		}
-		// INFO: loop_in_fifo is a string with numeric value
-		if i, err := strconv.ParseUint(j.LoopInFifo, 10, 64); err == nil {
-			if i > 0 {
-				intf.Counters.InputFifo = i
-			}
-		}
-		// INFO: loop_in_frame is a string with numeric value
-		if i, err := strconv.ParseUint(j.LoopInFrame, 10, 64); err == nil {
-			if i > 0 {
-				intf.Counters.InputFrameErrors = i
-			}
-		}
-		// INFO: loop_in_mcast is a string with numeric value
-		if i, err := strconv.ParseUint(j.LoopInMcast, 10, 64); err == nil {
-			if i > 0 {
-				intf.Counters.InputMulticastPackets = i
-			}
-		}
-		// INFO: loop_in_overrun is a string with numeric value
-		if i, err := strconv.ParseUint(j.LoopInOverrun, 10, 64); err == nil {
-			if i > 0 {
-				intf.Counters.InputOverruns = i
-			}
-		}
-		// INFO: loop_out_carriers is a string with numeric value
-		if i, err := strconv.ParseUint(j.LoopOutCarriers, 10, 64); err == nil {
-			if i > 0 {
-				intf.Counters.OutputCarrierErrors = i
-			}
-		}
-		// INFO: loop_out_collisions is a string with numeric value
-		if i, err := strconv.ParseUint(j.LoopOutCollisions, 10, 64); err == nil {
-			if i > 0 {
-				intf.Counters.Collisions = i
-			}
-		}
-		// INFO: loop_out_errors is a string with numeric value
-		if i, err := strconv.ParseUint(j.LoopOutErrors, 10, 64); err == nil {
-			if i > 0 {
-				intf.Counters.OutputErrors = i
-			}
-		}
-		// INFO: loop_out_fifo is a string with numeric value
-		if i, err := strconv.ParseUint(j.LoopOutFifo, 10, 64); err == nil {
-			if i > 0 {
-				intf.Counters.OutputFifo = i
-			}
-		}
-		// WARN: loop_out_underruns is a string with numeric value
-		if i, err := strconv.ParseUint(j.LoopOutUnderruns, 10, 64); err == nil {
-			if i > 0 {
-				intf.Counters.OutputUnderruns = i
-			}
-		}
-		// WARN: loop_in_bytes is a string with numeric value
-		if i, err := strconv.ParseUint(j.LoopInBytes, 10, 64); err == nil {
-			if i > 0 {
-				intf.Counters.InputBytes = i
-			}
-		}
-		// WARN: loop_out_bytes is a string with numeric value
-		if i, err := strconv.ParseUint(j.LoopOutBytes, 10, 64); err == nil {
-			if i > 0 {
-				intf.Counters.OutputBytes = i
-			}
-		}
-		// WARN: loop_out_pkts is a string with numeric value
-		if i, err := strconv.ParseUint(j.LoopOutPkts, 10, 64); err == nil {
-			if i > 0 {
-				intf.Counters.OutputPackets = i
-			}
-		}
-		// WARN: inconsistency between loop_out_pkts and loop_in_pkts
-		if j.LoopInPkts > 0 {
-			intf.Counters.InputPackets = j.LoopInPkts
-		}
-
-		switch j.EthBeacon {
-		case "on":
-			intf.Props.BeaconEnabled = true
-		default:
-			intf.Props.BeaconEnabled = false
-		}
-
-		switch j.EthAutoneg {
-		case "on":
-			intf.Props.AutoNegotiationEnabled = true
-		default:
-			intf.Props.AutoNegotiationEnabled = false
-		}
-
-		switch j.EthMdix {
-		case "on":
-			intf.Props.MdixEnabled = true
-		default:
-			intf.Props.MdixEnabled = false
-		}
-
-		intf.Props.BiaHwAddr = strings.TrimSpace(j.EthBiaAddr)
-		intf.Props.HwAddr = strings.TrimSpace(j.EthHwAddr)
-
-		// INFO: svi/vlan interface
-		if j.SviAdminState != "" {
-			intf.Props.BiaHwAddr = strings.TrimSpace(j.SviMac)
-			intf.Props.HwAddr = strings.TrimSpace(j.SviMac)
-			intf.Props.AdminState = strings.TrimSpace(j.SviAdminState)
-			if i, err := strconv.ParseUint(j.SviBw, 10, 64); err == nil {
-				intf.Metrics.Bandwidth = i
-			}
-			if i, err := strconv.ParseUint(j.SviDelay, 10, 64); err == nil {
-				intf.Metrics.Delay = i
-			}
-			if i, err := strconv.ParseUint(j.SviReliability, 10, 64); err == nil {
-				intf.Metrics.Reliability = i
-			}
-			if i, err := strconv.ParseUint(j.SviRxLoad, 10, 64); err == nil {
-				intf.Metrics.Rxload = i
-			}
-			intf.Metrics.Txload = j.SviTxLoad
-			if i, err := strconv.ParseUint(j.SviMtu, 10, 64); err == nil {
-				intf.Props.MTU = i
-			}
-			intf.LastClearCountersEvent = j.SviTimeLastCleared
-			intf.Props.StateReasonDetailed = j.StateRsnDesc
-			intf.Props.State = j.SviLineProto
-			intf.Props.IPAddress = strings.TrimSpace(j.SviIPAddr)
-			if i, err := strconv.ParseUint(j.SviIPMask, 10, 64); err == nil {
-				intf.Props.IPMask = i
-			}
-			if i, err := strconv.ParseUint(j.SviUcastBytesIn, 10, 64); err == nil {
-				intf.Counters.InputUnicastBytes = i
-			}
-			if i, err := strconv.ParseUint(j.SviUcastPktsIn, 10, 64); err == nil {
-				intf.Counters.InputUnicastPackets = i
-			}
-		}
-
-		// INFO: mgmt interface
-		if j.VdcLvlInAvgBits > 0 {
-			// WONT-DO: j.VdcLvlInAvgBits
-			// WONT-DO: j.VdcLvlInAvgPkts
-			// WONT-DO: j.VdcLvlOutAvgBits
-			// WONT-DO: j.VdcLvlOutAvgPkts
-			intf.Counters.InputPackets = j.VdcLvlInPkts
-			if i, err := strconv.ParseUint(j.VdcLvlInBytes, 10, 64); err == nil {
-				intf.Counters.InputBytes = i
-			}
-			if i, err := strconv.ParseUint(j.VdcLvlInUcast, 10, 64); err == nil {
-				intf.Counters.InputUnicastPackets = i
-			}
-			if i, err := strconv.ParseUint(j.VdcLvlInBcast, 10, 64); err == nil {
-				intf.Counters.InputBroadcastPackets = i
-			}
-			if i, err := strconv.ParseUint(j.VdcLvlInMcast, 10, 64); err == nil {
-				intf.Counters.InputMulticastPackets = i
-			}
-			if i, err := strconv.ParseUint(j.VdcLvlOutBytes, 10, 64); err == nil {
-				intf.Counters.OutputBytes = i
-			}
-			if i, err := strconv.ParseUint(j.VdcLvlOutPkts, 10, 64); err == nil {
-				intf.Counters.OutputPackets = i
-			}
-			if i, err := strconv.ParseUint(j.VdcLvlOutUcast, 10, 64); err == nil {
-				intf.Counters.OutputUnicastPackets = i
-			}
-			if i, err := strconv.ParseUint(j.VdcLvlOutBcast, 10, 64); err == nil {
-				intf.Counters.OutputBroadcastPackets = i
-			}
-			if i, err := strconv.ParseUint(j.VdcLvlOutMcast, 10, 64); err == nil {
-				intf.Counters.OutputMulticastPackets = i
-			}
-		}
+	for i, j := range intfResult.InterfaceTable.InterfaceRow {
+		intf := parseInterfaceInfo(i, &j)
 		interfaces = append(interfaces, intf)
 		//spew.Dump(intf)
 	}
+	return interfaces, nil
+}
+
+// NewInterfaceFromBytes returns an Interface instance from an input byte array.
+func NewInterfaceFromBytes(s []byte) (*Interface, error) {
+	var interfaces *Interface
+	resp := &JSONRPCResponse{}
+	err := json.Unmarshal(s, resp)
+	if err != nil {
+		return nil, fmt.Errorf("parsing error: %s, server response: %s", err, string(s[:]))
+	}
+	if resp.Error != nil {
+		return nil, fmt.Errorf("command returned failure: %v", resp.Error)
+	}
+	var body JSONRPCResponseBody
+	err = json.Unmarshal(resp.Result, &body)
+	if err != nil {
+		return nil, fmt.Errorf("parsing body error: %v", err)
+	}
+	var intfResult interfaceOneResponseResultBody
+	err = json.Unmarshal(body.Body, &intfResult)
+	if err != nil {
+		return nil, fmt.Errorf("parsing interface result error: %v", err)
+	}
+
+	interfaces = parseInterfaceInfo(0, &intfResult.InterfaceTable.InterfaceRow)
 	return interfaces, nil
 }

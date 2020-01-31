@@ -93,6 +93,17 @@ func TestParseShowInterfaceJsonOutput(t *testing.T) {
 	if testFailed > 0 {
 		t.Fatalf("Failed %d tests", testFailed)
 	}
+
+	// parse show single interface
+	fp := fmt.Sprintf("%s/resp.%s.json", outputDir, "show.interface.mgmt0")
+	content, err := ioutil.ReadFile(fp)
+	if err != nil {
+		t.Fatalf("FAIL: Test failed reading '%s', error: %v", fp, err)
+	}
+	_, err = NewInterfaceFromBytes(content)
+	if err != nil {
+		t.Fatalf("FAIL: Test failed reading '%s', error: %v", fp, err)
+	}
 }
 
 func TestParseShowInterfaceEthernet(t *testing.T) {
