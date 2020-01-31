@@ -15,6 +15,7 @@
 package main
 
 import (
+	"encoding/json"
 	"flag"
 	"fmt"
 	//"github.com/davecgh/go-spew/spew"
@@ -177,7 +178,24 @@ func main() {
 		if err != nil {
 			log.Fatalf("%s", err)
 		}
-		fmt.Fprintf(os.Stdout, "%s\n", string(output[:]))
+
+		var respJSON client.JSONRPCResponse
+		err = json.Unmarshal(output, &respJSON)
+		if err != nil {
+			log.Fatalf("JSON parsing failed:%v\n Input: %s", err, string(output))
+		}
+
+		if respJSON.Error != nil {
+			log.Fatalf("Command returned failure: %s", respJSON.Error)
+		}
+
+		var body client.JSONRPCResponseBody
+		err = json.Unmarshal(respJSON.Result, &body)
+		if err != nil {
+			log.Fatalf("JSON parsing failed:%v\n Input: %s", err, string(respJSON.Result))
+		}
+		fmt.Println(string(body.Body))
+
 		log.Debugf("took %s", time.Since(start))
 	}
 }

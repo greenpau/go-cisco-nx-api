@@ -43,6 +43,7 @@ func TestClient(t *testing.T) {
 			"show running-config":                "resp.show.running.config.1.json",
 			"show ip bgp summary vrf all":        "resp.show.ip.bgp.summary.vrf.all.1.json",
 			"show interface transceiver details": "resp.show.interface.transceiver.details.1.json",
+			"show clock":                         "resp.show.clock.json",
 		}
 		if req.Method != "POST" {
 			http.Error(w, "Bad Request, expecting POST", http.StatusBadRequest)
@@ -178,5 +179,31 @@ func TestClient(t *testing.T) {
 		t.Fatalf("client: %s", err)
 	}
 	t.Logf("client: Transceivers: %d", len(transceivers))
+
+	output, err := cli.GetGeneric("show clock")
+	if err != nil {
+		t.Fatalf("client: %s", err)
+	}
+
+	var respJSON JSONRPCResponse
+	err = json.Unmarshal(output, &respJSON)
+	if err != nil {
+		t.Fatalf("JSON parsing failed:%v\n Input: %s", err, string(output))
+	}
+
+	if respJSON.Error != nil {
+		t.Fatalf("Command returned failure: %v", respJSON.Error)
+	}
+
+	var body JSONRPCResponseBody
+	err = json.Unmarshal(respJSON.Result, &body)
+	if err != nil {
+		t.Fatalf("JSON parsing failed:%v\n Input: %s", err, string(respJSON.Result))
+	}
+
+	if !strings.Contains(string(body.Body), "simple_time") {
+		t.Fatalf("client: returned unknown response from show clock")
+	}
+
 	t.Logf("client: took %s", time.Since(start))
 }
