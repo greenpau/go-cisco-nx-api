@@ -144,6 +144,14 @@ Here, the output is in JSON format.
 bin/go-cisco-nx-api-client -cli "show ip arp" -host 10.1.1.1 -user admin -pass cisco
 ```
 
+The client also supports interface configuration commands, e.g.:
+```
+bin/go-cisco-nx-api-client -cli "interface e1/1;shutdown" -host 10.1.1.1 -user admin -pass cisco
+```
+
+```;``` is used to pass multiple commands.
+It can be extended to support other configuration commands with simple change.
+
 ## References
 
 * [Cisco Nexus 9000 Series NX-OS Programmability Guide, Release 6.x](https://www.cisco.com/c/en/us/td/docs/switches/datacenter/nexus9000/sw/6-x/programmability/guide/b_Cisco_Nexus_9000_Series_NX-OS_Programmability_Guide/b_Cisco_Nexus_9000_Series_NX-OS_Programmability_Guide_chapter_011.html)

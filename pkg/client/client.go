@@ -216,7 +216,10 @@ func callAPI(contentType string, url string, payload []byte, username, password 
 	default:
 		return nil, fmt.Errorf("unsupported content type: %s", contentType)
 	}
-	req, _ := http.NewRequest("POST", url, bytes.NewBuffer(payload))
+	req, err := http.NewRequest("POST", url, bytes.NewBuffer(payload))
+	if err != nil {
+		return nil, err
+	}
 	req.Header.Add("Content-Type", reqContentType)
 	req.Header.Add("Cache-Control", "no-cache")
 	req.SetBasicAuth(username, password)
@@ -433,6 +436,9 @@ func (cli *Client) Configure(cmds []string) ([]JSONRPCResponse, error) {
 
 	var respJSON []JSONRPCResponse
 	err = json.Unmarshal(resp, &respJSON)
+	if err != nil {
+		return nil, fmt.Errorf("%s: Input: %v", err.Error(), resp)
+	}
 
-	return respJSON, err
+	return respJSON, nil
 }
