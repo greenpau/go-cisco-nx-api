@@ -175,6 +175,7 @@ func main() {
 	default:
 		start := time.Now()
 
+		// show interface <name>
 		if strings.HasPrefix(cliCommand, "show interface") {
 			intfName := cliCommand[len("show interface "):]
 			intfInfo, err := cli.GetInterface(intfName)
@@ -190,6 +191,21 @@ func main() {
 				out.WriteString(fmt.Sprintf(", IP: %s/%d", intfInfo.Props.IPAddress, intfInfo.Props.IPMask))
 			}
 			fmt.Fprintf(os.Stdout, "%s\n", out.String())
+			return
+		}
+
+		// interface configuration, use ; to break commands
+		if strings.HasPrefix(cliCommand, "interface") {
+			cmds := strings.Split(cliCommand, ";")
+			resp, err := cli.Configure(cmds)
+			if err != nil {
+				log.Fatalf("%v", err)
+			}
+			for i, r := range resp {
+				if r.Error != nil {
+					log.Fatalf("failed to execute command %v:\n%v\n", cmds[i], r.Error)
+				}
+			}
 			return
 		}
 
