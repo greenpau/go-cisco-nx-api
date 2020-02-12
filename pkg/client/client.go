@@ -421,6 +421,10 @@ func (cli *Client) GetTransceivers() ([]*Transceiver, error) {
 
 // Configure execute a batch of configuration commands
 func (cli *Client) Configure(cmds []string) ([]JSONRPCResponse, error) {
+	if len(cmds) == 0 {
+		return nil, fmt.Errorf("empty input")
+	}
+
 	url := fmt.Sprintf("%s://%s:%d/ins", cli.protocol, cli.host, cli.port)
 
 	req := NewJSONRPCRequest(cmds)
@@ -435,9 +439,19 @@ func (cli *Client) Configure(cmds []string) ([]JSONRPCResponse, error) {
 	}
 
 	var respJSON []JSONRPCResponse
-	err = json.Unmarshal(resp, &respJSON)
-	if err != nil {
-		return nil, fmt.Errorf("%s: Input: %v", err.Error(), resp)
+
+	if len(cmds) == 1 {
+		var respJSON1 JSONRPCResponse
+		err = json.Unmarshal(resp, &respJSON1)
+		if err != nil {
+			return nil, fmt.Errorf("%s: Input: %v", err.Error(), resp)
+		}
+		respJSON = append(respJSON, respJSON1)
+	} else {
+		err = json.Unmarshal(resp, &respJSON)
+		if err != nil {
+			return nil, fmt.Errorf("%s: Input: %v", err.Error(), resp)
+		}
 	}
 
 	return respJSON, nil
