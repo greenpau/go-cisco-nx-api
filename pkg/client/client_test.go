@@ -64,6 +64,10 @@ func TestClient(t *testing.T) {
 				http.Error(w, fmt.Sprintf("Bad Request, json.Unmarshal: %s", err), http.StatusBadRequest)
 				return
 			}
+			if len(j) == 0 {
+				http.Error(w, fmt.Sprintf("Bad Request, empty input"), http.StatusBadRequest)
+				return
+			}
 			cmd = j[0].Params.Command
 			if strings.HasPrefix(cmd, "show") {
 				if len(j) != 1 {
@@ -81,20 +85,24 @@ func TestClient(t *testing.T) {
 			} else {
 				// interface config commands
 				var cmds []string
-				if len(j) < 2 {
-					http.Error(w, fmt.Sprintf("Bad Request, expecting multiple commands, got %d", len(j)), http.StatusBadRequest)
-					return
-				}
 				for i := range j {
 					cmds = append(cmds, j[i].Params.Command)
 				}
 
 				t.Logf("server: received commands: %s", cmds)
-				if !strings.HasPrefix(cmds[0], "interface") {
-					http.Error(w, fmt.Sprintf("Wrong config command %s", cmds[0]), http.StatusBadRequest)
-					return
+				if len(j) == 1 {
+					if !strings.HasPrefix(cmds[0], "vlan") {
+						http.Error(w, fmt.Sprintf("Wrong config command %s", cmds[0]), http.StatusBadRequest)
+						return
+					}
+					fp = fmt.Sprintf("%s/%s", dataDir, "resp.vlan.json")
+				} else {
+					if !strings.HasPrefix(cmds[0], "interface") {
+						http.Error(w, fmt.Sprintf("Wrong config command %s", cmds[0]), http.StatusBadRequest)
+						return
+					}
+					fp = fmt.Sprintf("%s/%s", dataDir, "resp.shutdown.interface.json")
 				}
-				fp = fmt.Sprintf("%s/%s", dataDir, "resp.shutdown.interface.json")
 			}
 		} else if bytes.Contains(body, []byte(`"ins_api":`)) {
 			var j *InsAPIRequest
@@ -233,6 +241,17 @@ func TestClient(t *testing.T) {
 	}
 
 	resp, err := cli.Configure([]string{"interface e1/1", "shutdown"})
+	if err != nil {
+		t.Fatalf("client: %s", err)
+	}
+
+	for _, r := range resp {
+		if r.Error != nil {
+			t.Fatalf("failed to execute command %v:\n%v\n", r.ID, r.Error)
+		}
+	}
+
+	resp, err = cli.Configure([]string{"vlan 1-2"})
 	if err != nil {
 		t.Fatalf("client: %s", err)
 	}
