@@ -17,7 +17,7 @@ package client
 import (
 	"encoding/json"
 	"fmt"
-	//"github.com/davecgh/go-spew/spew"
+	"strconv"
 )
 
 type sysInfoResponse struct {
@@ -31,27 +31,27 @@ type sysInfoResponseResult struct {
 }
 
 type sysInfoResponseResultBody struct {
-	BiosCmplTime       string `json:"bios_cmpl_time" xml:"bios_cmpl_time"`
-	BiosVerStr         string `json:"bios_ver_str" xml:"bios_ver_str"`
-	BootflashSize      int64  `json:"bootflash_size" xml:"bootflash_size"`
-	ChassisID          string `json:"chassis_id" xml:"chassis_id"`
-	CPUName            string `json:"cpu_name" xml:"cpu_name"`
-	HostName           string `json:"host_name" xml:"host_name"`
-	KernUptmDays       int64  `json:"kern_uptm_days" xml:"kern_uptm_days"`
-	KernUptmHrs        int64  `json:"kern_uptm_hrs" xml:"kern_uptm_hrs"`
-	KernUptmMins       int64  `json:"kern_uptm_mins" xml:"kern_uptm_mins"`
-	KernUptmSecs       int64  `json:"kern_uptm_secs" xml:"kern_uptm_secs"`
-	KickCmplTime       string `json:"kick_cmpl_time" xml:"kick_cmpl_time"`
-	KickFileName       string `json:"kick_file_name" xml:"kick_file_name"`
-	KickTmstmp         string `json:"kick_tmstmp" xml:"kick_tmstmp"`
-	KickstartVerStr    string `json:"kickstart_ver_str" xml:"kickstart_ver_str"`
-	Manufacturer       string `json:"manufacturer" xml:"manufacturer"`
-	MemType            string `json:"mem_type" xml:"mem_type"`
-	Memory             int64  `json:"memory" xml:"memory"`
-	ProcBoardID        string `json:"proc_board_id" xml:"proc_board_id"`
-	ResetTime          string `json:"rr_ctime" xml:"rr_ctime"`
-	ResetReason        string `json:"rr_reason" xml:"rr_reason"`
-	ResetSystemVersion string `json:"rr_sys_ver" xml:"rr_sys_ver"`
+	BiosCmplTime       string      `json:"bios_cmpl_time" xml:"bios_cmpl_time"`
+	BiosVerStr         string      `json:"bios_ver_str" xml:"bios_ver_str"`
+	BootflashSize      interface{} `json:"bootflash_size" xml:"bootflash_size"`
+	ChassisID          string      `json:"chassis_id" xml:"chassis_id"`
+	CPUName            string      `json:"cpu_name" xml:"cpu_name"`
+	HostName           string      `json:"host_name" xml:"host_name"`
+	KernUptmDays       interface{} `json:"kern_uptm_days" xml:"kern_uptm_days"`
+	KernUptmHrs        interface{} `json:"kern_uptm_hrs" xml:"kern_uptm_hrs"`
+	KernUptmMins       interface{} `json:"kern_uptm_mins" xml:"kern_uptm_mins"`
+	KernUptmSecs       interface{} `json:"kern_uptm_secs" xml:"kern_uptm_secs"`
+	KickCmplTime       string      `json:"kick_cmpl_time" xml:"kick_cmpl_time"`
+	KickFileName       string      `json:"kick_file_name" xml:"kick_file_name"`
+	KickTmstmp         string      `json:"kick_tmstmp" xml:"kick_tmstmp"`
+	KickstartVerStr    string      `json:"kickstart_ver_str" xml:"kickstart_ver_str"`
+	Manufacturer       string      `json:"manufacturer" xml:"manufacturer"`
+	MemType            string      `json:"mem_type" xml:"mem_type"`
+	Memory             interface{} `json:"memory" xml:"memory"`
+	ProcBoardID        string      `json:"proc_board_id" xml:"proc_board_id"`
+	ResetTime          string      `json:"rr_ctime" xml:"rr_ctime"`
+	ResetReason        string      `json:"rr_reason" xml:"rr_reason"`
+	ResetSystemVersion string      `json:"rr_sys_ver" xml:"rr_sys_ver"`
 }
 
 // SysInfo contains system information. The information in the structure
@@ -59,7 +59,7 @@ type sysInfoResponseResultBody struct {
 type SysInfo struct {
 	Bios struct {
 		CompileTime string `json:"compile_time" xml:"compile_time"`
-		Version      string `json:"version" xml:"version"`
+		Version     string `json:"version" xml:"version"`
 	}
 	Bootflash struct {
 		Size int64 `json:"size" xml:"size"`
@@ -92,6 +92,24 @@ func NewSysInfoFromString(s string) (*SysInfo, error) {
 	return NewSysInfoFromBytes([]byte(s))
 }
 
+// NXOS 9.3 changed output from numbers to string.
+// this function is to do the conversion in case.
+func parseNumbers(input interface{}) int64 {
+	if input == nil {
+		return 0
+	}
+	val, ok := input.(float64)
+	if !ok {
+		numStr := input.(string)
+		myInt32, err := strconv.Atoi(numStr)
+		if err != nil {
+			return 0
+		}
+		val = float64(myInt32)
+	}
+	return int64(val)
+}
+
 // NewSysInfoFromBytes returns SysInfo instance from an input byte array.
 func NewSysInfoFromBytes(s []byte) (*SysInfo, error) {
 	si := &SysInfo{}
@@ -102,18 +120,18 @@ func NewSysInfoFromBytes(s []byte) (*SysInfo, error) {
 	}
 	si.Bios.CompileTime = siResponse.Result.Body.BiosCmplTime
 	si.Bios.Version = siResponse.Result.Body.BiosVerStr
-	si.Bootflash.Size = siResponse.Result.Body.BootflashSize
+	si.Bootflash.Size = parseNumbers(siResponse.Result.Body.BootflashSize)
 	si.ChassisID = siResponse.Result.Body.ChassisID
 	si.CPUName = siResponse.Result.Body.CPUName
 	si.Hostname = siResponse.Result.Body.HostName
-	si.Uptime = siResponse.Result.Body.KernUptmSecs + (siResponse.Result.Body.KernUptmMins * 60) +
-		(siResponse.Result.Body.KernUptmHrs * 3600) + (siResponse.Result.Body.KernUptmDays * 86400)
+	si.Uptime = parseNumbers(siResponse.Result.Body.KernUptmSecs) + (parseNumbers(siResponse.Result.Body.KernUptmMins) * 60) +
+		(parseNumbers(siResponse.Result.Body.KernUptmHrs) * 3600) + (parseNumbers(siResponse.Result.Body.KernUptmDays) * 86400)
 	si.KickstartImage.CompileTime = siResponse.Result.Body.KickCmplTime
 	si.KickstartImage.FileName = siResponse.Result.Body.KickFileName
 	si.KickstartImage.Timestamp = siResponse.Result.Body.KickTmstmp
 	si.KickstartImage.Version = siResponse.Result.Body.KickstartVerStr
 	si.Manufacturer = siResponse.Result.Body.Manufacturer
-	si.Memory.Size = siResponse.Result.Body.Memory
+	si.Memory.Size = parseNumbers(siResponse.Result.Body.Memory)
 	si.Memory.Unit = siResponse.Result.Body.MemType
 	si.ProcessorBoardID = siResponse.Result.Body.ProcBoardID
 	si.Reset.Time = siResponse.Result.Body.ResetTime
