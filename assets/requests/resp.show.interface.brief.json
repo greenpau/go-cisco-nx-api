@@ -1,0 +1,239 @@
+{                                      
+  "TABLE_interface": {                 
+    "ROW_interface": [                 
+      {                                
+        "interface": "mgmt0",          
+        "state": "up",                 
+        "ip_addr": "172.22.199.43",    
+        "speed": "1000",               
+        "mtu": 1500                    
+      },                               
+      {                                
+        "interface": "Ethernet2/33",   
+        "vlan": "--",                  
+        "type": "eth",                 
+        "portmode": "routed",          
+        "state": "down",               
+        "state_rsn_desc": "SFP not inserted", 
+        "speed": "auto",                      
+        "ratemode": "D"                       
+      },                                      
+      {                                       
+        "interface": "Ethernet2/34",          
+        "vlan": "--",                         
+        "type": "eth",                        
+        "portmode": "routed",                 
+        "state": "down",                      
+        "state_rsn_desc": "SFP not inserted", 
+        "speed": "auto",                      
+        "ratemode": "D"                       
+      },                                      
+      {                                       
+        "interface": "Ethernet2/35",          
+        "vlan": "--",                         
+        "type": "eth",                        
+        "portmode": "routed",                 
+        "state": "down",                      
+        "state_rsn_desc": "SFP not inserted", 
+        "speed": "auto",                      
+        "ratemode": "D"                       
+      },                                      
+      {                                       
+        "interface": "Ethernet2/36",          
+        "vlan": "--",                         
+        "type": "eth",                        
+        "portmode": "routed",                 
+        "state": "down",                      
+        "state_rsn_desc": "SFP not inserted", 
+        "speed": "auto",                      
+        "ratemode": "D"                       
+      },                                      
+      {                                       
+        "interface": "Ethernet2/37",          
+        "vlan": "--",                         
+        "type": "eth",                        
+        "portmode": "routed",                 
+        "state": "down",                      
+        "state_rsn_desc": "SFP not inserted", 
+        "speed": "auto",                      
+        "ratemode": "D"                       
+      },                                      
+      {                                       
+        "interface": "Ethernet2/38",          
+        "vlan": "--",                         
+        "type": "eth",                        
+        "portmode": "routed",                 
+        "state": "down",                      
+        "state_rsn_desc": "SFP not inserted", 
+        "speed": "auto",                      
+        "ratemode": "D"                       
+      },                                      
+      {                                       
+        "interface": "Ethernet2/39",          
+        "vlan": "--",                         
+        "type": "eth",                        
+        "portmode": "routed",                 
+        "state": "down",                      
+        "state_rsn_desc": "SFP not inserted", 
+        "speed": "auto",                      
+        "ratemode": "D"                       
+      },                                      
+      {                                       
+        "interface": "Ethernet2/40",          
+        "vlan": "--",                         
+        "type": "eth",                        
+        "portmode": "routed",                 
+        "state": "down",                      
+        "state_rsn_desc": "SFP not inserted", 
+        "speed": "auto",                      
+        "ratemode": "D"                       
+      },                                      
+      {                                       
+        "interface": "Ethernet10/1",          
+        "vlan": "1",                          
+        "type": "eth",                        
+        "portmode": "trunk",                  
+        "state": "up",                        
+        "state_rsn_desc": "none",             
+        "speed": "100G",                      
+        "ratemode": "D"                       
+      },                                      
+      {                                       
+        "interface": "Ethernet10/2",          
+        "vlan": "70",                         
+        "type": "eth",                        
+        "portmode": "access",                 
+        "state": "up",                        
+        "state_rsn_desc": "none",             
+        "speed": "100G",                      
+        "ratemode": "D",                      
+        "portchan": 128                       
+      },                                      
+      {                                       
+        "interface": "Ethernet10/3",          
+        "vlan": "1",                          
+        "type": "eth",                        
+        "portmode": "trunk",                  
+        "state": "up",                        
+        "state_rsn_desc": "none",             
+        "speed": "100G",                      
+        "ratemode": "D",                      
+        "portchan": 256                       
+      },                                      
+      {                                       
+        "interface": "Ethernet10/10",         
+        "vlan": "10",                         
+        "type": "eth",                        
+        "portmode": "access",                 
+        "state": "up",                        
+        "state_rsn_desc": "none",             
+        "speed": "100G",                      
+        "ratemode": "D"                       
+      },                                      
+      {                                       
+        "interface": "Ethernet10/11",         
+        "vlan": "70",                         
+        "type": "eth",                        
+        "portmode": "access",                 
+        "state": "up",                        
+        "state_rsn_desc": "none",             
+        "speed": "100G",                      
+        "ratemode": "D",                      
+        "portchan": 128                       
+      },                                      
+      {                                       
+        "interface": "Ethernet10/12",         
+        "vlan": "1",                          
+        "type": "eth",                        
+        "portmode": "trunk",                  
+        "state": "up",                        
+        "state_rsn_desc": "none",             
+        "speed": "100G",                      
+        "ratemode": "D",                      
+        "portchan": 256                       
+      },                                      
+      {                                       
+        "interface": "Ethernet10/25",         
+        "vlan": "1",                          
+        "type": "eth",                        
+        "portmode": "trunk",                  
+        "state": "up",                        
+        "state_rsn_desc": "none",             
+        "speed": "100G",                      
+        "ratemode": "D",                      
+        "portchan": 700                       
+      },                                      
+      {                                       
+        "interface": "Ethernet10/26",         
+        "vlan": "1",                          
+        "type": "eth",                        
+        "portmode": "trunk",                  
+        "state": "up",                        
+        "state_rsn_desc": "none",             
+        "speed": "100G",                      
+        "ratemode": "D"                       
+      },                                      
+      {                                       
+        "interface": "Ethernet10/27",         
+        "vlan": "40",                         
+        "type": "eth",                        
+        "portmode": "access",                 
+        "state": "up",                        
+        "state_rsn_desc": "none",             
+        "speed": "100G",                      
+        "ratemode": "D",                      
+        "portchan": 800                       
+      },                                      
+      {                                       
+        "interface": "port-channel128",       
+        "vlan": "70",                         
+        "type": "eth",                        
+        "portmode": "access",                 
+        "state": "up",                        
+        "state_rsn_desc": "none",             
+        "speed": "a-100G",
+        "ratemode": "D",
+        "proto": "lacp"
+      },
+      {
+        "interface": "port-channel256",
+        "vlan": "1",
+        "type": "eth",
+        "portmode": "trunk",
+        "state": "up",
+        "state_rsn_desc": "none",
+        "speed": "a-100G",
+        "ratemode": "D",
+        "proto": "lacp"
+      },
+      {
+        "interface": "port-channel700",
+        "vlan": "1",
+        "type": "eth",
+        "portmode": "trunk",
+        "state": "up",
+        "state_rsn_desc": "none",
+        "speed": "a-100G",
+        "ratemode": "D",
+        "proto": "lacp"
+      },
+      {
+        "interface": "port-channel800",
+        "vlan": "40",
+        "type": "eth",
+        "portmode": "access",
+        "state": "up",
+        "state_rsn_desc": "none",
+        "speed": "a-100G",
+        "ratemode": "D",
+        "proto": "lacp"
+      },
+      {
+        "interface": "Vlan1",
+        "type": "svi",
+        "oper_state": "down",
+        "svi_rsn_desc": "Administratively down"
+      }
+    ]
+  }
+}
