@@ -1,0 +1,106 @@
+{
+  "body": {
+    "TABLE_process_tag": {
+      "ROW_process_tag": [
+        {
+          "process-tag-out": "2",
+          "TABLE_vrf": {
+            "ROW_vrf": [
+              {
+                "vrf-name-out": "default",
+                "adj-summary-out": "false",
+                "adj-interface-out": "false",
+                "TABLE_process_adj": {
+                  "ROW_process_adj": [
+                    {
+                      "adj-sys-name-out": "n9k-reg-4",
+                      "adj-sys-id-out": "N/A",
+                      "adj-usage-out": "2",
+                      "adj-state-out": "UP",
+                      "adj-hold-time-out": "00:00:29",
+                      "adj-intf-name-out": "Ethernet1/21",
+                      "adj-detail-set-out": "true",
+                      "adj-transitions-out": "1",
+                      "adj-flap-out": "true",
+                      "adj-flap-time-out": "01:33:34",
+                      "adj-ckt-type-out": "L2",
+                      "adj-ipv4-addr-out": "45.1.1.1",
+                      "adj-ipv6-addr-out": "0::",
+                      "adj-bcast-out": "false",
+                      "adj-bfd-ipv4-establish-out": "false",
+                      "adj-bfd-ipv6-establish-out": "false",
+                      "adj-resurrect-out": "false",
+                      "adj-restart-capable-out": "true",
+                      "adj-restart-ack-out": "false",
+                      "adj-restart-mode-out": "false",
+                      "adj-restart-adj-seen-ra-out": "false",
+                      "adj-restart-adj-seen-csnp-out": "false",
+                      "adj-restart-adj-seen-l1-csnp-out": "false",
+                      "adj-restart-adj-seen-l2-csnp-out": "false",
+                      "adj-restart-suppress-adj-out": "false",
+                      "TABLE_adj_sid": {
+                        "ROW_adj_sid": [
+                          {
+                            "adj-sid-value": "16",
+                            "adj-sid-f-flag": "false",
+                            "adj-sid-b-flag": "false",
+                            "adj-sid-v-flag": "true",
+                            "adj-sid-l-flag": "true",
+                            "adj-sid-s-flag": "false",
+                            "adj-sid-p-flag": "false",
+                            "adj-sid-weight": "1"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "adj-sys-name-out": "n9k-reg-2",
+                      "adj-sys-id-out": "N/A",
+                      "adj-usage-out": "2",
+                      "adj-state-out": "UP",
+                      "adj-hold-time-out": "00:00:28",
+                      "adj-intf-name-out": "Ethernet1/31",
+                      "adj-detail-set-out": "true",
+                      "adj-transitions-out": "1",
+                      "adj-flap-out": "true",
+                      "adj-flap-time-out": "01:33:30",
+                      "adj-ckt-type-out": "L2",
+                      "adj-ipv4-addr-out": "25.1.1.1",
+                      "adj-ipv6-addr-out": "0::",
+                      "adj-bcast-out": "false",
+                      "adj-bfd-ipv4-establish-out": "false",
+                      "adj-bfd-ipv6-establish-out": "false",
+                      "adj-resurrect-out": "false",
+                      "adj-restart-capable-out": "true",
+                      "adj-restart-ack-out": "false",
+                      "adj-restart-mode-out": "false",
+                      "adj-restart-adj-seen-ra-out": "false",
+                      "adj-restart-adj-seen-csnp-out": "false",
+                      "adj-restart-adj-seen-l1-csnp-out": "false",
+                      "adj-restart-adj-seen-l2-csnp-out": "false",
+                      "adj-restart-suppress-adj-out": "false",
+                      "TABLE_adj_sid": {
+                        "ROW_adj_sid": [
+                          {
+                            "adj-sid-value": "17",
+                            "adj-sid-f-flag": "false",
+                            "adj-sid-b-flag": "false",
+                            "adj-sid-v-flag": "true",
+                            "adj-sid-l-flag": "true",
+                            "adj-sid-s-flag": "false",
+                            "adj-sid-p-flag": "false",
+                            "adj-sid-weight": "1"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

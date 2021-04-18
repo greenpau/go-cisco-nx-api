@@ -1,4 +1,5 @@
 // Copyright 2018 Paul Greenberg (greenpau@outlook.com)
+//            and Paul Schou     (github.com/pschou)
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.

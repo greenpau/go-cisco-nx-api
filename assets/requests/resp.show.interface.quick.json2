@@ -1,0 +1,70 @@
+{
+  "ins_api": {
+    "type": "cli_show",
+    "version": "1.2",
+    "sid": "eoc",
+    "outputs": {
+      "output": {
+        "input": "show interface status",
+        "msg": "Success",
+        "code": "200",
+        "body": {
+          "TABLE_interface": {
+            "ROW_interface": [
+              {
+                "interface": "mgmt0",
+                "state": "up",
+                "state_rsn_desc": "Link not connected",
+                "admin_state": "up",
+                "share_state": "Dedicated",
+                "eth_hw_desc": "GigabitEthernet",
+                "eth_hw_addr": "<Redacted>",
+                "eth_bia_addr": "<Redacted>",
+                "desc": "<Redacted>",
+                "eth_ip_addr": "<Redacted>",
+                "eth_ip_mask": 24,
+                "eth_mtu": "1500",
+                "eth_bw": [
+                  "1000000",
+                  "1000000"
+                ],
+                "eth_dly": 10,
+                "eth_reliability": "255",
+                "eth_txload": "1",
+                "eth_rxload": "1",
+                "medium": "broadcast",
+                "eth_duplex": "full",
+                "eth_speed": "auto-speed",
+                "eth_media": "1G",
+                "eth_beacon": "off",
+                "eth_autoneg": "on",
+                "eth_in_flowctrl": "off",
+                "eth_out_flowctrl": "off",
+                "eth_mdix": "off",
+                "eth_ratemode": "dedicated",
+                "eth_swr_monitor": "off",
+                "eth_ethertype": "0x0000",
+                "eth_eee_state": "n/a",
+                "switchport": "Disabled",
+                "vdc_lvl_in_pkts": 354499,
+                "vdc_lvl_in_bytes": 32251676,
+                "vdc_lvl_in_ucast": 337649,
+                "vdc_lvl_in_mcast": 16842,
+                "vdc_lvl_in_bcast": 8,
+                "vdc_lvl_in_avg_pkts": 1,
+                "vdc_lvl_in_avg_bytes": 744,
+                "vdc_lvl_out_pkts": 354493,
+                "vdc_lvl_out_bytes": 32218753,
+                "vdc_lvl_out_ucast": 337641,
+                "vdc_lvl_out_mcast": 16850,
+                "vdc_lvl_out_bcast": 2,
+                "vdc_lvl_out_avg_pkts": 1,
+                "vdc_lvl_out_avg_bytes": 768
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

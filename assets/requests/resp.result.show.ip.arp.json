@@ -1,0 +1,66 @@
+{
+  "body": {
+    "TABLE_vrf": {
+      "ROW_vrf": {
+        "TABLE_adj": {
+          "ROW_adj": [
+            {
+              "flags": "",
+              "intf-out": "Vlan253",
+              "ip-addr-out": "7.57.253.1",
+              "mac": "f44e.0584.7ffc",
+              "time-stamp": "PT18M21S"
+            },
+            {
+              "flags": "",
+              "intf-out": "Vlan50",
+              "ip-addr-out": "10.57.50.3",
+              "mac": "f44e.0584.7ffc",
+              "time-stamp": "PT4M31S"
+            },
+            {
+              "flags": "",
+              "intf-out": "Ethernet1/2",
+              "ip-addr-out": "10.100.157.1",
+              "mac": "f44e.0584.7ffc",
+              "time-stamp": "PT18M34S"
+            },
+            {
+              "flags": "",
+              "intf-out": "Ethernet1/4",
+              "ip-addr-out": "10.100.157.9",
+              "mac": "f44e.0584.7ffc",
+              "time-stamp": "PT18M35S"
+            },
+            {
+              "flags": "",
+              "intf-out": "Ethernet1/7",
+              "ip-addr-out": "192.168.161.1",
+              "mac": "f44e.0584.7ffc",
+              "time-stamp": "PT17M56S"
+            },
+            {
+              "flags": "",
+              "incomplete": "true",
+              "intf-out": "Ethernet1/1.50",
+              "ip-addr-out": "89.1.1.10",
+              "time-stamp": "PT28S"
+            },
+            {
+              "flags": "",
+              "incomplete": "true",
+              "intf-out": "Ethernet1/1.52",
+              "ip-addr-out": "89.1.3.10",
+              "time-stamp": "PT4S"
+            }
+          ]
+        },
+        "cnt-total": 7,
+        "vrf-name-out": "default"
+      }
+    }
+  },
+  "code": "200",
+  "input": "show ip arp ",
+  "msg": "Success"
+}

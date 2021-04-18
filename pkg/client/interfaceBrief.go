@@ -1,4 +1,5 @@
 // Copyright 2018 Paul Greenberg (greenpau@outlook.com)
+//            and Paul Schou     (github.com/pschou)
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -43,20 +44,22 @@ type InterfaceBriefResponse struct {
 	} `json:"TABLE_interface"`
 }
 
-// NewInterfaceBriefFromString returns SysInfo instance from an input string.
+// NewInterfaceBriefFromString returns instance from an input string.
 func NewInterfaceBriefFromString(s string) (*InterfaceBriefResponse, error) {
 	return NewInterfaceBriefFromReader(strings.NewReader(s))
 }
 
-// NewSysInfoFromBytes returns SysInfo instance from an input byte array.
+// NewInterfaceBriefFromBytes returns instance from an input byte array.
 func NewInterfaceBriefFromBytes(s []byte) (*InterfaceBriefResponse, error) {
 	return NewInterfaceBriefFromReader(bytes.NewReader(s))
 }
+
+// NewInterfaceBriefFromReader returns instance from an input reader.
 func NewInterfaceBriefFromReader(s io.Reader) (*InterfaceBriefResponse, error) {
 	//si := &InterfaceBrief{}
 	InterfaceBriefResponseDat := &InterfaceBriefResponse{}
 	jsonDec := json.NewDecoder(s)
-	//jsonDec.UseNumber()
+	jsonDec.UseAutoConvert()
 	jsonDec.UseSlice()
 	err := jsonDec.Decode(InterfaceBriefResponseDat)
 	if err != nil {

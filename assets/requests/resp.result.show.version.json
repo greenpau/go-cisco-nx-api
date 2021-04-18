@@ -1,0 +1,37 @@
+{
+  "body": {
+    "TABLE_package_list": {
+      "ROW_package_list": {
+        "package_id": {}
+      }
+    },
+    "bios_cmpl_time": "10/18/2016",
+    "bios_ver_str": "08.32",
+    "bootflash_size": 21693714,
+    "chassis_id": "Nexus9000 C9508 (8 Slot) Chassis",
+    "cpu_name": "Intel(R) Xeon(R) CPU E5-2403 0 @ 1.80GHz",
+    "header_str": "Cisco Nexus Operating System (NX-OS) Software\nTAC support: http://www.cisco.com/tac\nCopyright (C) 2002-2018, Cisco and/or its affiliates.\nAll rights reserved.\nThe copyrights to certain works contained in this software are\nowned by other third parties and used and distributed under their own\nlicenses, such as open source.  This software is provided \"as is,\" and unless\notherwise stated, there is no warranty, express or implied, including but not\nlimited to warranties of merchantability and fitness for a particular purpose.\nCertain components of this software are licensed under\nthe GNU General Public License (GPL) version 2.0 or \nGNU General Public License (GPL) version 3.0  or the GNU\nLesser General Public License (LGPL) Version 2.1 or \nLesser General Public License (LGPL) Version 2.0. \nA copy of each such license is available at\nhttp://www.opensource.org/licenses/gpl-2.0.php and\nhttp://opensource.org/licenses/gpl-3.0.html and\nhttp://www.opensource.org/licenses/lgpl-2.1.php and\nhttp://www.gnu.org/licenses/old-licenses/library.txt.\n",
+    "host_name": "macsec2",
+    "kern_uptm_days": 0,
+    "kern_uptm_hrs": 5,
+    "kern_uptm_mins": 3,
+    "kern_uptm_secs": 24,
+    "kick_cmpl_time": " 5/22/2018 15:00:00",
+    "kick_file_name": "bootflash:///nxos.7.0.3.I7.4.bin",
+    "kick_tmstmp": "05/22/2018 15:26:08",
+    "kickstart_ver_str": "7.0(3)I7(4)",
+    "manufacturer": "Cisco Systems, Inc.",
+    "mem_type": "kB",
+    "memory": 16400780,
+    "module_id": "Supervisor Module",
+    "proc_board_id": "SAL2015NQ3H",
+    "rr_ctime": "Wed May 23 18:26:12 2018",
+    "rr_reason": "Reset Requested by CLI command reload",
+    "rr_service": "",
+    "rr_sys_ver": "7.0(3)I7(4)",
+    "rr_usecs": 681622
+  },
+  "code": "200",
+  "input": "show version",
+  "msg": "Success"
+}

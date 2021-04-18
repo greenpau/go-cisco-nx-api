@@ -1,4 +1,5 @@
 // Copyright 2018 Paul Greenberg (greenpau@outlook.com)
+//            and Paul Schou     (github.com/pschou)
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -26,19 +27,19 @@ import (
 type IpArpResponse struct {
 	InsAPI struct {
 		Outputs struct {
-			Output IpArpResponseResult `json:"output"`
-		} `json:"outputs"`
-		Sid     string `json:"sid"`
-		Type    string `json:"type"`
-		Version string `json:"version"`
-	} `json:"ins_api"`
+			Output IpArpResponseResult `json:"output" xml:"output"`
+		} `json:"outputs" xml:"outputs"`
+		Sid     string `json:"sid" xml:"sid"`
+		Type    string `json:"type" xml:"type"`
+		Version string `json:"version" xml:"version"`
+	} `json:"ins_api" xml:"ins_api"`
 }
 
 type IpArpResponseResult struct {
-	Body  IpArpResultBody `json:"body"`
-	Code  string          `json:"code"`
-	Input string          `json:"input"`
-	Msg   string          `json:"msg"`
+	Body  IpArpResultBody `json:"body" xml:"body"`
+	Code  string          `json:"code" xml:"code"`
+	Input string          `json:"input" xml:"input"`
+	Msg   string          `json:"msg" xml:"msg"`
 }
 
 type IpArpResultBody struct {
@@ -46,18 +47,18 @@ type IpArpResultBody struct {
 		RowVrf []struct {
 			TableAdj []struct {
 				RowAdj []struct {
-					Flags      string `json:"flags"`
-					IntfOut    string `json:"intf-out"`
-					IPAddrOut  string `json:"ip-addr-out"`
-					Mac        string `json:"mac,omitempty"`
-					TimeStamp  string `json:"time-stamp"`
-					Incomplete string `json:"incomplete,omitempty"`
-				} `json:"ROW_adj"`
-			} `json:"TABLE_adj"`
-			CntTotal   int    `json:"cnt-total"`
-			VrfNameOut string `json:"vrf-name-out"`
-		} `json:"ROW_vrf"`
-	} `json:"TABLE_vrf"`
+					Flags      string `json:"flags" xml:"flags"`
+					IntfOut    string `json:"intf-out" xml:"intf-out"`
+					IPAddrOut  string `json:"ip-addr-out" xml:"ip-addr-out"`
+					Mac        string `json:"mac,omitempty" xml:"mac,omitempty"`
+					TimeStamp  string `json:"time-stamp" xml:"time-stamp"`
+					Incomplete string `json:"incomplete,omitempty" xml:"incomplete,omitempty"`
+				} `json:"ROW_adj" xml:"ROW_adj"`
+			} `json:"TABLE_adj" xml:"TABLE_adj"`
+			CntTotal   int    `json:"cnt-total" xml:"cnt-total"`
+			VrfNameOut string `json:"vrf-name-out" xml:"vrf-name-out"`
+		} `json:"ROW_vrf" xml:"ROW_vrf"`
+	} `json:"TABLE_vrf" xml:"TABLE_vrf"`
 }
 
 func (d *IpArpResponse) Flat() (out []IpArpResultFlat) {
@@ -83,34 +84,60 @@ func (d *IpArpResponse) Flat() (out []IpArpResultFlat) {
 }
 
 type IpArpResultFlat struct {
-	Flags      string        `json:"flags"`
-	IntfOut    string        `json:"intf-out"`
-	IPAddrOut  string        `json:"ip-addr-out"`
-	Mac        string        `json:"mac,omitempty"`
-	TimeStamp  time.Duration `json:"time-stamp"`
-	Incomplete string        `json:"incomplete,omitempty"`
-	CntTotal   int           `json:"cnt-total"`
-	VrfNameOut string        `json:"vrf-name-out"`
+	Flags      string        `json:"flags" xml:"flags"`
+	IntfOut    string        `json:"intf-out" xml:"intf-out"`
+	IPAddrOut  string        `json:"ip-addr-out" xml:"ip-addr-out"`
+	Mac        string        `json:"mac,omitempty" xml:"mac,omitempty"`
+	TimeStamp  time.Duration `json:"time-stamp" xml:"time-stamp"`
+	Incomplete string        `json:"incomplete,omitempty" xml:"incomplete,omitempty"`
+	CntTotal   int           `json:"cnt-total" xml:"cnt-total"`
+	VrfNameOut string        `json:"vrf-name-out" xml:"vrf-name-out"`
 }
 
-// NewIpArpFromString returns SysInfo instance from an input string.
+// NewIpArpFromString returns instance from an input string.
 func NewIpArpFromString(s string) (*IpArpResponse, error) {
 	return NewIpArpFromReader(strings.NewReader(s))
 }
 
-// NewSysInfoFromBytes returns SysInfo instance from an input byte array.
+// NewIpArpFromBytes returns instance from an input byte array.
 func NewIpArpFromBytes(s []byte) (*IpArpResponse, error) {
 	return NewIpArpFromReader(bytes.NewReader(s))
 }
+
+// NewIpArpFromReader returns instance from an input reader.
 func NewIpArpFromReader(s io.Reader) (*IpArpResponse, error) {
 	//si := &IpArp{}
 	IpArpResponseDat := &IpArpResponse{}
 	jsonDec := json.NewDecoder(s)
-	//jsonDec.UseNumber()
+	jsonDec.UseAutoConvert()
 	jsonDec.UseSlice()
 	err := jsonDec.Decode(IpArpResponseDat)
 	if err != nil {
 		return nil, fmt.Errorf("parsing error: %s", err)
 	}
 	return IpArpResponseDat, nil
+}
+
+// NewIpArpResultFromString returns instance from an input string.
+func NewIpArpResultFromString(s string) (*IpArpResponseResult, error) {
+	return NewIpArpResultFromReader(strings.NewReader(s))
+}
+
+// NewIpArpResultFromBytes returns instance from an input byte array.
+func NewIpArpResultFromBytes(s []byte) (*IpArpResponseResult, error) {
+	return NewIpArpResultFromReader(bytes.NewReader(s))
+}
+
+// NewIpArpResultFromReader returns instance from an input reader.
+func NewIpArpResultFromReader(s io.Reader) (*IpArpResponseResult, error) {
+	//si := &IpArpResponseResult{}
+	IpArpResponseResultDat := &IpArpResponseResult{}
+	jsonDec := json.NewDecoder(s)
+	jsonDec.UseAutoConvert()
+	jsonDec.UseSlice()
+	err := jsonDec.Decode(IpArpResponseResultDat)
+	if err != nil {
+		return nil, fmt.Errorf("parsing error: %s", err)
+	}
+	return IpArpResponseResultDat, nil
 }

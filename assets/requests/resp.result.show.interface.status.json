@@ -1,0 +1,480 @@
+{
+  "input": "show interface status",
+  "msg": "Success",
+  "code": "200",
+  "body": {
+    "TABLE_interface": {
+      "ROW_interface": [
+        {
+          "interface": "mgmt0",
+          "state": "connected",
+          "vlan": "routed",
+          "duplex": "full",
+          "speed": "a-1000",
+          "type": "--"
+        },
+        {
+          "interface": "Ethernet9/1",
+          "state": "notconnect",
+          "vlan": "2",
+          "duplex": "auto",
+          "speed": "auto",
+          "type": "SFP-H10GB-CU3M"
+        },
+        {
+          "interface": "Ethernet9/2",
+          "state": "connected",
+          "vlan": "2",
+          "duplex": "full",
+          "speed": "a-10G",
+          "type": "10Gbase-SR"
+        },
+        {
+          "interface": "Ethernet9/3",
+          "state": "notconnect",
+          "vlan": "routed",
+          "duplex": "auto",
+          "speed": "auto",
+          "type": "SFP-H10GB-CU5M"
+        },
+        {
+          "interface": "Ethernet9/4",
+          "state": "sfpAbsent",
+          "vlan": "routed",
+          "duplex": "auto",
+          "speed": "auto",
+          "type": "--"
+        },
+        {
+          "interface": "Ethernet9/5",
+          "state": "connected",
+          "vlan": "routed",
+          "duplex": "full",
+          "speed": "a-10G",
+          "type": "SFP-H10GB-CU1M"
+        },
+        {
+          "interface": "Ethernet9/6",
+          "state": "connected",
+          "vlan": "routed",
+          "duplex": "full",
+          "speed": "a-10G",
+          "type": "10Gbase-SR"
+        },
+        {
+          "interface": "Ethernet9/7",
+          "state": "notconnect",
+          "vlan": "routed",
+          "duplex": "auto",
+          "speed": "auto",
+          "type": "SFP-H10GB-CU5M"
+        },
+        {
+          "interface": "Ethernet9/8",
+          "state": "connected",
+          "vlan": "routed",
+          "duplex": "full",
+          "speed": "a-10G",
+          "type": "10Gbase-SR"
+        },
+        {
+          "interface": "Ethernet9/9",
+          "state": "notconnect",
+          "vlan": "routed",
+          "duplex": "auto",
+          "speed": "auto",
+          "type": "SFP-H10GB-CU3M"
+        },
+        {
+          "interface": "Ethernet9/10",
+          "state": "connected",
+          "vlan": "routed",
+          "duplex": "full",
+          "speed": "a-10G",
+          "type": "10Gbase-SR"
+        },
+        {
+          "interface": "Ethernet9/11",
+          "state": "notconnect",
+          "vlan": "routed",
+          "duplex": "auto",
+          "speed": "auto",
+          "type": "SFP-H10GB-CU5M"
+        },
+        {
+          "interface": "Ethernet9/12",
+          "state": "connected",
+          "vlan": "routed",
+          "duplex": "full",
+          "speed": "a-10G",
+          "type": "10Gbase-SR"
+        },
+        {
+          "interface": "Ethernet9/13",
+          "state": "notconnect",
+          "vlan": "routed",
+          "duplex": "auto",
+          "speed": "auto",
+          "type": "SFP-H10GB-CU5M"
+        },
+        {
+          "interface": "Ethernet9/14",
+          "state": "sfpAbsent",
+          "vlan": "routed",
+          "duplex": "auto",
+          "speed": "auto",
+          "type": "--"
+        },
+        {
+          "interface": "Ethernet9/15",
+          "state": "notconnect",
+          "vlan": "routed",
+          "duplex": "auto",
+          "speed": "auto",
+          "type": "SFP-H10GB-CU5M"
+        },
+        {
+          "interface": "Ethernet9/16",
+          "state": "connected",
+          "vlan": "routed",
+          "duplex": "full",
+          "speed": "a-10G",
+          "type": "SFP-H10GB-CU1M"
+        },
+        {
+          "interface": "Ethernet9/17",
+          "state": "connected",
+          "vlan": "routed",
+          "duplex": "full",
+          "speed": "a-10G",
+          "type": "SFP-H10GB-CU3M"
+        },
+        {
+          "interface": "Ethernet9/18",
+          "state": "sfpAbsent",
+          "vlan": "routed",
+          "duplex": "auto",
+          "speed": "auto",
+          "type": "--"
+        },
+        {
+          "interface": "Ethernet9/19",
+          "state": "connected",
+          "vlan": "routed",
+          "duplex": "full",
+          "speed": "a-10G",
+          "type": "SFP-H10GB-CU3M"
+        },
+        {
+          "interface": "Ethernet9/20",
+          "state": "connected",
+          "vlan": "routed",
+          "duplex": "full",
+          "speed": "1000",
+          "type": "1000base-T"
+        },
+        {
+          "interface": "Ethernet9/21",
+          "state": "notconnect",
+          "vlan": "routed",
+          "duplex": "auto",
+          "speed": "auto",
+          "type": "10Gbase-SR"
+        },
+        {
+          "interface": "Ethernet9/22",
+          "state": "sfpAbsent",
+          "vlan": "routed",
+          "duplex": "auto",
+          "speed": "auto",
+          "type": "--"
+        },
+        {
+          "interface": "Ethernet9/23",
+          "state": "connected",
+          "vlan": "routed",
+          "duplex": "full",
+          "speed": "a-10G",
+          "type": "SFP-H10GB-CU5M"
+        },
+        {
+          "interface": "Ethernet9/24",
+          "state": "connected",
+          "vlan": "routed",
+          "duplex": "full",
+          "speed": "a-10G",
+          "type": "SFP-H10GB-CU3M"
+        },
+        {
+          "interface": "Ethernet9/25",
+          "state": "connected",
+          "vlan": "routed",
+          "duplex": "full",
+          "speed": "a-10G",
+          "type": "SFP-H10GB-CU5M"
+        },
+        {
+          "interface": "Ethernet9/26",
+          "state": "notconnect",
+          "vlan": "routed",
+          "duplex": "auto",
+          "speed": "auto",
+          "type": "1000base-T"
+        },
+        {
+          "interface": "Ethernet9/27",
+          "state": "notconnect",
+          "vlan": "routed",
+          "duplex": "auto",
+          "speed": "auto",
+          "type": "SFP-H10GB-CU3M"
+        },
+        {
+          "interface": "Ethernet9/28",
+          "state": "connected",
+          "vlan": "routed",
+          "duplex": "full",
+          "speed": "a-10G",
+          "type": "10Gbase-SR"
+        },
+        {
+          "interface": "Ethernet9/29",
+          "state": "connected",
+          "vlan": "routed",
+          "duplex": "full",
+          "speed": "a-10G",
+          "type": "SFP-H10GB-CU5M"
+        },
+        {
+          "interface": "Ethernet9/30",
+          "state": "connected",
+          "vlan": "routed",
+          "duplex": "full",
+          "speed": "a-10G",
+          "type": "10Gbase-SR"
+        },
+        {
+          "interface": "Ethernet9/31",
+          "state": "notconnect",
+          "vlan": "routed",
+          "duplex": "auto",
+          "speed": "auto",
+          "type": "SFP-H10GB-CU5M"
+        },
+        {
+          "interface": "Ethernet9/32",
+          "state": "connected",
+          "vlan": "routed",
+          "duplex": "full",
+          "speed": "a-10G",
+          "type": "10Gbase-SR"
+        },
+        {
+          "interface": "Ethernet9/33",
+          "state": "connected",
+          "vlan": "2",
+          "duplex": "full",
+          "speed": "a-10G",
+          "type": "10Gbase-SR"
+        },
+        {
+          "interface": "Ethernet9/34",
+          "state": "connected",
+          "vlan": "routed",
+          "duplex": "full",
+          "speed": "a-10G",
+          "type": "SFP-H10GB-CU3M"
+        },
+        {
+          "interface": "Ethernet9/35",
+          "state": "notconnect",
+          "vlan": "routed",
+          "duplex": "auto",
+          "speed": "auto",
+          "type": "SFP-H10GB-CU5M"
+        },
+        {
+          "interface": "Ethernet9/36",
+          "state": "notconnect",
+          "vlan": "routed",
+          "duplex": "auto",
+          "speed": "auto",
+          "type": "SFP-H10GB-CU5M"
+        },
+        {
+          "interface": "Ethernet9/37",
+          "state": "connected",
+          "vlan": "routed",
+          "duplex": "full",
+          "speed": "a-10G",
+          "type": "SFP-H10GB-CU1M"
+        },
+        {
+          "interface": "Ethernet9/38",
+          "state": "connected",
+          "vlan": "routed",
+          "duplex": "full",
+          "speed": "a-10G",
+          "type": "10Gbase-SR"
+        },
+        {
+          "interface": "Ethernet9/39",
+          "state": "connected",
+          "vlan": "routed",
+          "duplex": "full",
+          "speed": "a-10G",
+          "type": "10Gbase-SR"
+        },
+        {
+          "interface": "Ethernet9/40",
+          "state": "sfpAbsent",
+          "vlan": "routed",
+          "duplex": "auto",
+          "speed": "auto",
+          "type": "--"
+        },
+        {
+          "interface": "Ethernet9/41",
+          "state": "notconnect",
+          "vlan": "routed",
+          "duplex": "auto",
+          "speed": "auto",
+          "type": "SFP-H10GB-CU3M"
+        },
+        {
+          "interface": "Ethernet9/42",
+          "state": "connected",
+          "vlan": "routed",
+          "duplex": "full",
+          "speed": "a-10G",
+          "type": "SFP-H10GB-CU1M"
+        },
+        {
+          "interface": "Ethernet9/43",
+          "state": "connected",
+          "vlan": "routed",
+          "duplex": "full",
+          "speed": "a-10G",
+          "type": "10Gbase-SR"
+        },
+        {
+          "interface": "Ethernet9/44",
+          "state": "connected",
+          "vlan": "routed",
+          "duplex": "full",
+          "speed": "a-10G",
+          "type": "SFP-H10GB-CU3M"
+        },
+        {
+          "interface": "Ethernet9/45",
+          "state": "notconnect",
+          "vlan": "routed",
+          "duplex": "auto",
+          "speed": "auto",
+          "type": "1000base-T"
+        },
+        {
+          "interface": "Ethernet9/46",
+          "state": "notconnect",
+          "vlan": "routed",
+          "duplex": "auto",
+          "speed": "auto",
+          "type": "1000base-T"
+        },
+        {
+          "interface": "Ethernet9/47",
+          "state": "connected",
+          "vlan": "routed",
+          "duplex": "full",
+          "speed": "a-10G",
+          "type": "10Gbase-SR"
+        },
+        {
+          "interface": "Ethernet9/48",
+          "state": "notconnect",
+          "vlan": "routed",
+          "duplex": "auto",
+          "speed": "auto",
+          "type": "1000base-T"
+        },
+        {
+          "interface": "port-channel12",
+          "state": "noOperMembers",
+          "vlan": "1",
+          "duplex": "auto",
+          "speed": "auto",
+          "type": "--"
+        },
+        {
+          "interface": "port-channel22",
+          "state": "connected",
+          "vlan": "2",
+          "duplex": "full",
+          "speed": "a-10G",
+          "type": "--"
+        },
+        {
+          "interface": "port-channel63",
+          "state": "noOperMembers",
+          "vlan": "routed",
+          "duplex": "auto",
+          "speed": "auto",
+          "type": "--"
+        },
+        {
+          "interface": "port-channel123",
+          "state": "noOperMembers",
+          "vlan": "1",
+          "duplex": "auto",
+          "speed": "auto",
+          "type": "--"
+        },
+        {
+          "interface": "port-channel154",
+          "state": "suspndByVpc",
+          "vlan": "routed",
+          "duplex": "auto",
+          "speed": "auto",
+          "type": "--"
+        },
+        {
+          "interface": "loopback22",
+          "state": "connected",
+          "vlan": "routed",
+          "duplex": "auto",
+          "speed": "auto",
+          "type": "--"
+        },
+        {
+          "interface": "loopback63",
+          "state": "connected",
+          "vlan": "routed",
+          "duplex": "auto",
+          "speed": "auto",
+          "type": "--"
+        },
+        {
+          "interface": "Vlan1",
+          "state": "down",
+          "vlan": "routed",
+          "duplex": "auto",
+          "speed": "auto"
+        },
+        {
+          "interface": "Vlan2",
+          "state": "connected",
+          "vlan": "routed",
+          "duplex": "auto",
+          "speed": "auto"
+        },
+        {
+          "interface": "Vlan63",
+          "state": "down",
+          "vlan": "routed",
+          "duplex": "auto",
+          "speed": "auto"
+        }
+      ]
+    }
+  }
+}

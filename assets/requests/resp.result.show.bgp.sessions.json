@@ -1,0 +1,121 @@
+{
+  "body": {
+    "TABLE_vrf": {
+      "ROW_vrf": {
+        "TABLE_neighbor": {
+          "ROW_neighbor": [
+            {
+              "connectionsdropped": "0",
+              "lastflap": "P6DT2H33M31S",
+              "lastread": "PT51S",
+              "lastwrite": "PT34S",
+              "localport": "179",
+              "neighbor-id": "19.0.101.1",
+              "notificationsreceived": "0",
+              "notificationssent": "0",
+              "remoteas": "333",
+              "remoteport": "37989",
+              "state": "Established"
+            },
+            {
+              "connectionsdropped": "0",
+              "lastflap": "P6DT2H33M31S",
+              "lastread": "PT4S",
+              "lastwrite": "PT34S",
+              "localport": "179",
+              "neighbor-id": "19.0.102.3",
+              "notificationsreceived": "0",
+              "notificationssent": "0",
+              "remoteas": "888",
+              "remoteport": "46134",
+              "state": "Established"
+            },
+            {
+              "connectionsdropped": "0",
+              "lastflap": "P6DT2H33M31S",
+              "lastread": "PT51S",
+              "lastwrite": "PT34S",
+              "localport": "179",
+              "neighbor-id": "19.0.102.4",
+              "notificationsreceived": "0",
+              "notificationssent": "0",
+              "remoteas": "333",
+              "remoteport": "43271",
+              "state": "Established"
+            },
+            {
+              "connectionsdropped": "0",
+              "lastflap": "P6DT2H33M31S",
+              "lastread": "PT51S",
+              "lastwrite": "PT34S",
+              "localport": "179",
+              "neighbor-id": "19.0.103.10",
+              "notificationsreceived": "0",
+              "notificationssent": "0",
+              "remoteas": "999",
+              "remoteport": "35158",
+              "state": "Established"
+            },
+            {
+              "connectionsdropped": "0",
+              "lastflap": "P6DT2H33M28S",
+              "lastread": "PT48S",
+              "lastwrite": "PT31S",
+              "localport": "179",
+              "neighbor-id": "19.0.103.20",
+              "notificationsreceived": "0",
+              "notificationssent": "0",
+              "remoteas": "333",
+              "remoteport": "41777",
+              "state": "Established"
+            },
+            {
+              "connectionsdropped": "0",
+              "lastflap": "P6DT2H33M45S",
+              "localport": "0",
+              "neighbor-id": "19.0.200.200",
+              "notificationsreceived": "0",
+              "notificationssent": "0",
+              "remoteas": "0",
+              "remoteport": "0",
+              "state": "Idle"
+            },
+            {
+              "connectionsdropped": "0",
+              "lastflap": "P6DT2H33M48S",
+              "localport": "0",
+              "neighbor-id": "fec0::1002",
+              "notificationsreceived": "0",
+              "notificationssent": "0",
+              "remoteas": "333",
+              "remoteport": "0",
+              "state": "Idle"
+            },
+            {
+              "connectionsdropped": "0",
+              "lastflap": "P6DT2H33M48S",
+              "localport": "0",
+              "neighbor-id": "fec0::2002",
+              "notificationsreceived": "0",
+              "notificationssent": "0",
+              "remoteas": "888",
+              "remoteport": "0",
+              "state": "Idle"
+            }
+          ]
+        },
+        "local-as": "333",
+        "router-id": "19.0.0.6",
+        "vrf-name-out": "default",
+        "vrfestablishedpeers": "5",
+        "vrfpeers": "8"
+      }
+    },
+    "localas": "333",
+    "totalestablishedpeers": "5",
+    "totalpeers": "9"
+  },
+  "code": "200",
+  "input": "show bgp sessions",
+  "msg": "Success"
+}
