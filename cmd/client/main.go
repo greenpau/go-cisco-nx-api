@@ -18,12 +18,13 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	//"github.com/davecgh/go-spew/spew"
-	"github.com/greenpau/go-cisco-nx-api/pkg/client"
-	log "github.com/sirupsen/logrus"
 	"os"
 	"strings"
 	"time"
+
+	//"github.com/davecgh/go-spew/spew"
+	"github.com/greenpau/go-cisco-nx-api/pkg/client"
+	log "github.com/sirupsen/logrus"
 )
 
 var (
@@ -191,6 +192,17 @@ func main() {
 				out.WriteString(fmt.Sprintf(", IP: %s/%d", intfInfo.Props.IPAddress, intfInfo.Props.IPMask))
 			}
 			fmt.Fprintf(os.Stdout, "%s\n", out.String())
+			return
+		}
+
+		// show running-config interface <name>
+		if strings.HasPrefix(cliCommand, "show running-config interface") {
+			intfName := cliCommand[len("show running-config interface "):]
+			intfInfo, err := cli.GetInterfaceRunningConfiguration(intfName)
+			if err != nil {
+				log.Fatalf("%s", err)
+			}
+			fmt.Fprintf(os.Stdout, "%s\n", intfInfo.Text)
 			return
 		}
 
