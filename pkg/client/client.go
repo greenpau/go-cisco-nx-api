@@ -380,18 +380,25 @@ func (cli *Client) GetBgpSummary() (*BgpSummary, error) {
 // GetRunningConfiguration returns Configuration instance for running
 // configuration ("show running-config").
 func (cli *Client) GetRunningConfiguration() (*Configuration, error) {
-	return cli.getConfiguration("running")
+	return cli.getConfiguration("running-config")
+}
+
+// GetInterfaceRunningConfiguration returns Configuration instance for
+// specific port's running configuration ("show running-config interface").
+func (cli *Client) GetInterfaceRunningConfiguration(intf string) (*Configuration,
+	error) {
+	return cli.getConfiguration("running-config interface " + intf)
 }
 
 // GetStartupConfiguration returns Configuration instance for startup
 // configuration ("show startup-config").
 func (cli *Client) GetStartupConfiguration() (*Configuration, error) {
-	return cli.getConfiguration("startup")
+	return cli.getConfiguration("startup-config")
 }
 
 func (cli *Client) getConfiguration(s string) (*Configuration, error) {
 	url := fmt.Sprintf("%s://%s:%d/ins", cli.protocol, cli.host, cli.port)
-	req := NewInsAPICliShowASCIIRequest("show " + s + "-config")
+	req := NewInsAPICliShowASCIIRequest("show " + s)
 	payload, err := json.Marshal(req)
 	if err != nil {
 		return nil, err
