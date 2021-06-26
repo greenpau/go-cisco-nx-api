@@ -1,4 +1,5 @@
-[![Go Report Card](https://goreportcard.com/badge/github.com/greenpau/go-cisco-nx-api)](https://goreportcard.com/report/github.com/greenpau/go-cisco-nx-api) [![Build Status](https://travis-ci.org/greenpau/go-cisco-nx-api.svg?branch=master)](https://travis-ci.org/greenpau/go-cisco-nx-api) [![Hex.pm](https://img.shields.io/hexpm/l/plug.svg)](https://github.com/greenpau/go-cisco-nx-api) [![](https://godoc.org/github.com/greenpau/go-cisco-nx-api?status.svg)](http://godoc.org/github.com/greenpau/go-cisco-nx-api/pkg/client)
+<a href="https://github.com/greenpau/go-cisco-nx-api/actions/" target="_blank"><img src="https://github.com/greenpau/go-cisco-nx-api/workflows/build/badge.svg?branch=main"></a>
+<a href="https://pkg.go.dev/github.com/greenpau/go-cisco-nx-api" target="_blank"><img src="https://img.shields.io/badge/godoc-reference-blue.svg"></a>
 
 # go-cisco-nx-api
 
