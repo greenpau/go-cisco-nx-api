@@ -40,9 +40,9 @@ func init() {
 	app = versioned.NewPackageManager("go-cisco-nx-api-client")
 	app.Description = "Cisco NX-OS API client."
 	app.Documentation = "https://github.com/greenpau/go-cisco-nx-api/"
-	app.SetVersion(appVersion, "1.0.24")
-	app.SetGitBranch(gitBranch, "")
-	app.SetGitCommit(gitCommit, "")
+	app.SetVersion(appVersion, "1.0.1")
+	app.SetGitBranch(gitBranch, "main")
+	app.SetGitCommit(gitCommit, "9fbdfbe")
 	app.SetBuildUser(buildUser, "")
 	app.SetBuildDate(buildDate, "")
 }
