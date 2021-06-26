@@ -22,19 +22,30 @@ import (
 	"strings"
 	"time"
 
-	//"github.com/davecgh/go-spew/spew"
 	"github.com/greenpau/go-cisco-nx-api/pkg/client"
+	"github.com/greenpau/versioned"
 	log "github.com/sirupsen/logrus"
 )
 
 var (
-	appName    = "go-cisco-nx-api-client"
-	appVersion = "[untracked]"
+	app        *versioned.PackageManager
+	appVersion string
 	gitBranch  string
 	gitCommit  string
-	buildUser  string // whoami
-	buildDate  string // date -u
+	buildUser  string
+	buildDate  string
 )
+
+func init() {
+	app = versioned.NewPackageManager("go-cisco-nx-api-client")
+	app.Description = "Cisco NX-OS API client."
+	app.Documentation = "https://github.com/greenpau/go-cisco-nx-api/"
+	app.SetVersion(appVersion, "1.0.24")
+	app.SetGitBranch(gitBranch, "")
+	app.SetGitCommit(gitCommit, "")
+	app.SetBuildUser(buildUser, "")
+	app.SetBuildDate(buildDate, "")
+}
 
 func main() {
 	var logLevel string
@@ -54,24 +65,14 @@ func main() {
 	flag.StringVar(&logLevel, "log.level", "info", "logging severity level")
 	flag.BoolVar(&isShowVersion, "version", false, "version information")
 	flag.Usage = func() {
-		fmt.Fprintf(os.Stderr, "\n%s - Cisco NX-OS API client\n\n", appName)
-		fmt.Fprintf(os.Stderr, "Usage: %s [arguments]\n\n", appName)
+		fmt.Fprintf(os.Stderr, "\n%s - %s\n\n", app.Name, app.Description)
+		fmt.Fprintf(os.Stderr, "Usage: %s [arguments]\n\n", app.Name)
 		flag.PrintDefaults()
-		fmt.Fprintf(os.Stderr, "\nDocumentation: https://github.com/greenpau/go-cisco-nx-api/\n\n")
+		fmt.Fprintf(os.Stderr, "\nDocumentation: %s\n\n", app.Documentation)
 	}
 	flag.Parse()
 	if isShowVersion {
-		fmt.Fprintf(os.Stdout, "%s %s", appName, appVersion)
-		if gitBranch != "" {
-			fmt.Fprintf(os.Stdout, ", branch: %s", gitBranch)
-		}
-		if gitCommit != "" {
-			fmt.Fprintf(os.Stdout, ", commit: %s", gitCommit)
-		}
-		if buildUser != "" && buildDate != "" {
-			fmt.Fprintf(os.Stdout, ", build on %s by %s", buildDate, buildUser)
-		}
-		fmt.Fprint(os.Stdout, "\n")
+		fmt.Fprintf(os.Stdout, "%s\n", app.Banner())
 		os.Exit(0)
 	}
 	if level, err := log.ParseLevel(logLevel); err == nil {
@@ -233,7 +234,7 @@ func main() {
 		}
 
 		if respJSON.Error != nil {
-			log.Fatalf("Command returned failure: %s", respJSON.Error)
+			log.Fatalf("Command returned failure: %v", respJSON.Error)
 		}
 
 		var body client.JSONRPCResponseBody

@@ -23,6 +23,7 @@ import (
 	"time"
 )
 
+// BGPSessionResponse is BGP Session Response.
 type BGPSessionResponse struct {
 	InsAPI struct {
 		Outputs struct {
@@ -34,6 +35,7 @@ type BGPSessionResponse struct {
 	} `json:"ins_api"`
 }
 
+// BGPSessionResponseResult is the result of BGPSessionResponse.
 type BGPSessionResponseResult struct {
 	Body  BGPSessionResultBody `json:"body" xml:"body"`
 	Code  string               `json:"code"`
@@ -41,6 +43,7 @@ type BGPSessionResponseResult struct {
 	Msg   string               `json:"msg"`
 }
 
+// BGPSessionResultBody is the body of the result of BGPSessionResponse.
 type BGPSessionResultBody struct {
 	TableVrf []struct {
 		RowVrf []struct {
@@ -71,6 +74,7 @@ type BGPSessionResultBody struct {
 	TotalPeers            string `json:"totalpeers"`
 }
 
+// Flat flattens BGPSessionResponse.
 func (d *BGPSessionResponse) Flat() (out []BGPSessionResultFlat) {
 	for _, Tv := range d.InsAPI.Outputs.Output.Body.TableVrf {
 		for _, Rv := range Tv.RowVrf {
@@ -101,6 +105,7 @@ func (d *BGPSessionResponse) Flat() (out []BGPSessionResultFlat) {
 	return
 }
 
+// BGPSessionResultFlat holds flat BGPSessionResult.
 type BGPSessionResultFlat struct {
 	ConnectionsDropped    int           `json:"connectionsdropped"`
 	LastFlap              time.Duration `json:"lastflap"`
