@@ -44,6 +44,7 @@ func TestClient(t *testing.T) {
 			"show ip bgp summary vrf all":        "resp.show.ip.bgp.summary.vrf.all.1.json",
 			"show interface transceiver details": "resp.show.interface.transceiver.details.1.json",
 			"show clock":                         "resp.show.clock.json",
+			"show mac address-table":             "resp.show.mac.address-table.1.json",
 		}
 		if req.Method != "POST" {
 			http.Error(w, "Bad Request, expecting POST", http.StatusBadRequest)
