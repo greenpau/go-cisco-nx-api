@@ -1,0 +1,1 @@
+[{ "jsonrpc": "2.0", "method": "cli", "params": { "cmd": "show mac address-table", "version": 1 }, "id": 1 }]

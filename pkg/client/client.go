@@ -426,6 +426,27 @@ func (cli *Client) GetTransceivers() ([]*Transceiver, error) {
 	return NewTransceiversFromBytes(resp)
 }
 
+// GetMacAddressTable returns show mac address-table instance ("show mac address-table [interface <interface>]").
+// intf is optional, indicates showing all system mac address table or an interface's.
+func (cli *Client) GetMacAddressTable(intf string) (*MacAddressTable, error) {
+	var req []*JSONRPCRequest
+	url := fmt.Sprintf("%s://%s:%d/ins", cli.protocol, cli.host, cli.port)
+	if intf != "" {
+		req = NewJSONRPCRequest([]string{"show mac address-table interface " + intf})
+	} else {
+		req = NewJSONRPCRequest([]string{"show mac address-table"})
+	}
+	payload, err := json.Marshal(req)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := callAPI("jsonrpc", url, payload, cli.username, cli.password, cli.secure)
+	if err != nil {
+		return nil, err
+	}
+	return NewMacAddressTableFromBytes(resp)
+}
+
 // Configure execute a batch of configuration commands
 func (cli *Client) Configure(cmds []string) ([]JSONRPCResponse, error) {
 	if len(cmds) == 0 {

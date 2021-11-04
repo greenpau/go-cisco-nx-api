@@ -1,0 +1,39 @@
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": {
+        "body": {
+            "TABLE_mac_address": {
+                "ROW_mac_address": [
+                    {
+                        "disp_mac_addr": "000c.2901.7c10",
+                        "disp_type": "dynamic",
+                        "disp_vlan": "109",
+                        "disp_age": "0",
+                        "disp_is_secure": "F",
+                        "disp_is_ntfy": "F",
+                        "disp_port": "Eth1/48"
+                    },
+                    {
+                        "disp_mac_addr":	"49df.37bf.177c",
+                        "disp_type":	"dynamic",
+                        "disp_vlan":	"109",
+                        "disp_age":	"0",
+                        "disp_is_secure":	"F",
+                        "disp_is_ntfy":	"F",
+                        "disp_port":	"Eth1/1"
+                    },
+                    {
+                        "disp_mac_addr":	"653a.ea5d.1ab7",
+                        "disp_type":	"static",
+                        "disp_vlan":	"-",
+                        "disp_age":	"-",
+                        "disp_is_secure":	"F",
+                        "disp_is_ntfy":	"F",
+                        "disp_port":	"sup-eth1(R)"
+                    }
+                ]
+            }
+        }
+    }
+}
