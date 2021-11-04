@@ -77,11 +77,11 @@ dep:
 	@go get -u golang.org/x/tools/cmd/godoc
 	@go get -u github.com/kyoh86/richgo
 	@go get -u github.com/greenpau/versioned/cmd/versioned
-	@go get -u github.com/google/addlicense
 
 .PHONY: license
 license:
-	@for f in `find ./ -type f -name '*.go'`; do addlicense -c "Paul Greenberg greenpau@outlook.com" -y 2020 $$f; done
+	@#for f in `find ./ -type f -name '*.go'`; do versioned -striplicense -filepath=$$f; done
+	@for f in `find ./ -type f -name '*.go'`; do versioned -addlicense -copyright="Paul Greenberg greenpau@outlook.com" -year=2018 -filepath=$$f; done
 
 .PHONY: release
 release:
