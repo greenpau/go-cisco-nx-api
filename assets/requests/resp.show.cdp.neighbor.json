@@ -1,0 +1,165 @@
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "body": {
+      "neigh_count": 16,
+      "TABLE_cdp_neighbor_brief_info": {
+        "ROW_cdp_neighbor_brief_info": [
+          {
+            "ifindex": 83886080,
+            "device_id": "r11-core",
+            "intf_id": "mgmt0",
+            "ttl": 160,
+            "capability": [
+              "router",
+              "switch",
+              "IGMP_cnd_filtering",
+              "Supports-STP-Dispute"
+            ],
+            "platform_id": "N9K-C92348GC-X",
+            "port_id": "Ethernet1/29"
+          },
+          {
+            "ifindex": 436208640,
+            "device_id": "node1",
+            "intf_id": "Ethernet1/3",
+            "ttl": 91,
+            "capability": "host",
+            "platform_id": "Linux",
+            "port_id": "dsc0"
+          },
+          {
+            "ifindex": 436209152,
+            "device_id": "node1",
+            "intf_id": "Ethernet1/4",
+            "ttl": 91,
+            "capability": "host",
+            "platform_id": "Linux",
+            "port_id": "dsc1"
+          },
+          {
+            "ifindex": 436209664,
+            "device_id": "node1",
+            "intf_id": "Ethernet1/5",
+            "ttl": 115,
+            "capability": "host",
+            "platform_id": "Linux",
+            "port_id": "dsc0"
+          },
+          {
+            "ifindex": 436210176,
+            "device_id": "00:00:01:03:79:50",
+            "intf_id": "Ethernet1/6",
+            "ttl": 85,
+            "capability": "host",
+            "platform_id": "Linux",
+            "port_id": "dsc1"
+          },
+          {
+            "ifindex": 436210176,
+            "device_id": "node1",
+            "intf_id": "Ethernet1/6",
+            "ttl": 115,
+            "capability": "host",
+            "platform_id": "Linux",
+            "port_id": "dsc1"
+          },
+          {
+            "ifindex": 436211712,
+            "device_id": "node1",
+            "intf_id": "Ethernet1/9",
+            "ttl": 96,
+            "capability": "host",
+            "platform_id": "Linux",
+            "port_id": "dsc0"
+          },
+          {
+            "ifindex": 436212224,
+            "device_id": "node1",
+            "intf_id": "Ethernet1/10",
+            "ttl": 96,
+            "capability": "host",
+            "platform_id": "Linux",
+            "port_id": "dsc1"
+          },
+          {
+            "ifindex": 436212736,
+            "device_id": "node2",
+            "intf_id": "Ethernet1/11",
+            "ttl": 119,
+            "capability": "host",
+            "platform_id": "Linux",
+            "port_id": "dsc0"
+          },
+          {
+            "ifindex": 436213248,
+            "device_id": "node2",
+            "intf_id": "Ethernet1/12",
+            "ttl": 119,
+            "capability": "host",
+            "platform_id": "Linux",
+            "port_id": "dsc1"
+          },
+          {
+            "ifindex": 436215808,
+            "device_id": "node2",
+            "intf_id": "Ethernet1/17",
+            "ttl": 110,
+            "capability": "host",
+            "platform_id": "Linux",
+            "port_id": "dsc0"
+          },
+          {
+            "ifindex": 436216320,
+            "device_id": "node2",
+            "intf_id": "Ethernet1/18",
+            "ttl": 110,
+            "capability": "host",
+            "platform_id": "Linux",
+            "port_id": "dsc1"
+          },
+          {
+            "ifindex": 436222976,
+            "device_id": "R13ru33-25g",
+            "intf_id": "Ethernet1/31",
+            "ttl": 160,
+            "capability": [
+              "router",
+              "switch",
+              "Supports-STP-Dispute"
+            ],
+            "platform_id": "N9K-C93180YC-FX",
+            "port_id": "Ethernet1/53"
+          },
+          {
+            "ifindex": 436223488,
+            "device_id": "r12-10-6-12-33",
+            "intf_id": "Ethernet1/32",
+            "ttl": 139,
+            "capability": [
+              "router",
+              "switch",
+              "Supports-STP-Dispute"
+            ],
+            "platform_id": "N3K-C3232C",
+            "port_id": "Ethernet1/32"
+          },
+          {
+            "ifindex": 436224000,
+            "device_id": "r10-25g",
+            "intf_id": "Ethernet1/33",
+            "ttl": 154,
+            "capability": [
+              "router",
+              "switch",
+              "Supports-STP-Dispute"
+            ],
+            "platform_id": "N9K-C93180YC-FX",
+            "port_id": "Ethernet1/47"
+          }
+        ]
+      }
+    }
+  },
+  "id": 1
+}
