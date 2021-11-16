@@ -23,7 +23,7 @@
             "ifindex": 436208640,
             "device_id": "node1",
             "intf_id": "Ethernet1/3",
-            "ttl": 91,
+            "ttl": "91",
             "capability": "host",
             "platform_id": "Linux",
             "port_id": "dsc0"
@@ -59,7 +59,7 @@
             "ifindex": 436210176,
             "device_id": "node1",
             "intf_id": "Ethernet1/6",
-            "ttl": 115,
+            "ttl": "115",
             "capability": "host",
             "platform_id": "Linux",
             "port_id": "dsc1"

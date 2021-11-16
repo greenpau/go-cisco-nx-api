@@ -17,6 +17,7 @@ package client
 import (
 	"encoding/json"
 	"fmt"
+	"strconv"
 )
 
 type cdpNeighborResponse struct {
@@ -42,7 +43,7 @@ type cdpNeighborResponseResultBodyCdpNeighborRow struct {
 	IfIndex    int64       `json:"ifindex" xml:"ifindex"`
 	DeviceID   string      `json:"device_id" xml:"device_id"`
 	IntfID     string      `json:"intf_id" xml:"intf_id"`
-	TTL        int         `json:"ttl" xml:"ttl"`
+	TTL        interface{} `json:"ttl" xml:"ttl"`
 	Capability interface{} `json:"capability" xml:"capability"`
 	PlatformID string      `json:"platform_id" xml:"platform_id"`
 	PortID     string      `json:"port_id" xml:"port_id"`
@@ -105,7 +106,17 @@ func NewCDPNeighborTableFromBytes(s []byte) (*CDPNeighborTable, error) {
 		}
 		item.IntfID = row.IntfID
 		item.PortID = row.PortID
-		item.TTL = row.TTL
+		switch row.TTL.(type) {
+		case string:
+			item.TTL, err = strconv.Atoi(row.TTL.(string))
+			if err != nil {
+				// skip error and continue.
+				item.TTL = 0
+			}
+		case int:
+			item.TTL = row.TTL.(int)
+		}
+
 		item.PlatformID = row.PlatformID
 		table.Item = append(table.Item, item)
 	}
