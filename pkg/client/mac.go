@@ -21,7 +21,7 @@ import (
 )
 
 const (
-	notAvailable = "-"
+	notAvailable   = "-"
 	falseIndicator = "F"
 )
 
@@ -40,7 +40,7 @@ type macAddressResponseResultBody struct {
 }
 
 type macAddressResponseResultBodyMacAddressTable struct {
-	MacAddressRow []macAddressResponseResultBodyMacAddressRow `json:"ROW_mac_address" xml:"ROW_mac_address"`
+	MacAddressRow json.RawMessage `json:"ROW_mac_address" xml:"ROW_mac_address"`
 }
 
 type macAddressResponseResultBodyMacAddressRow struct {
@@ -69,6 +69,37 @@ type MacAddressItem struct {
 	Notify  bool   `json:"notify" xml:"notify"`
 }
 
+func setMacAddressItem(row *macAddressResponseResultBodyMacAddressRow) *MacAddressItem {
+	var item MacAddressItem
+	item.Address = row.MacAddress
+	item.Type = row.Type
+	if row.Age == notAvailable {
+		item.Age = -1
+	} else {
+		// error is ignored, assume switch will not return invalid value.
+		// even if value is invalid, age is set to zero.
+		item.Age, _ = strconv.Atoi(row.Age)
+	}
+	item.Port = row.Port
+	if row.Notify == falseIndicator {
+		item.Notify = false
+	} else {
+		item.Notify = true
+	}
+
+	if row.Secure == falseIndicator {
+		item.Secured = false
+	} else {
+		item.Secured = true
+	}
+	if row.Vlan == notAvailable {
+		item.VlanID = -1
+	} else {
+		item.VlanID, _ = strconv.Atoi(row.Vlan)
+	}
+	return &item
+}
+
 // NewMacAddressTableFromBytes returns an MacAddressTable instance from an input byte array.
 func NewMacAddressTableFromBytes(s []byte) (*MacAddressTable, error) {
 	var table *MacAddressTable
@@ -91,36 +122,30 @@ func NewMacAddressTableFromBytes(s []byte) (*MacAddressTable, error) {
 		return nil, fmt.Errorf("parsing MAC address table result error: %v", err)
 	}
 
+	if len(macAddressTableResult.MacAddressTable.MacAddressRow) == 0 {
+		return nil, nil
+	}
 	table = new(MacAddressTable)
-	for _, row := range macAddressTableResult.MacAddressTable.MacAddressRow {
-		var item MacAddressItem
-		item.Address = row.MacAddress
-		item.Type = row.Type
-		if row.Age == notAvailable {
-			item.Age = -1
-		} else {
-			// error is ignored, assume switch will not return invalid value.
-			// even if value is invalid, age is set to zero.
-			item.Age, _ = strconv.Atoi(row.Age)
+	switch macAddressTableResult.MacAddressTable.MacAddressRow[0] {
+	case '{':
+		// just one MAC address returned.
+		var row macAddressResponseResultBodyMacAddressRow
+		err = json.Unmarshal(macAddressTableResult.MacAddressTable.MacAddressRow, &row)
+		if err != nil {
+			return nil, fmt.Errorf("parsing MAC address rows result error: %v", err)
 		}
-		item.Port = row.Port
-		if row.Notify == falseIndicator {
-			item.Notify = false
-		} else {
-			item.Notify = true
+		item := setMacAddressItem(&row)
+		table.Item = append(table.Item, *item)
+	case '[':
+		var rows []macAddressResponseResultBodyMacAddressRow
+		err = json.Unmarshal(macAddressTableResult.MacAddressTable.MacAddressRow, &rows)
+		if err != nil {
+			return nil, fmt.Errorf("parsing MAC address rows result error: %v", err)
 		}
-
-		if row.Secure == falseIndicator {
-			item.Secured = false
-		} else {
-			item.Secured = true
+		for _, row := range rows {
+			item := setMacAddressItem(&row)
+			table.Item = append(table.Item, *item)
 		}
-		if row.Vlan == notAvailable {
-			item.VlanID = -1
-		} else {
-			item.VlanID, _ = strconv.Atoi(row.Vlan)
-		}
-		table.Item = append(table.Item, item)
 	}
 	return table, nil
 }

@@ -53,15 +53,15 @@ func TestParseShowVersionJsonOutput(t *testing.T) {
 			shouldFail: false,
 			shouldErr:  false,
 		},
-                {
-                        input: "show.version.4",
-                        exp: &SysInfo{
-                                ChassisID: "Nexus9000 C93180YC-FX Chassis",
-                                CPUName:   "Intel(R) Xeon(R) CPU D-1528 @ 1.90GHz",
-                        },
-                        shouldFail: false,
-                        shouldErr:  false,
-                },
+		{
+			input: "show.version.4",
+			exp: &SysInfo{
+				ChassisID: "Nexus9000 C93180YC-FX Chassis",
+				CPUName:   "Intel(R) Xeon(R) CPU D-1528 @ 1.90GHz",
+			},
+			shouldFail: false,
+			shouldErr:  false,
+		},
 	} {
 		fp := fmt.Sprintf("%s/resp.%s.json", outputDir, test.input)
 		content, err := ioutil.ReadFile(fp)

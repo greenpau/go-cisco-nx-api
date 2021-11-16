@@ -4,26 +4,15 @@
     "result": {
         "body": {
             "TABLE_mac_address": {
-                "ROW_mac_address": [
-                    {
-                        "disp_mac_addr": "000c.2901.7c10",
-                        "disp_type": "dynamic",
-                        "disp_vlan": "109",
-                        "disp_age": "0",
-                        "disp_is_secure": "F",
-                        "disp_is_ntfy": "F",
-                        "disp_port": "Eth1/2"
-                    },
-                    {
-                        "disp_mac_addr":	"49df.37bf.177c",
-                        "disp_type":	"dynamic",
-                        "disp_vlan":	"109",
-                        "disp_age":	"0",
-                        "disp_is_secure":	"F",
-                        "disp_is_ntfy":	"F",
-                        "disp_port":	"Eth1/2"
-                    }
-                ]
+                "ROW_mac_address": {
+                    "disp_mac_addr": "0000.cd00.1d88",
+                    "disp_type": "dynamic",
+                    "disp_vlan": "1",
+                    "disp_age": "0",
+                    "disp_is_secure": "F",
+                    "disp_is_ntfy": "F",
+                    "disp_port": "Eth1/3"
+                }
             }
         }
     }

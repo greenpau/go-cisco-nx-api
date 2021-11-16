@@ -28,6 +28,7 @@ information, vlans and interfaces, etc.
 * `GetBgpSummary()` **show ip bgp summary** (BGP routing summary)
 * `GetTransceivers()` **show interface transceiver details** (fiber transceivers)
 * `GetMacAddressTable()` **show mac address-table [interface name]** (MAC address table)
+* `GetCDPNeighbors()` **show cdp neighbors** (CDP neighbors)
 * `GetGeneric()`: runs any arbitrary command and produces JSON output
 
 Additionally, the library allows "batch" execution of configuration commands,
