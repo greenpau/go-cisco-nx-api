@@ -31,7 +31,7 @@ func TestParseShowCDPNeighborTableJsonOutput(t *testing.T) {
 		shouldErr  bool
 	}{
 		{
-			input:      "show.cdp.neighbor",
+			input:      "show.cdp.neighbors",
 			exp:        &CDPNeighborTable{},
 			count:      1,
 			shouldFail: false,

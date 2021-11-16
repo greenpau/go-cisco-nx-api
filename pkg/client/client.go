@@ -447,6 +447,22 @@ func (cli *Client) GetMacAddressTable(intf string) (*MacAddressTable, error) {
 	return NewMacAddressTableFromBytes(resp)
 }
 
+// GetCDPNeighbors returns show cdp neighbors instance ("show cdp neighbors").
+func (cli *Client) GetCDPNeighbors() (*CDPNeighborTable, error) {
+	var req []*JSONRPCRequest
+	url := fmt.Sprintf("%s://%s:%d/ins", cli.protocol, cli.host, cli.port)
+	req = NewJSONRPCRequest([]string{"show cdp neighbors"})
+	payload, err := json.Marshal(req)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := callAPI("jsonrpc", url, payload, cli.username, cli.password, cli.secure)
+	if err != nil {
+		return nil, err
+	}
+	return NewCDPNeighborTableFromBytes(resp)
+}
+
 // Configure execute a batch of configuration commands
 func (cli *Client) Configure(cmds []string) ([]JSONRPCResponse, error) {
 	if len(cmds) == 0 {

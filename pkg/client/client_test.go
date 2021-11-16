@@ -45,6 +45,7 @@ func TestClient(t *testing.T) {
 			"show interface transceiver details": "resp.show.interface.transceiver.details.1.json",
 			"show clock":                         "resp.show.clock.json",
 			"show mac address-table":             "resp.show.mac.address-table.1.json",
+			"show cdp neighbors":                 "resp.show.cdp.neighbors.json",
 		}
 		if req.Method != "POST" {
 			http.Error(w, "Bad Request, expecting POST", http.StatusBadRequest)
@@ -215,6 +216,18 @@ func TestClient(t *testing.T) {
 		t.Fatalf("client: %s", err)
 	}
 	t.Logf("client: Transceivers: %d", len(transceivers))
+
+	cdp, err := cli.GetCDPNeighbors()
+	if err != nil {
+		t.Fatalf("client: %s", err)
+	}
+	t.Logf("client: CDP neighbors: %d", len(cdp.Item))
+
+	mac, err := cli.GetMacAddressTable("")
+	if err != nil {
+		t.Fatalf("client: %s", err)
+	}
+	t.Logf("client: MAC Addresses: %d", len(mac.Item))
 
 	output, err := cli.GetGeneric("show clock")
 	if err != nil {
