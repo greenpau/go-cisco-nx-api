@@ -213,7 +213,7 @@ func (cli *Client) callAPI(contentType string, url string, payload []byte) ([]by
 		TLSHandshakeTimeout: 10 * time.Second,
 	}
 	if cli.headerTimeout > 0 {
-		tr.ResponseHeaderTimeout = cli.headerTimeout * time.Second
+		tr.ResponseHeaderTimeout = cli.headerTimeout
 	}
 	if !cli.secure {
 		tr.TLSClientConfig = &tls.Config{
@@ -224,7 +224,7 @@ func (cli *Client) callAPI(contentType string, url string, payload []byte) ([]by
 		Transport: tr,
 	}
 	if cli.clientTimeout > 0 {
-		client.Timeout = cli.clientTimeout * time.Second
+		client.Timeout = cli.clientTimeout
 	} else {
 		client.Timeout = 30 * time.Second
 	}
