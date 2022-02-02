@@ -212,7 +212,8 @@ func (cli *Client) SetSecure() error {
 	return nil
 }
 
-// UseCookies indicates session based authentication approach and cookies are used to avoid creating new sessions
+// UseCookies indicates session based authentication approach and cookies are
+// used to avoid creating new sessions.
 func (cli *Client) UseCookies() {
 	cli.useCookies = true
 }
