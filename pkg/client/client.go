@@ -125,6 +125,8 @@ type Client struct {
 	username      string
 	password      string
 	secure        bool
+	useCookies    bool
+	cookies       []*http.Cookie
 	headerTimeout time.Duration
 	clientTimeout time.Duration
 }
@@ -135,6 +137,11 @@ func NewClient() *Client {
 		port:     443,
 		protocol: "https",
 	}
+}
+
+// Logout resets client cookie and logout the session
+func (cli *Client) Logout() {
+	cli.cookies = nil
 }
 
 // SetHost sets the target host for the API calls.
@@ -205,6 +212,11 @@ func (cli *Client) SetSecure() error {
 	return nil
 }
 
+// UseCookies indicates session based authentication approach and cookies are used to avoid creating new sessions
+func (cli *Client) UseCookies() {
+	cli.useCookies = true
+}
+
 func (cli *Client) callAPI(contentType string, url string, payload []byte) ([]byte, error) {
 	tr := &http.Transport{
 		Dial: (&net.Dialer{
@@ -243,7 +255,13 @@ func (cli *Client) callAPI(contentType string, url string, payload []byte) ([]by
 	}
 	req.Header.Add("Content-Type", reqContentType)
 	req.Header.Add("Cache-Control", "no-cache")
-	req.SetBasicAuth(cli.username, cli.password)
+	if len(cli.cookies) == 0 || !cli.useCookies {
+		req.SetBasicAuth(cli.username, cli.password)
+	} else {
+		for _, cookie := range cli.cookies {
+			req.AddCookie(cookie)
+		}
+	}
 
 	res, err := client.Do(req)
 	if err != nil {
@@ -271,6 +289,9 @@ func (cli *Client) callAPI(contentType string, url string, payload []byte) ([]by
 		if bytes.Contains(body, []byte("Server internal error")) {
 			return nil, fmt.Errorf("500 Server Internal Error")
 		}
+	}
+	if cli.cookies == nil {
+		cli.cookies = res.Cookies()
 	}
 	return body, nil
 }
