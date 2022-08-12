@@ -129,6 +129,16 @@ func main() {
 			fmt.Fprintf(os.Stdout, "Vlan ID %s, Name: %s\n", vlan.ID, vlan.Name)
 		}
 		log.Debugf("took %s", time.Since(start))
+	case "show vlan counters":
+		start := time.Now()
+		vlanCounters, err := cli.GetVlanCounters()
+		if err != nil {
+			log.Fatalf("%s", err)
+		}
+		for _, vlanCounter := range vlanCounters {
+			fmt.Fprintf(os.Stdout, "Vlan ID %d, InUcastBytes: %d, OutUcastBytes: %d\n", vlanCounter.ID, vlanCounter.InputUnicastBytes, vlanCounter.OutputUnicastBytes)
+		}
+		log.Debugf("took %s", time.Since(start))
 	case "show interface":
 		start := time.Now()
 		ifaces, err := cli.GetInterfaces()
