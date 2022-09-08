@@ -1,0 +1,38 @@
+{
+    "jsonrpc": "2.0",
+    "result": {
+      "body": {
+        "TABLE_vlancounters": {
+          "ROW_vlancounters": [
+            {
+              "vlanshowbr-vlanid": 1,
+              "l2_ing_ucast_b": 2386,
+              "l2_ing_ucast_p": 26,
+              "l2_ing_mcast_b": 218920,
+              "l2_ing_mcast_p": 2952,
+              "l2_ing_bcast_b": 135172550,
+              "l2_ing_bcast_p": 392491,
+              "l2_egr_ucast_b": 2386,
+              "l2_egr_ucast_p": 26,
+              "l3_ucast_rcv_b": 0,
+              "l3_ucast_rcv_p": 0
+            },
+            {
+              "vlanshowbr-vlanid": 108,
+              "l2_ing_ucast_b": 19662301,
+              "l2_ing_ucast_p": 58354,
+              "l2_ing_mcast_b": 460220144,
+              "l2_ing_mcast_p": 3687034,
+              "l2_ing_bcast_b": 52223390,
+              "l2_ing_bcast_p": 627387,
+              "l2_egr_ucast_b": 56424051,
+              "l2_egr_ucast_p": 214253,
+              "l3_ucast_rcv_b": 0,
+              "l3_ucast_rcv_p": 0
+            }
+          ]
+        }
+      }
+    },
+    "id": 1
+  }

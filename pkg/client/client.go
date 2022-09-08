@@ -327,6 +327,21 @@ func (cli *Client) GetVlans() ([]*Vlan, error) {
 	return NewVlansFromBytes(resp)
 }
 
+// GetVlanCounters returns vlan counter information ("show vlan counters").
+func (cli *Client) GetVlanCounters() ([]*VlanCounters, error) {
+	url := fmt.Sprintf("%s://%s:%d/ins", cli.protocol, cli.host, cli.port)
+	req := NewJSONRPCRequest([]string{"show vlan counters"})
+	payload, err := json.Marshal(req)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := cli.callAPI("jsonrpc", url, payload)
+	if err != nil {
+		return nil, err
+	}
+	return NewVlanCountersFromBytes(resp)
+}
+
 // GetInterfaces returns interface information ("show interface").
 func (cli *Client) GetInterfaces() ([]*Interface, error) {
 	url := fmt.Sprintf("%s://%s:%d/ins", cli.protocol, cli.host, cli.port)
