@@ -23,6 +23,7 @@ import (
 	"net"
 	"net/http"
 	"strings"
+	"sync"
 	"time"
 )
 
@@ -127,6 +128,7 @@ type Client struct {
 	secure        bool
 	useCookies    bool
 	cookies       []*http.Cookie
+	lock          *sync.Mutex
 	headerTimeout time.Duration
 	clientTimeout time.Duration
 }
@@ -136,11 +138,14 @@ func NewClient() *Client {
 	return &Client{
 		port:     443,
 		protocol: "https",
+		lock:     &sync.Mutex{},
 	}
 }
 
 // Logout resets client cookie and logout the session
 func (cli *Client) Logout() {
+	cli.lock.Lock()
+	defer cli.lock.Unlock()
 	cli.cookies = nil
 }
 
@@ -259,9 +264,11 @@ func (cli *Client) callAPI(contentType string, url string, payload []byte) ([]by
 	if len(cli.cookies) == 0 || !cli.useCookies {
 		req.SetBasicAuth(cli.username, cli.password)
 	} else {
+		cli.lock.Lock()
 		for _, cookie := range cli.cookies {
 			req.AddCookie(cookie)
 		}
+		cli.lock.Unlock()
 	}
 
 	res, err := client.Do(req)
@@ -291,9 +298,9 @@ func (cli *Client) callAPI(contentType string, url string, payload []byte) ([]by
 			return nil, fmt.Errorf("500 Server Internal Error")
 		}
 	}
-	if cli.cookies == nil {
-		cli.cookies = res.Cookies()
-	}
+	cli.lock.Lock()
+	cli.cookies = res.Cookies()
+	cli.lock.Unlock()
 	return body, nil
 }
 
