@@ -1,0 +1,36 @@
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "body": {
+      "TABLE_interface": {
+        "ROW_interface": [
+          {
+            "interface": "mgmt0",
+            "eth_align_err": 0,
+            "eth_fcs_err": 0
+          },
+          {
+            "interface": "mgmt0",
+            "eth_single_col": 0,
+            "eth_multi_col": 0,
+            "eth_late_col": 0,
+            "eth_excess_col": 0
+          },
+          {
+            "interface": "mgmt0",
+            "eth_giants": 0,
+            "eth_sqetest_err": 0,
+            "eth_deferred_tx": 0,
+            "eth_inmactx_err": 0,
+            "eth_inmacrx_err": 0,
+            "eth_symbol_err": 0
+          },
+          {
+            "interface": "mgmt0"
+          }
+        ]
+      }
+    }
+  },
+  "id": 1
+}
