@@ -382,6 +382,21 @@ func (cli *Client) GetInterface(name string) (*Interface, error) {
 	return intf, err
 }
 
+// GetErrorCounters returns ErrorCounters instance ("show interface counters error")
+func (cli *Client) GetErrorCounters() ([]*ErrorCounters, error) {
+	url := fmt.Sprintf("%s://%s:%d/ins", cli.protocol, cli.host, cli.port)
+	req := NewJSONRPCRequest([]string{"show interface counters error"})
+	payload, err := json.Marshal(req)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := cli.callAPI("jsonrpc", url, payload)
+	if err != nil {
+		return nil, err
+	}
+	return NewErrorCountersFromBytes(resp)
+}
+
 // GetSystemResources returns SystemResources instance ("show system resources").
 func (cli *Client) GetSystemResources() (*SystemResources, error) {
 	url := fmt.Sprintf("%s://%s:%d/ins", cli.protocol, cli.host, cli.port)

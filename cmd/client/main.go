@@ -158,6 +158,16 @@ func main() {
 			fmt.Fprintf(os.Stdout, "%s\n", out.String())
 		}
 		log.Debugf("took %s", time.Since(start))
+	case "show error counters":
+		start := time.Now()
+		errorCounters, err := cli.GetErrorCounters()
+		if err != nil {
+			log.Fatalf("%s", err)
+		}
+		for _, errorCounter := range errorCounters {
+			fmt.Fprintf(os.Stdout, "Interface: %s, In Discards: %d, Out Discards: %d\n", errorCounter.Interface, errorCounter.EthInDiscards, errorCounter.EthOutDiscards)
+		}
+		log.Debugf("took %s", time.Since(start))
 	case "show running-config":
 		config, err := cli.GetRunningConfiguration()
 		if err != nil {
